@@ -1,0 +1,64 @@
+/* .my-back {
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+	z-index: -1;
+	background-image: linear-gradient(to bottom, #7007D4cc, #C434FEcc, #D923D5cc, #F52ED8cc);
+}
+
+
+.textHome {
+	background-image: url('../../../public/pic/graphics-4465_512.gif');
+	background-color: rgb(255, 255, 255);
+	background-size: cover;
+	color: transparent;
+	background-clip: text;
+	text-transform: uppercase;
+	font-size: 700%;
+	margin: 10px 0;
+}
+
+
+.white-mode {
+	text-decoration: none;
+	padding: 7px 10px;
+	background-color: #122;
+	border-radius: 3px;
+	color: #fff;
+	transition: .35s ease-in-out;
+	margin-top: 40px;
+	font-family: "Montserrat";
+}
+
+.white-mode:hover {
+	background-color: #FFF;
+	color: #122;
+} */
+
+
+.grainy-gradient-intro:before {
+	background: #c3ccea;
+	filter: url(#f);
+}
+
+.grainy-gradient-intro:before,
+.grainy-gradient-intro:after {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	--grad: radial-gradient(at 50%, red, rgba(255, 0, 0, 0.3) 55%, transparent 80%);
+	--mask: var(--grad), var(--grad);
+	-webkit-mask: var(--mask);
+	-webkit-mask-composite: source-in;
+	-webkit-mask: var(--mask);
+	mask: var(--mask);
+	-webkit-mask-composite: source-in, xor;
+	mask-composite: intersect;
+	mix-blend-mode: unset;
+	content: "";
+}
+
+.grainy-gradient-intro:after {
+	background: linear-gradient(90deg, #760dfe 20%, #f51b26 , #fd9900);
+}
