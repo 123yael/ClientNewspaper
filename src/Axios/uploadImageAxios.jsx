@@ -1,7 +1,8 @@
 
 import axios from "axios"
+import { SERVER_NAME } from '../config';
 
-let path = 'https://localhost:44305/api'
+let path = `${SERVER_NAME}/api`
 
 // פונקציה להוספת קובץ לשרת
 export const handleImageUpload = (event) => {

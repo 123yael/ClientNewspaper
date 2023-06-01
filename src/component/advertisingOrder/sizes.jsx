@@ -10,6 +10,7 @@ import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { Dialog, DialogTitle, IconButton, Toolbar, styled } from '@mui/material';
 import { MoreDetails } from './moreDetails';
 import CloseIcon from '@mui/icons-material/Close';
+import { SERVER_NAME } from '../../config';
 
 
 function BootstrapDialogTitle(props) {
@@ -77,7 +78,7 @@ export const Sizes = (props) => {
                 listSizes.map((s, index) => (
                     <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-5'>
                         <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
-                            <img src={`https://localhost:44305/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
+                            <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
                         </Toolbar>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
