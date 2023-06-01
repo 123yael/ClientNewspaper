@@ -13,12 +13,6 @@ export const Home = () => {
     }
 
     return (
-        // <div className="mt-5 my-back">
-        //     <div className="title">
-        //         <h1 className="textHome">🎫</h1>
-        //         <Button onClick={() => toMain()} className="bg-light text-dark p-3">more details...</Button>
-        //     </div>
-        // </div>
         <section className="grainy-gradient-intro">
             <svg height="0" width="0">
                 <filter id='f'>

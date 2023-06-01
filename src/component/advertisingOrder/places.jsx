@@ -32,8 +32,8 @@ export const Places = (props) => {
         <div>
             {
                 listPlaces.map(p => (
-                    <Card sx={{ display: 'inline-block', margin: '2rem' }} key={p.placeId}>
-                        <Button size="small" onClick={() => props.choosePlace(p.placeId)} className="bg-light text-dark">
+                    <Button sx={{ display: 'inline-block', margin: '1rem', width: '20rem' }} onClick={() => props.choosePlace(p.placeId)} className="text-dark bg-light">
+                        <Card key={p.placeId}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
                                     {p.placeName}
@@ -43,10 +43,11 @@ export const Places = (props) => {
                                     sx={{ width: 151 }}
                                     image="../pic/Research paper.gif"
                                     alt="Research paper"
+                                    className="mx-auto"
                                 />
                             </CardContent>
-                        </Button>
-                    </Card>
+                        </Card>
+                    </Button>
                 ))
             }
 

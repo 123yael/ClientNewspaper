@@ -10,6 +10,7 @@ import Link from '@mui/joy/Link';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { isCustomerExists } from '../Axios/customerAxios';
+import { MANAGER_PASSWODR, MANAGER_EMAIL } from '../config'
 
 // הכפתור שהופך בין בהיר לכהה
 const ModeToggle = () => {
@@ -41,11 +42,10 @@ export const LogIn = () => {
 
     // פונקציה להתחברות למערכת
     const connect = (event) => {
-        debugger
         event.preventDefault()
         let e = event.target.email.value
         let p = event.target.password.value
-        if (e === "m@gmail.com" && p === "1234") {
+        if (e === MANAGER_EMAIL && p === MANAGER_PASSWODR) {
             console.log("manager!!!");
             return
         }

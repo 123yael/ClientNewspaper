@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./home/home";
-import { ResponsiveDrawer } from "./responsiveDrawer";
 import { About } from "./about/about";
 import { Contact } from "./contact";
 import { Prices } from "./prices";
@@ -11,7 +10,8 @@ import { BoardAd } from "./boardAd";
 import { NotFound } from "./notFound/notFound";
 import { Payment } from "./payment/payment";
 import { LogIn } from "./logIn";
-
+import { SignUp } from "./signUp";
+import { SignIn } from "./singIn";
 
 export const Routings = () => {
     return (
@@ -26,6 +26,8 @@ export const Routings = () => {
                 <Route path="boardAd" element={<BoardAd />}></Route>
                 <Route path="payment" element={<Payment />}></Route>
                 <Route path="logIn" element={<LogIn />}></Route>
+                <Route path="signUp" element={<SignUp />}></Route>
+                <Route path="signIn" element={<SignIn />}></Route>
             </Route>
             <Route path="*" element={<NotFound />} />
         </Routes>

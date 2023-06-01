@@ -64,17 +64,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Footer } from './footer/footer';
+import { Footer } from './footer';
+import { useState } from 'react';
 
 
 
 export const Nav = (props) => {
+
+    // משתמש למעבר בין הקומפוננטות
     const navigate = useNavigate()
-    const links = ['./', 'about', 'newspaperArchive', 'advertisingOrder', 'logIn', 'contact', 'boardAd']
+    const links = ['./', 'about', 'newspaperArchive', 'advertisingOrder', 'signIn','signUp', 'contact', 'boardAd']
     const drawerWidth = 240;
-    const navItems = ['Home', 'About', 'Newspaper archive', 'Advertising Order', 'logIn', 'Contact Us', 'board ad'];
+    const navItems = ['Home', 'About', 'Newspaper archive', 'Advertising Order', 'Sign In', 'Sign Up', 'Contact Us', 'board ad'];
     const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -140,13 +143,10 @@ export const Nav = (props) => {
                     </Drawer>
                 </Box>
             </Box>
-            {/* <br /> */}
-            <div className='pt-5 container pb-5'>
+            <div className='py-5 container'>
                 <Outlet></Outlet>
             </div>
-            {/* <div className=''>
-                <Footer></Footer>
-            </div> */}
+            <Footer></Footer>
         </div>
     );
 }

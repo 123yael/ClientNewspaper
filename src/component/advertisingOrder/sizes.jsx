@@ -76,7 +76,7 @@ export const Sizes = (props) => {
         <div>
             {
                 listSizes.map((s, index) => (
-                    <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-5'>
+                    <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-3'>
                         <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
                             <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
                         </Toolbar>
