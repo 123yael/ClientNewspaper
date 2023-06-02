@@ -9,7 +9,7 @@ import Button from '@mui/joy/Button';
 import Link from '@mui/joy/Link';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { isCustomerExists } from '../Axios/customerAxios';
+import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
 import { MANAGER_PASSWODR, MANAGER_EMAIL } from '../config'
 
 // הכפתור שהופך בין בהיר לכהה
@@ -49,7 +49,7 @@ export const LogIn = () => {
             console.log("manager!!!");
             return
         }
-        isCustomerExists(e, p).then(res => {
+        getCustomerByEmailAndPass(e, p).then(res => {
             debugger
             if (res.data === true)
                 console.log("true");

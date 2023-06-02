@@ -7,6 +7,6 @@ export const getIdByCustomer = (cust) => {
     return axios.post(`${path}/Customer/GetIdByCustomer`, cust)
 }
 
-export const isCustomerExists = (email, pass) => {
-    return axios.get(`${path}/Customer/IsCustomerExists/${email}/${pass}`)
+export const getCustomerByEmailAndPass = (email, pass) => {
+    return axios.get(`${path}/Customer/GetCustomerByEmailAndPass/${email}/${pass}`)
 }

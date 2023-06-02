@@ -5,6 +5,7 @@ const CustomersState = {
 }
 
 const CustomersReducer = produce((state, action) => {
+    debugger
     switch (action.type) {
         case 'SET-CUSTOMER': state.customer = action.payload;
             break;

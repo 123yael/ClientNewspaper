@@ -26,7 +26,7 @@ export const Footer = () => {
         flexDirection: 'column',
         minHeight: '100vh'
       }}
-      className="bg-dark"
+      className="bg-secondary"
     >
       <CssBaseline />
       <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">

@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 export const SignUp = () => {
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

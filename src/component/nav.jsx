@@ -1,54 +1,3 @@
-// import { BottomNavigation, ListItemButton } from "@mui/material"
-// import { Link, useNavigate } from "react-router-dom"
-
-
-// export const Nav = () => {
-
-//     const navigate = useNavigate()
-//     const labels = ['Home', 'About', 'Newspaper archive', 'Advertising Order', 'Prices', 'Contact Us', 'board ad']
-//     const links = ['/', 'about', 'newspaperArchive', 'advertisingOrder', 'prices', 'contact', 'boardAd']
-
-//     // פונקציה שמעבירה לומפוננטה אחרת
-//     const anotherSubject = (index) => {
-//         navigate(`/responsiveDrawer/${links[index]}`)
-//     }
-
-//     return (
-//         // <div className="bg-light navbar fixed-top container text-dark">
-//         //     {
-//         //         labels.map((l, i) => (
-//         //             <div className="nav-item navbar-brand" key={i}><ListItemButton onClick={() => anotherSubject(i)}>{l}</ListItemButton></div>
-//         //         ))
-//         //     }
-//         // </div>
-//         <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-//             <div class="container-fluid">
-//                 <button
-//                     class="navbar-toggler"
-//                     type="button"
-//                     data-mdb-toggle="collapse"
-//                     data-mdb-target="#navbarExample01"
-//                     aria-controls="navbarExample01"
-//                     aria-expanded="false"
-//                     aria-label="Toggle navigation"
-//                 >
-//                     <i class="fas fa-bars"></i>
-//                 </button>
-//                 <div class="collapse navbar-collapse" id="navbarExample01">
-//                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-//                         {
-//                             labels.map((l, i) => (
-//                                 <li class="nav-item active">
-//                                     <ListItemButton class="nav-link" aria-current="page" onClick={() => anotherSubject(i)}>{l}</ListItemButton>
-//                                 </li>
-//                             ))
-//                         }
-//                     </ul>
-//                 </div>
-//             </div>
-//         </nav>
-//     )
-// }
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -66,25 +15,47 @@ import Button from '@mui/material/Button';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Footer } from './footer';
 import { useState } from 'react';
-
+import Cookies from 'js-cookie';
 
 
 export const Nav = (props) => {
 
     // משתמש למעבר בין הקומפוננטות
     const navigate = useNavigate()
-    const links = ['./', 'about', 'newspaperArchive', 'advertisingOrder', 'signIn','signUp', 'contact', 'boardAd']
+    const [links, setLinks] = useState(['./', 'about', 'newspaperArchive', 'signIn', 'signUp', 'contact'])
     const drawerWidth = 240;
-    const navItems = ['Home', 'About', 'Newspaper archive', 'Advertising Order', 'Sign In', 'Sign Up', 'Contact Us', 'board ad'];
+    const [navItems, setNavItems] = useState(['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up', 'Contact Us'])
     const { window } = props;
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false)
+    const [myCookieObject, setMyCookieObject] = useState(Cookies.get('currentUser'))
+    const [isManager, setIsManager] = useState(Cookies.get('manager'))
+
+    const changeNav = () => {
+        setMyCookieObject(Cookies.get('currentUser'))
+        setIsManager(Cookies.get('manager'))
+        if (isManager) {
+            setLinks([...links, 'magazineClosing'])
+            setNavItems([...navItems, 'Magazine Closing'])
+        }
+        else if (myCookieObject.custPassword !== undefined) {
+            setLinks([...links, 'advertisingOrder', 'boardAd'])
+            setNavItems([...navItems, 'Advertising Order', 'board ad'])
+        }
+        else {
+            console.log('Cookie does not exist');
+        }
+    }
+
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
 
-    // פונקציה שמעבירה לומפוננטה אחרת
+    // פונקציה שמעבירה לקומפוננטה אחרת
     const anotherSubject = (index) => {
+        if (links[index] === 'signIn') {
+            navigate(`/signIn`, { state: {"cn": changeNav} })
+        }
         navigate(`/${links[index]}`)
     }
 

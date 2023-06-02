@@ -10,8 +10,9 @@ import { BoardAd } from "./boardAd";
 import { NotFound } from "./notFound/notFound";
 import { Payment } from "./payment/payment";
 import { LogIn } from "./logIn";
+import { SignIn } from "./signIn";
+import { MagazineClosing } from "./magazineClosing";
 import { SignUp } from "./signUp";
-import { SignIn } from "./singIn";
 
 export const Routings = () => {
     return (
@@ -28,6 +29,7 @@ export const Routings = () => {
                 <Route path="logIn" element={<LogIn />}></Route>
                 <Route path="signUp" element={<SignUp />}></Route>
                 <Route path="signIn" element={<SignIn />}></Route>
+                <Route path="magazineClosing" element={<MagazineClosing />}></Route>
             </Route>
             <Route path="*" element={<NotFound />} />
         </Routes>
