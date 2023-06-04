@@ -7,7 +7,6 @@ const OrderDetailsState = {
 }
 
 const OrderDetailsReducer = produce((state, action) => {
-    debugger
     switch (action.type) {
         case 'SET-ORDER_DETAILS': state.list = [...action.payload];
             break;

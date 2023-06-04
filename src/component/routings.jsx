@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./home/home";
 import { About } from "./about/about";
-import { Contact } from "./contact";
 import { Prices } from "./prices";
 import { NewspaperArchive } from "./newspaperArchive";
 import { AdvertisingOrder } from "./advertisingOrder/advertisingOrder";
@@ -20,7 +19,6 @@ export const Routings = () => {
             <Route path="/" element={<Nav />}>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="about" element={<About />}></Route>
-                <Route path="contact" element={<Contact />}></Route>
                 <Route path="prices" element={<Prices />}></Route>
                 <Route path="newspaperArchive" element={<NewspaperArchive />}></Route>
                 <Route path="advertisingOrder" element={<AdvertisingOrder />}></Route>

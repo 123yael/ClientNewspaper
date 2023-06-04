@@ -18,16 +18,21 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-export const Nav = (props) => {
+export const Nav = () => {
 
     // משתמש למעבר בין הקומפוננטות
     const navigate = useNavigate()
-    const [links, setLinks] = useState(['./', 'about', 'newspaperArchive', 'signIn', 'signUp', 'contact'])
-    const drawerWidth = 240;
-    const [navItems, setNavItems] = useState(['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up', 'Contact Us'])
-    const { window } = props;
+    // מערך שמכיל את קישורי הקומפוננטות שאליהם נעבור דרת ה nav
+    const [links, setLinks] = useState(['./', 'about', 'newspaperArchive', 'signIn', 'signUp', 'advertisingOrder'])
+    // מערך שמכיל את השמות שיוצגו בתפריט הראשי nav
+    const [navItems, setNavItems] = useState(['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up', 'Advertising Order'])
+    // קבוע שמציין אתה גודל הרוחב של התפריט הצדדי שיפתח במצב של מסך קטן
+    const DRAWERWIDTH = 240;
+    // משתנה שמכיל את התשובה האם לפתוח תפריט צדדי
     const [mobileOpen, setMobileOpen] = useState(false)
+    // משתנה שמכיל את המשתמש הלקוח הנוכחי במערכת
     const [myCookieObject, setMyCookieObject] = useState(Cookies.get('currentUser'))
+    // משתנה שאומר האם כרגע מחובר מנהל למערכת או לא
     const [isManager, setIsManager] = useState(Cookies.get('manager'))
 
     const changeNav = () => {
@@ -46,16 +51,13 @@ export const Nav = (props) => {
         }
     }
 
-
+    // פונקציה שמשנה את מצב המשתנה שאומר האם לפתוח תפריט צדדי
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
 
     // פונקציה שמעבירה לקומפוננטה אחרת
     const anotherSubject = (index) => {
-        if (links[index] === 'signIn') {
-            navigate(`/signIn`, { state: {"cn": changeNav} })
-        }
         navigate(`/${links[index]}`)
     }
 
@@ -76,8 +78,6 @@ export const Nav = (props) => {
             </List>
         </Box>
     );
-
-    const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
         <div>
@@ -103,11 +103,11 @@ export const Nav = (props) => {
                     </Toolbar>
                 </AppBar>
                 <Box component="nav">
-                    <Drawer container={container} variant="temporary" open={mobileOpen} onClose={handleDrawerToggle}
+                    <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle}
                         ModalProps={{ keepMounted: true }}
                         sx={{
                             display: { md: 'block', lg: 'none' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWERWIDTH },
                         }}
                     >
                         {drawer}

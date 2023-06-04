@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -16,13 +15,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MANAGER_PASSWODR, MANAGER_EMAIL } from '../config'
 import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { setCustomer } from '../redux/actions/CustomersActions';
 
 const defaultTheme = createTheme();
 
 export const SignIn = () => {
 
+  // משתמש למעבר בין הקומפוננטות
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -39,8 +37,6 @@ export const SignIn = () => {
     getCustomerByEmailAndPass(email, password).then(res => {
       if (res.data !== "") {
         Cookies.set("currentUser", JSON.stringify(res.data), { expires: 7 }) // 7 המידע נשמר 7 ימים בעוגיה
-        debugger
-        location.state.cn();
         navigate('/')
       }
       else {

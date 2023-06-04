@@ -59,6 +59,7 @@ export const Sizes = (props) => {
         setSize(s)
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -75,21 +76,25 @@ export const Sizes = (props) => {
     return (
         <div>
             {
-                listSizes.map((s, index) => (
-                    <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-3'>
-                        <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
-                            <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
-                        </Toolbar>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
-                        </CardContent>
-                        <div className='pb-3 px-3 m-0 row'>
-                            <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => props.chooseSize(s.sizeId)}>choose size</Button>
-                            <div className='col-2'></div>
-                            <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
-                        </div>
-                    </Card>
-                ))
+                listSizes.length > 0 ? (
+                    listSizes.map((s, index) => (
+                        <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-3'>
+                            <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
+                                <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
+                            </Toolbar>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
+                            </CardContent>
+                            <div className='pb-3 px-3 m-0 row'>
+                                <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => props.chooseSize(s.sizeId)}>choose size</Button>
+                                <div className='col-2'></div>
+                                <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
+                            </div>
+                        </Card>
+                    ))
+                ) : (
+                    <Typography variant="h5">Loading...</Typography>
+                )
             }
 
             {/* המודל שהולך להיפתח */}
