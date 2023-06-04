@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Button, TextField } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from '@mui/material'
 import './payment.css'
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,12 @@ import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
 import { finishOrderAxios } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
+import { ThemeProvider } from 'styled-components';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
+
+
+const defaultTheme = createTheme();
 
 export const Payment = () => {
 
@@ -64,57 +70,114 @@ export const Payment = () => {
     }
 
     return (
-        <form className="mt-5 pb-5" onSubmit={finishOrder}>
-            <div className='row border pb-3 my-3'>
-                <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Costumer Details</h4>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter first name</h5>
-                    <TextField id="firstName" label="First Name" fullWidth />
+        <div>
+            {/* <form className="mt-5 pb-5" onSubmit={finishOrder}>
+                <div className='row border pb-3 my-3'>
+                    <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Costumer Details</h4>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter first name</h5>
+                        <TextField id="firstName" label="First Name" fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter last name</h5>
+                        <TextField id="lastName" label="Last Name" fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter email</h5>
+                        <TextField id="email" label="Email" fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter phone</h5>
+                        <TextField id="phone" label="Phone" fullWidth />
+                    </div>
                 </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter last name</h5>
-                    <TextField id="lastName" label="Last Name" fullWidth />
-                </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter email</h5>
-                    <TextField id="email" label="Email" fullWidth />
-                </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter phone</h5>
-                    <TextField id="phone" label="Phone" fullWidth />
-                </div>
-            </div>
 
-            <div className='row border pb-3 mt-3'>
-                <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Credit Card Details</h4>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter name on card</h5>
-                    <TextField id="outlined-multiline-flexible" label="Name" fullWidth />
+                <div className='row border pb-3 mt-3'>
+                    <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Credit Card Details</h4>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter name on card</h5>
+                        <TextField id="outlined-multiline-flexible" label="Name" fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter num of card</h5>
+                        <TextField id="outlined-multiline-flexible" label="1111-2222-3333-4444" fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter exp date</h5>
+                        <TextField id="outlined-multiline-flexible" type={"month"} views={['month', 'year']} fullWidth />
+                    </div>
+                    <div className='col-lg-3 col-md-6'>
+                        <h5 className="float-start my-3">Enter CVV</h5>
+                        <TextField id="outlined-multiline-flexible" type={"number"} label="CVV" fullWidth />
+                    </div>
                 </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter num of card</h5>
-                    <TextField id="outlined-multiline-flexible" label="1111-2222-3333-4444" fullWidth />
-                </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter exp date</h5>
-                    <TextField id="outlined-multiline-flexible" type={"month"} views={['month', 'year']} fullWidth />
-                </div>
-                <div className='col-lg-3 col-md-6'>
-                    <h5 className="float-start my-3">Enter CVV</h5>
-                    <TextField id="outlined-multiline-flexible" type={"number"} label="CVV" fullWidth />
-                </div>
-            </div>
 
-            <div className='row border px-3 mt-3 pb-3'>
-                <Alert severity="info" className="my-3">
-                    <AlertTitle style={{ textAlign: "left" }}>Info</AlertTitle>
-                    If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
-                </Alert>
+                <div className='row border px-3 mt-3 pb-3'>
+                    <Alert severity="info" className="my-3">
+                        <AlertTitle style={{ textAlign: "left" }}>Info</AlertTitle>
+                        If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
+                    </Alert>
 
-                <Button type='submit' fullWidth variant="contained" endIcon={<DoneAllRoundedIcon />} >
-                    Ending an order
-                </Button>
-            </div>
-        </form>
+                    <Button type='submit' fullWidth variant="contained" endIcon={<DoneAllRoundedIcon />} >
+                        Ending an order
+                    </Button>
+                </div>
+            </form> */}
+            <ThemeProvider theme={defaultTheme}>
+                <Container component="main" maxWidth="sm">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar className='bg-primary p-4'>
+                            <CreditScoreIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Payment
+                        </Typography>
+                        <Box component="form" noValidate onSubmit={finishOrder} sx={{ mt: 3 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <h5 className="float-start my-3">Enter name on card</h5>
+                                    <TextField id="outlined-multiline-flexible" label="Name" fullWidth />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <h5 className="float-start my-3">Enter num of card</h5>
+                                    <TextField id="outlined-multiline-flexible" label="1111-2222-3333-4444" fullWidth />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <h5 className="float-start my-3">Enter exp date</h5>
+                                    <TextField id="outlined-multiline-flexible" type={"month"} views={['month', 'year']} fullWidth />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <h5 className="float-start my-3">Enter CVV</h5>
+                                    <TextField id="outlined-multiline-flexible" type={"number"} label="CVV" fullWidth />
+                                </Grid>
+                                <Grid item xs={12} textAlign='left'>
+                                    <Alert severity="info" className="my-3">
+                                        <AlertTitle>Info</AlertTitle>
+                                        If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
+                                    </Alert>
+                                </Grid>
+                            </Grid>
+                            <Button
+                                endIcon={<DoneAllRoundedIcon />}
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Ending an order
+                            </Button>
+                        </Box>
+                    </Box>
+                </Container>
+            </ThemeProvider>
+        </div >
     )
 }

@@ -15,10 +15,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MANAGER_PASSWODR, MANAGER_EMAIL } from '../config'
 import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { setCustomer, setManager } from '../redux/actions/CustomersActions';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const defaultTheme = createTheme();
 
 export const SignIn = () => {
+
+  let dispatch = useDispatch()
 
   // משתמש למעבר בין הקומפוננטות
   const navigate = useNavigate()
@@ -31,12 +36,13 @@ export const SignIn = () => {
     let email = data.get('email') !== "" ? data.get('email') : "null"
     let password = data.get('password') !== "" ? data.get('password') : "null"
     if (email === MANAGER_EMAIL && password === MANAGER_PASSWODR) {
-      Cookies.set("manager", true, { expires: 1 }) // המידע נשמר יום אחד בעוגיה
+      dispatch(setManager(true))
       return
     }
     getCustomerByEmailAndPass(email, password).then(res => {
       if (res.data !== "") {
         Cookies.set("currentUser", JSON.stringify(res.data), { expires: 7 }) // 7 המידע נשמר 7 ימים בעוגיה
+        dispatch(setCustomer(res.data))
         navigate('/')
       }
       else {
@@ -59,8 +65,8 @@ export const SignIn = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar className='bg-primary p-4'>
+            <LockOpenIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in

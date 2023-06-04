@@ -16,6 +16,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { Footer } from './footer';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 
 
 export const Nav = () => {
@@ -23,34 +24,32 @@ export const Nav = () => {
     // משתמש למעבר בין הקומפוננטות
     const navigate = useNavigate()
     // מערך שמכיל את קישורי הקומפוננטות שאליהם נעבור דרת ה nav
-    const [links, setLinks] = useState(['./', 'about', 'newspaperArchive', 'signIn', 'signUp', 'advertisingOrder'])
+    const [links, setLinks] = useState(['./', 'about', 'newspaperArchive', 'signIn', 'signUp', 'advertisingOrder', 'boardAd'])
     // מערך שמכיל את השמות שיוצגו בתפריט הראשי nav
-    const [navItems, setNavItems] = useState(['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up', 'Advertising Order'])
+    const [navItems, setNavItems] = useState(['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up', 'Advertising Order', 'board ad'])
     // קבוע שמציין אתה גודל הרוחב של התפריט הצדדי שיפתח במצב של מסך קטן
     const DRAWERWIDTH = 240;
     // משתנה שמכיל את התשובה האם לפתוח תפריט צדדי
     const [mobileOpen, setMobileOpen] = useState(false)
     // משתנה שמכיל את המשתמש הלקוח הנוכחי במערכת
-    const [myCookieObject, setMyCookieObject] = useState(Cookies.get('currentUser'))
+    // const [myCookieObject, setMyCookieObject] = useState(Cookies.get('currentUser'))
     // משתנה שאומר האם כרגע מחובר מנהל למערכת או לא
-    const [isManager, setIsManager] = useState(Cookies.get('manager'))
+    // const [isManager, setIsManager] = useState(Cookies.get('manager'))
 
-    const changeNav = () => {
-        setMyCookieObject(Cookies.get('currentUser'))
-        setIsManager(Cookies.get('manager'))
+    let isManager = useSelector(i => i.CustomersReducer.isManager)
+    // const changeNav = () => {
+    React.useEffect(() => {
         if (isManager) {
             setLinks([...links, 'magazineClosing'])
             setNavItems([...navItems, 'Magazine Closing'])
         }
-        else if (myCookieObject.custPassword !== undefined) {
-            setLinks([...links, 'advertisingOrder', 'boardAd'])
-            setNavItems([...navItems, 'Advertising Order', 'board ad'])
-        }
         else {
             console.log('Cookie does not exist');
         }
-    }
+    }, [isManager])
 
+    // }
+    // changeNav()
     // פונקציה שמשנה את מצב המשתנה שאומר האם לפתוח תפריט צדדי
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
