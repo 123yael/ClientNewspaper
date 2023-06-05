@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from '@mui/material'
 import './payment.css'
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
 import { finishOrderAxios } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 

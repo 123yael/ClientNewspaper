@@ -5,6 +5,7 @@ import './bootstrap.min.css'
 import { Routings } from './component/routings';
 import store from './redux/store';
 
+
 function App() {
   return (
     <div className="App">

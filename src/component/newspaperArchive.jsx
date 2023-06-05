@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setNewspapersPublished } from '../redux/actions/NewspapersPublishedActions';
 import { SERVER_NAME } from './../config';
+import Flipbook from './show/Flipbook';
+import { useNavigate } from 'react-router-dom';
 
 export const NewspaperArchive = () => {
 
@@ -24,6 +26,12 @@ export const NewspaperArchive = () => {
     // חילוץ רשימת העיתונים מהרדוסר
     let listNewspapersPublished = useSelector(s => s.NewspapersPublishedReducer.list)
 
+    let navigate = useNavigate()
+
+    const show = (path) => {
+        navigate('/flipbook', {state: path})
+    }
+
     return (
         <div>
             {listNewspapersPublished.length > 0 ? (
@@ -31,7 +39,7 @@ export const NewspaperArchive = () => {
                     {
                         listNewspapersPublished.map((n, i) => (
                             <Grid item xs={12} md={3} key={i} >
-                                <CardActionArea component="a" href="#" className='shadow shadow-3'>
+                                <CardActionArea component="a" onClick={() => show(n.pdfFile)} className='shadow shadow-3'>
                                     <CardMedia
                                         component="img"
                                         sx={{ display: { xs: 'none', sm: 'block' } }}
