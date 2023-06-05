@@ -4,8 +4,7 @@ import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import './Modal.css';
 // import { useLocation } from 'react-router-dom';
 import { SERVER_NAME } from '../../config';
-import { Box, Button } from '@mui/material';
-
+import { Box, Button } from '@mui/material'
 
 function Flipbook(props) {
   // let location = useLocation()
@@ -33,6 +32,7 @@ function Flipbook(props) {
 
   return (
     <div style={{ backgroundColor: "black" }}>
+      
       <Document
         // file={`${SERVER_NAME}/NewspapersPdf/${location.state}`}
         file='./document.pdf'
