@@ -3,7 +3,8 @@ import produce from 'immer'
 
 const OrderDetailsState = {
     list: [],
-    listDates: []
+    listDates: [],
+    allOrderDetails: []
 }
 
 const OrderDetailsReducer = produce((state, action) => {
@@ -11,6 +12,8 @@ const OrderDetailsReducer = produce((state, action) => {
         case 'SET-ORDER_DETAILS': state.list = [...action.payload];
             break;
         case 'SET-DATES-OF-AD': state.listDates = [...action.payload];
+            break;
+        case 'SET-ALL-DETAILS': state.allOrderDetails = [...action.payload];
             break;
         default:
             break;

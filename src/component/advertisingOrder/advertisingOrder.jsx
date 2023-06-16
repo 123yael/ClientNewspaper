@@ -19,7 +19,7 @@ import { UpLoad } from './upload';
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 
 
@@ -113,6 +113,9 @@ export const AdvertisingOrder = () => {
 
     const dispatch = useDispatch()
 
+    let customer = {}
+    customer = useSelector(c => c.CustomersReducer.customer)
+
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     // משתנה שאומר האם להציג את הכפתור הבא
@@ -135,6 +138,7 @@ export const AdvertisingOrder = () => {
 
     // פונקציה למעבר לשלב הבא
     const handleNext = () => {
+       
         let newSkipped = skipped
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values())
@@ -145,6 +149,10 @@ export const AdvertisingOrder = () => {
         setActiveNext(false)
         // במקרא של רגע לפני תשלום
         if (activeStep === steps.length - 1) {
+            if (customer === undefined || customer === null || customer === {} || customer.custFirstName == undefined){
+                navigate('/signIn')
+                alert("אינך מורשה להזמין פרסומת כיוון שאינך רשום כלקוח. נא הירשם תחילה.")
+            }
             beyondPayment()
         }
     }

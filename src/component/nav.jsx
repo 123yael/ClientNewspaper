@@ -40,8 +40,8 @@ export const Nav = () => {
     // const changeNav = () => {
     React.useEffect(() => {
         if (isManager) {
-            setLinks([...links, 'magazineClosing'])
-            setNavItems([...navItems, 'Magazine Closing'])
+            setLinks([...links, 'magazineClosing', 'managerDetails'])
+            setNavItems([...navItems, 'Magazine Closing', 'All Advertisments Details'])
         }
         else {
             console.log('Cookie does not exist');

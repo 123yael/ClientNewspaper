@@ -9,5 +9,9 @@ export const setDatesOfAd = (value) => {
     return { type: 'SET-DATES-OF-AD', payload: value }
 }
 
+export const setAllDetails = (value) => {
+    return { type: 'SET-ALL-DETAILS', payload: value}
+}
+
 
 

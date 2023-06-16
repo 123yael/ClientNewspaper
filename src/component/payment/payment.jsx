@@ -9,12 +9,14 @@ import { finishOrderAxios } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import { useNavigate } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
 
 export const Payment = () => {
 
+    let localNavigate = useNavigate()
 
     let dispatch = useDispatch()
 
@@ -29,17 +31,23 @@ export const Payment = () => {
     // חילוץ רשימת תאריכים הזמנות מהרדוסר
     let listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
 
+    let customer = {}
+    customer = useSelector(u => u.CustomersReducer.customer)
 
     // פונקציה לסיום הזמנה
-    const finishOrder = (e) => {
-        debugger
+    const finishOrder = (e) => {               
         e.preventDefault()
-        let user = {
+        debugger
+
+        
+        
+        /*let user = {
             CustFirstName: e.target.firstName.value,
             CustLastName: e.target.lastName.value,
             CustEmail: e.target.email.value,
             CustPhone: e.target.phone.value
         }
+    */
 
         let listTempOD = []
         for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
@@ -57,7 +65,7 @@ export const Payment = () => {
 
 
         let finishOrder = {
-            customer: user,
+            customer: customer,
             listDates: listDatesFromRedux,
             listOrderDetails: listTempOD
         }
@@ -66,7 +74,8 @@ export const Payment = () => {
             debugger
             console.log(res);
         })
-    }
+    
+}
 
     return (
         <div>
