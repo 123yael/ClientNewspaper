@@ -31,8 +31,7 @@ export const Payment = () => {
     // חילוץ רשימת תאריכים הזמנות מהרדוסר
     let listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
 
-    let customer = {}
-    customer = useSelector(u => u.CustomersReducer.customer)
+    let customer = useSelector(u => u.CustomersReducer.customer)
 
     // פונקציה לסיום הזמנה
     const finishOrder = (e) => {               
@@ -79,58 +78,6 @@ export const Payment = () => {
 
     return (
         <div>
-            {/* <form className="mt-5 pb-5" onSubmit={finishOrder}>
-                <div className='row border pb-3 my-3'>
-                    <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Costumer Details</h4>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter first name</h5>
-                        <TextField id="firstName" label="First Name" fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter last name</h5>
-                        <TextField id="lastName" label="Last Name" fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter email</h5>
-                        <TextField id="email" label="Email" fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter phone</h5>
-                        <TextField id="phone" label="Phone" fullWidth />
-                    </div>
-                </div>
-
-                <div className='row border pb-3 mt-3'>
-                    <h4 className='float-start border p-2' style={{ textAlign: "left" }}>Credit Card Details</h4>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter name on card</h5>
-                        <TextField id="outlined-multiline-flexible" label="Name" fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter num of card</h5>
-                        <TextField id="outlined-multiline-flexible" label="1111-2222-3333-4444" fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter exp date</h5>
-                        <TextField id="outlined-multiline-flexible" type={"month"} views={['month', 'year']} fullWidth />
-                    </div>
-                    <div className='col-lg-3 col-md-6'>
-                        <h5 className="float-start my-3">Enter CVV</h5>
-                        <TextField id="outlined-multiline-flexible" type={"number"} label="CVV" fullWidth />
-                    </div>
-                </div>
-
-                <div className='row border px-3 mt-3 pb-3'>
-                    <Alert severity="info" className="my-3">
-                        <AlertTitle style={{ textAlign: "left" }}>Info</AlertTitle>
-                        If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
-                    </Alert>
-
-                    <Button type='submit' fullWidth variant="contained" endIcon={<DoneAllRoundedIcon />} >
-                        Ending an order
-                    </Button>
-                </div>
-            </form> */}
             <ThemeProvider theme={defaultTheme}>
                 <Container component="main" maxWidth="sm">
                     <CssBaseline />

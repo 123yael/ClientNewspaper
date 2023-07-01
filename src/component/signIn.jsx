@@ -36,12 +36,14 @@ export const SignIn = () => {
     let password = data.get('password') !== "" ? data.get('password') : "null"
     if (email === MANAGER_EMAIL && password === MANAGER_PASSWODR) {
       dispatch(setManager(true))
+      navigate('/')
       return
     }
     getCustomerByEmailAndPass(email, password).then(res => {
       if (res.data !== "") {
-        Cookies.set("currentUser", JSON.stringify(res.data), { expires: 7 }) // 7 המידע נשמר 7 ימים בעוגיה
+        Cookies.set("currentUser", JSON.stringify(res.data), { expires: 2 }) // 7 המידע נשמר 7 ימים בעוגיה
         dispatch(setCustomer(res.data))
+        dispatch(setManager(false))
         navigate('/')
       }
       else {

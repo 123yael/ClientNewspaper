@@ -31,8 +31,8 @@ export const Places = (props) => {
     return (
         <div>
             {
-                listPlaces.map(p => (
-                    <Button sx={{ display: 'inline-block', margin: '1rem', width: '20rem' }} onClick={() => props.choosePlace(p.placeId)} className="text-dark bg-light">
+                listPlaces.map((p, i) => (
+                    <Button key={i} sx={{ display: 'inline-block', margin: '1rem', width: '20rem' }} onClick={() => props.choosePlace(p.placeId)} className="text-dark bg-light">
                         <Card key={p.placeId}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">

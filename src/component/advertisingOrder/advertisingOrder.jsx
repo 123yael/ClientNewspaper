@@ -113,8 +113,8 @@ export const AdvertisingOrder = () => {
 
     const dispatch = useDispatch()
 
-    let customer = {}
-    customer = useSelector(c => c.CustomersReducer.customer)
+    // let customer = {}
+    // customer = useSelector(c => c.CustomersReducer.customer)
 
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
@@ -138,7 +138,7 @@ export const AdvertisingOrder = () => {
 
     // פונקציה למעבר לשלב הבא
     const handleNext = () => {
-       
+
         let newSkipped = skipped
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values())
@@ -147,14 +147,17 @@ export const AdvertisingOrder = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
         setSkipped(newSkipped)
         setActiveNext(false)
-        // במקרא של רגע לפני תשלום
-        if (activeStep === steps.length - 1) {
-            if (customer === undefined || customer === null || customer === {} || customer.custFirstName == undefined){
-                navigate('/signIn')
-                alert("אינך מורשה להזמין פרסומת כיוון שאינך רשום כלקוח. נא הירשם תחילה.")
-            }
+        if (activeStep === steps.length - 1)
             beyondPayment()
-        }
+        // במקרא של רגע לפני תשלום
+        // if (activeStep === steps.length - 1) {
+        //     if (customer.custFirstName == undefined) {
+        //         alert("אינך מורשה להזמין פרסומת כיוון שאינך רשום כלקוח. נא הירשם תחילה.")
+        //         navigate('/signIn')
+        //     }
+        //     else
+        //         beyondPayment()
+        // }
     }
 
     // פונקציה חזרה לשלב הקודם

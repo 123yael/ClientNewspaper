@@ -7,7 +7,7 @@ const CustomersState = {
 
 const CustomersReducer = produce((state, action) => {
     switch (action.type) {
-        case 'SET-CUSTOMER': state.customer = action.payload;
+        case 'SET-CUSTOMER': state.customer = {...action.payload};
             break;
         case 'SET-MANAGER': state.isManager = action.payload;
             break;
