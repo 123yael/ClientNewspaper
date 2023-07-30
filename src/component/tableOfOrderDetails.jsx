@@ -20,6 +20,7 @@ import { getAllOrderDetails } from '../Axios/orderDetailsAxios';
 import { setAllDetails } from '../redux/actions/OrderDetailsActions';
 import { getAllAdSizes } from '../Axios/adSizesAxios';
 import { setAllAdSizes } from '../redux/actions/AdSizeActions';
+import { SERVER_NAME } from '../config';
 
 const createData = (adDuration, placeId, sizeId, adFile, categoryId) => {
   return { adDuration, placeId, sizeId, adFile, categoryId };
@@ -247,7 +248,9 @@ export const TableOfOrderDetails = () => {
                   <TableCell align="center">{row.adDuration}</TableCell>
                   <TableCell align="center">{row.placeId}</TableCell>
                   <TableCell align="center">{row.sizeId}</TableCell>
-                  <TableCell align="center">{row.adFile}</TableCell>
+                  <TableCell align="center">
+                    <img src={`${SERVER_NAME}/Upload/${row.adFile}`} alt={`${SERVER_NAME}/Upload/${row.adFile}`} height={40}></img>
+                  </TableCell>
                   <TableCell align="center">{row.categoryId}</TableCell>
                 </TableRow>
               ))}

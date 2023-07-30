@@ -38,9 +38,16 @@ export const Nav = () => {
     // משתנה שמכיל את התשובה האם לפתוח תפריט צדדי
     const [mobileOpen, setMobileOpen] = useState(false)
 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        let currentUser = Cookies.get("currentUser")
+        console.log(currentUser);
+        if (Cookies.get("currentUser") !== undefined)
+            dispatch(setCustomer(JSON.parse(currentUser)))
+    }, [])
+
     let isManager = useSelector(i => i.CustomersReducer.isManager)
     let customer = useSelector(i => i.CustomersReducer.customer)
-    const dispatch = useDispatch()
 
     useEffect(() => {
         if (isManager) {
@@ -71,7 +78,6 @@ export const Nav = () => {
     }
 
     const signOut = () => {
-        // Cookies.set("currentUser", {})
         Cookies.remove("currentUser")
         dispatch(setManager(false))
         dispatch(setCustomer({}))

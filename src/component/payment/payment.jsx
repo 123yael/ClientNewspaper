@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
-import { finishOrderAxios } from '../../Axios/orderAxios';
+import { finishOrderAdWordsAxios, finishOrderAxios, finishOrderAxiosBoardAd } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
@@ -16,7 +16,7 @@ const defaultTheme = createTheme();
 
 export const Payment = () => {
 
-    let localNavigate = useNavigate()
+    let navigate = useNavigate()
 
     let dispatch = useDispatch()
 
@@ -34,33 +34,27 @@ export const Payment = () => {
     let customer = useSelector(u => u.CustomersReducer.customer)
 
     // פונקציה לסיום הזמנה
-    const finishOrder = (e) => {               
+    const finishOrder = (e) => {
         e.preventDefault()
         debugger
 
-        
-        
-        /*let user = {
-            CustFirstName: e.target.firstName.value,
-            CustLastName: e.target.lastName.value,
-            CustEmail: e.target.email.value,
-            CustPhone: e.target.phone.value
-        }
-    */
-
         let listTempOD = []
-        for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
-            let temp = listOrderDetailsFromRedux[i].adFile
-            console.log(temp);
-            handleImageUpload(temp)
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-            listTempOD.push({ ...listOrderDetailsFromRedux[i], adFile: temp.name })
-        }
+
+        if (listOrderDetailsFromRedux[0].wordCategoryId !== undefined)
+            listTempOD.push({ ...listOrderDetailsFromRedux[0] })
+        else
+            for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
+                let temp = listOrderDetailsFromRedux[i].adFile
+                console.log(temp);
+                handleImageUpload(temp)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                listTempOD.push({ ...listOrderDetailsFromRedux[i], adFile: temp.name })
+            }
 
 
         let finishOrder = {
@@ -69,12 +63,24 @@ export const Payment = () => {
             listOrderDetails: listTempOD
         }
 
-        finishOrderAxios(finishOrder).then(res => {
-            debugger
-            console.log(res);
-        })
-    
-}
+        if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
+            finishOrderAxios(finishOrder).then(res => {
+                debugger
+                console.log(res);
+                navigate('/')
+            }).catch(err => {
+                console.log(err);
+            })
+        else
+            finishOrderAdWordsAxios(finishOrder).then(res => {
+                debugger
+                console.log(res);
+                navigate('/')
+            }).catch(err => {
+                console.log(err);
+            })
+
+    }
 
     return (
         <div>

@@ -19,7 +19,7 @@ import { UpLoad } from './upload';
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 
 
@@ -149,15 +149,6 @@ export const AdvertisingOrder = () => {
         setActiveNext(false)
         if (activeStep === steps.length - 1)
             beyondPayment()
-        // במקרא של רגע לפני תשלום
-        // if (activeStep === steps.length - 1) {
-        //     if (customer.custFirstName == undefined) {
-        //         alert("אינך מורשה להזמין פרסומת כיוון שאינך רשום כלקוח. נא הירשם תחילה.")
-        //         navigate('/signIn')
-        //     }
-        //     else
-        //         beyondPayment()
-        // }
     }
 
     // פונקציה חזרה לשלב הקודם
@@ -234,7 +225,7 @@ export const AdvertisingOrder = () => {
     // מערך שמכיל קומפוננטות של צעדים ושמות שלהם להצגה
     const steps = [
         { label: 'Size selection', description: <Sizes chooseSize={chooseSize} /> },
-        { label: 'Location selection', description: <Places choosePlace={choosePlace} /> },
+        { label: 'Location selection', description: <Places choosePlace={choosePlace} size={orderdetail.sizeId}/> },
         { label: 'Publication date', description: <Dates chooseDates={chooseDates} /> },
         { label: 'upload an ad', description: <UpLoad chooseImage={chooseImage} /> }
     ];

@@ -26,11 +26,13 @@ export const Footer = () => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '70vh',
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800]
+        borderTop: (theme) => `1px solid ${theme.palette.grey[600]}`,
+        boxShadow: "unset",
+        backgroundColor: (theme) => theme.palette.grey[300]
+            
       }}
+
+      boxShadow={true}
     >
       <CssBaseline />
       <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">

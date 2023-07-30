@@ -4,16 +4,12 @@ import { getAllAdPlacement } from "../../Axios/adPlacementAxios"
 import { setAdPlacement } from "../../redux/actions/AdPlacemenrsActions"
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Button from '@mui/material/Button';
+import { Alert, AlertTitle, Grid } from "@mui/material";
 
 
 export const Places = (props) => {
@@ -50,7 +46,11 @@ export const Places = (props) => {
                     </Button>
                 ))
             }
-
+            <Grid item xs={12} textAlign='left'>
+                <Alert severity="info" className="my-3">
+                    <AlertTitle>Info</AlertTitle>
+                    Selecting an ad placement is a preference presentation only, the system has no obligation to the requested placement!                </Alert>
+            </Grid>
         </div>
     )
 }
