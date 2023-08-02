@@ -125,7 +125,7 @@ export const AdvertisingOrder = () => {
     // משתנה שמחזיק מערך של פרטי הזמנה
     const [arrOrderdetails, setArrOrderDetails] = useState([])
     // משתנה שמחזיק תאריכים של פרטי ההזמנה
-    const [dates, setDates] = useState([])
+    const [date, setDate] = useState()
     // משתנה שמחזיק את מערך של תאריכים של פרטי ההזמנה
     const [arrDates, setArrDates] = useState([])
     // משתנה שאומר האם להציג את ההודאת לפני התשלום
@@ -172,14 +172,19 @@ export const AdvertisingOrder = () => {
     const choosePlace = (id) => {
         setActiveNext(true)
         setOrderDetail({ ...orderdetail, placeId: id })
-        console.log(arrOrderdetails);
     }
 
+    // // פונקציה לבחירת תאריכי פרסומת
+    // const chooseDates = (arr) => {
+    //     setActiveNext(true)
+    //     setDates(arr)
+    // }
+
     // פונקציה לבחירת תאריכי פרסומת
-    const chooseDates = (arr) => {
+    const chooseFirstDateAndDuration = (date, duration) => {
         setActiveNext(true)
-        setDates(arr)
-        console.log(dates);
+        setOrderDetail({ ...orderdetail, adDuration: duration })
+        setDate(date)
     }
 
     // פונקציה לבחירת תמונה פרסומת
@@ -197,7 +202,7 @@ export const AdvertisingOrder = () => {
 
         // הוספת תאריכים
         let arr2 = [...arrDates]
-        arr2.push(dates)
+        arr2.push(date)
         setArrDates([...arr2])
 
         setOrderDetail({})
@@ -214,7 +219,7 @@ export const AdvertisingOrder = () => {
 
         // הוספת תאריכים
         let arr2 = [...arrDates]
-        arr2.push(dates)
+        arr2.push(date)
         setArrDates([...arr2])
 
         dispatch(setOrderDetailsOfAds([...arr1]))
@@ -225,8 +230,8 @@ export const AdvertisingOrder = () => {
     // מערך שמכיל קומפוננטות של צעדים ושמות שלהם להצגה
     const steps = [
         { label: 'Size selection', description: <Sizes chooseSize={chooseSize} /> },
-        { label: 'Location selection', description: <Places choosePlace={choosePlace} size={orderdetail.sizeId}/> },
-        { label: 'Publication date', description: <Dates chooseDates={chooseDates} /> },
+        { label: 'Location selection', description: <Places choosePlace={choosePlace} size={orderdetail.sizeId} /> },
+        { label: 'Publication date', description: <Dates chooseFirstDateAndDuration={chooseFirstDateAndDuration} /> },
         { label: 'upload an ad', description: <UpLoad chooseImage={chooseImage} /> }
     ];
 

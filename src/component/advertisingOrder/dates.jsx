@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useState } from "react";
 
@@ -32,7 +32,9 @@ export const Dates = (props) => {
             dt = new Date(dt.getTime() + 7 * 24 * 60 * 60 * 1000)
         }
         setArrDates(arr)
-        props.chooseDates(arr)
+        dt = new Date(today.getTime() + daysUntilNextDay * 24 * 60 * 60 * 1000)
+        formatedTime = dt.getFullYear() + '-' + appendLeadingZeros((dt.getMonth() + 1)) + '-' + appendLeadingZeros(dt.getDate())
+        props.chooseFirstDateAndDuration(formatedTime, num)
     }
 
     return (
