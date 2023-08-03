@@ -11,12 +11,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { MANAGER_PASSWODR, MANAGER_EMAIL } from '../config'
 import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-import { setCustomer, setManager } from '../redux/actions/CustomersActions';
+import { setCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { saveToCookies } from '../cookiesUtils';
 
 const defaultTheme = createTheme();
 
@@ -34,16 +33,10 @@ export const SignIn = () => {
     const data = new FormData(event.currentTarget);
     let email = data.get('email') !== "" ? data.get('email') : "null"
     let password = data.get('password') !== "" ? data.get('password') : "null"
-    if (email === MANAGER_EMAIL && password === MANAGER_PASSWODR) {
-      dispatch(setManager(true))
-      navigate('/')
-      return
-    }
     getCustomerByEmailAndPass(email, password).then(res => {
       if (res.data !== "") {
-        Cookies.set("currentUser", JSON.stringify(res.data), { expires: 2 }) // 7 המידע נשמר 7 ימים בעוגיה
         dispatch(setCustomer(res.data))
-        dispatch(setManager(false))
+        saveToCookies("currentUser", res.data, 2)
         navigate('/')
       }
       else {

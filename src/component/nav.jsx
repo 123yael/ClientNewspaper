@@ -18,7 +18,9 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { setCustomer, setManager } from '../redux/actions/CustomersActions';
+import { setCustomer } from '../redux/actions/CustomersActions';
+import { MANAGER_EMAIL, MANAGER_PASSWODR } from '../config';
+import { getFromCookies, removeFromCookies } from '../cookiesUtils';
 
 
 
@@ -39,31 +41,26 @@ export const Nav = () => {
     const [mobileOpen, setMobileOpen] = useState(false)
 
     const dispatch = useDispatch()
+
     useEffect(() => {
         let currentUser = Cookies.get("currentUser")
-        console.log(currentUser);
         if (Cookies.get("currentUser") !== undefined)
             dispatch(setCustomer(JSON.parse(currentUser)))
     }, [])
 
-    let isManager = useSelector(i => i.CustomersReducer.isManager)
     let customer = useSelector(i => i.CustomersReducer.customer)
 
     useEffect(() => {
-        if (isManager) {
-            setLinks([...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails'])
-            setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'All Advertisments Details'])
-        }
-    }, [isManager])
-
-
-    useEffect(() => {
-        debugger
-        const value = Cookies.get("currentUser")
-        const value2 = (value !== undefined) ? JSON.parse(value) : ""
-        if (customer.custId !== undefined || value2.custId !== undefined) {
-            setLinks([...BASELINKS, 'advertisingOrder', 'boardAd'])
-            setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad'])
+        const custFromCookies = getFromCookies("currentUser")
+        if (custFromCookies !== null) {
+            if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR) {
+                setLinks([...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails'])
+                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'All Advertisments Details'])
+            }
+            else {
+                setLinks([...BASELINKS, 'advertisingOrder', 'boardAd'])
+                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad'])
+            }
         }
     }, [customer])
 
@@ -78,8 +75,7 @@ export const Nav = () => {
     }
 
     const signOut = () => {
-        Cookies.remove("currentUser")
-        dispatch(setManager(false))
+        removeFromCookies("currentUser")
         dispatch(setCustomer({}))
         setLinks([...BASELINKS])
         setNavItems([...BASENAVITEMS])

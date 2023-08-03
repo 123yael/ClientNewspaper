@@ -10,13 +10,20 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
+import { signUp } from '../Axios/customerAxios';
+import { useDispatch } from 'react-redux';
+import { setCustomer } from '../redux/actions/CustomersActions';
+import { saveToCookies } from '../cookiesUtils';
 
 
 const defaultTheme = createTheme();
 
 export const SignUp = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,6 +32,25 @@ export const SignUp = () => {
       email: data.get('email'),
       password: data.get('password'),
     });
+    let newCust = {
+      custFirstName: data.get('firstName'),
+      custLastName: data.get('lastName'),
+      custEmail: data.get('email'),
+      custPhone: data.get('phone'),
+      custPassword: data.get('password'),
+    }
+
+    signUp(newCust).then(res => {
+      dispatch(setCustomer(res.data))
+      saveToCookies("currentUser", JSON.stringify(res.data), 2)
+      navigate('/')
+    }).catch(err => {
+      debugger
+      if (err.response.status === 409)
+        alert("Email already exists")
+      else if (err.response.status === 500)
+        alert("Server error");
+    })
   };
 
   return (

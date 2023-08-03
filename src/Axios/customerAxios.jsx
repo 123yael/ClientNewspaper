@@ -10,3 +10,7 @@ export const getIdByCustomer = (cust) => {
 export const getCustomerByEmailAndPass = (email, pass) => {
     return axios.get(`${path}/Customer/GetCustomerByEmailAndPass/${email}/${pass}`)
 }
+
+export const signUp = (cust) => {
+    return axios.post(`${path}/Customer/SignUp`, cust)
+}
