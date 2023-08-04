@@ -91,7 +91,7 @@ export const BoardAd = () => {
         if (category !== '' && content !== '' && myData !== '') {
             let obj = { wordCategoryId: category, adContent: content, placeId: 1 }
             dispatch(setOrderDetailsOfAds([obj]))
-            dispatch(setDatesOfAd([[myData]]))
+            dispatch(setDatesOfAd([myData]))
             navigate('/payment')
         }
     }

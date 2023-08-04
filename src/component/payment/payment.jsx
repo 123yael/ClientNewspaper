@@ -10,6 +10,7 @@ import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { useNavigate } from 'react-router-dom';
+import { getFromCookies } from '../../cookiesUtils';
 
 
 const defaultTheme = createTheme();
@@ -31,7 +32,7 @@ export const Payment = () => {
     // חילוץ רשימת תאריכים הזמנות מהרדוסר
     let listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
 
-    let customer = useSelector(u => u.CustomersReducer.customer)
+    let customer = getFromCookies("currentUser")
 
     // פונקציה לסיום הזמנה
     const finishOrder = (e) => {
@@ -45,7 +46,6 @@ export const Payment = () => {
         else
             for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
                 let temp = listOrderDetailsFromRedux[i].adFile
-                console.log(temp);
                 handleImageUpload(temp)
                     .then((response) => {
                         console.log(response);

@@ -8,5 +8,6 @@ export const finishOrderAxios = (order) => {
 }
 
 export const finishOrderAdWordsAxios = (order) => {
+    debugger
     return axios.post(`${path}/Order/FinishOrderAdWords`, order)
 }
