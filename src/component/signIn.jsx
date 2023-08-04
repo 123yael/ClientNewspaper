@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
-import { setCustomer } from '../redux/actions/CustomersActions';
+import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { saveToCookies } from '../cookiesUtils';
 
@@ -35,7 +35,7 @@ export const SignIn = () => {
     let password = data.get('password') !== "" ? data.get('password') : "null"
     getCustomerByEmailAndPass(email, password).then(res => {
       if (res.data !== "") {
-        dispatch(setCustomer(res.data))
+        dispatch(setIsExistsCustomer(true))
         saveToCookies("currentUser", res.data, 2)
         navigate('/')
       }

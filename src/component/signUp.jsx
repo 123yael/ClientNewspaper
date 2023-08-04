@@ -14,7 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import { signUp } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
-import { setCustomer } from '../redux/actions/CustomersActions';
+import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { saveToCookies } from '../cookiesUtils';
 
 
@@ -41,8 +41,8 @@ export const SignUp = () => {
     }
 
     signUp(newCust).then(res => {
-      dispatch(setCustomer(res.data))
-      saveToCookies("currentUser", JSON.stringify(res.data), 2)
+      dispatch(setIsExistsCustomer(true))
+      saveToCookies("currentUser", res.data, 2)
       navigate('/')
     }).catch(err => {
       debugger

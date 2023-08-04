@@ -1,5 +1,5 @@
 
 
-export const setCustomer = (value) => {
-    return { type: 'SET-CUSTOMER', payload: value }
+export const setIsExistsCustomer = (value) => {
+    return { type: 'SET-IS-EXISTS-CUSTOMER', payload: value }
 }

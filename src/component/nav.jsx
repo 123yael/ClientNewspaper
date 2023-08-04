@@ -18,7 +18,7 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { setCustomer } from '../redux/actions/CustomersActions';
+import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { MANAGER_EMAIL, MANAGER_PASSWODR } from '../config';
 import { getFromCookies, removeFromCookies } from '../cookiesUtils';
 
@@ -43,12 +43,11 @@ export const Nav = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        let currentUser = Cookies.get("currentUser")
         if (Cookies.get("currentUser") !== undefined)
-            dispatch(setCustomer(JSON.parse(currentUser)))
+            dispatch(setIsExistsCustomer(true))
     }, [])
 
-    let customer = useSelector(i => i.CustomersReducer.customer)
+    let isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
 
     useEffect(() => {
         const custFromCookies = getFromCookies("currentUser")
@@ -62,7 +61,12 @@ export const Nav = () => {
                 setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad'])
             }
         }
-    }, [customer])
+        else {
+            setLinks([...BASELINKS])
+            setNavItems([...BASENAVITEMS])
+        }
+
+    }, [isChangeCustomer])
 
     // פונקציה שמשנה את מצב המשתנה שאומר האם לפתוח תפריט צדדי
     const handleDrawerToggle = () => {
@@ -76,9 +80,7 @@ export const Nav = () => {
 
     const signOut = () => {
         removeFromCookies("currentUser")
-        dispatch(setCustomer({}))
-        setLinks([...BASELINKS])
-        setNavItems([...BASENAVITEMS])
+        dispatch(setIsExistsCustomer(false))
     }
 
     // זהו משתנה שמכיל את התפריט שנפתח כאשר המסך קטן

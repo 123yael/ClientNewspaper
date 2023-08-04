@@ -1,12 +1,12 @@
 import produce from 'immer'
 
 const CustomersState = {
-    customer: {},
+    isExistsCustomer: {},
 }
 
 const CustomersReducer = produce((state, action) => {
     switch (action.type) {
-        case 'SET-CUSTOMER': state.customer = {...action.payload};
+        case 'SET-IS-EXISTS-CUSTOMER': state.isExistsCustomer = {...action.payload};
             break;
         default:
             break;
