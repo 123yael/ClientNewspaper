@@ -1,5 +1,5 @@
-import { Alert, AlertTitle, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, Typography, createTheme } from "@mui/material"
-
+import * as React from 'react';
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from "@mui/material"
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,12 +10,34 @@ import { useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { setDatesOfAd, setOrderDetailsOfAds } from "../redux/actions/OrderDetailsActions";
-
-
+import * as yup from 'yup';
+import { ErrorMessage, useFormik } from 'formik';
 
 const defaultTheme = createTheme();
 
+const validationSchema = yup.object({
+    category: yup
+        .string('Enter your category')
+        .required('Category is required'),
+    date: yup
+        .string('Enter your date')
+        .required('Date is required'),
+    content: yup
+        .string('Enter your content')
+        .min(30, 'Content must be at least 30 characters')
+        .required('Content is required'),
+    duration: yup
+        .number('Enter your duration')
+        .required('Duration is required'),
+});
+
 export const BoardAd = () => {
+
+    const formik = useFormik({
+        initialValues: { category: '', date: '', content: '', duration: '' },
+        validationSchema: validationSchema,
+        onSubmit: (values) => { handleBeyondPayment(values) },
+    });
 
     const navigate = useNavigate()
 
@@ -31,37 +53,7 @@ export const BoardAd = () => {
     // חילןץ רשימת תתי מודעות לוח מהרדוסר
     const boardAdTopics = useSelector(w => w.WordAdSubCategoryReducer.list)
 
-    const [category, setCategory] = useState('')
-    const [myData, setMyDate] = useState('')
-    const [content, setContent] = useState('')
-    const [isValid1, setIsValid1] = useState(true)
-    const [isValid2, setIsValid2] = useState(true)
     const [arrDates, setArrDates] = useState([])
-
-    const changeIsValid1 = () => {
-        setIsValid1(false)
-    }
-
-    const changeIsValid2 = () => {
-        setIsValid2(false)
-    }
-
-
-    const handleChangeCategory = (event) => {
-        setCategory(event.target.value)
-    }
-
-    const handleChangeDate = (event) => {
-        setMyDate(event.target.value)
-    }
-
-    const addContent = (event) => {
-        setContent(event.target.value)
-        if (event.target.value === '')
-            event.target.style.border = "1px solid red"
-        else
-            event.target.style.border = "none"
-    }
 
     // פונקציה להוספת אפס עבור מספר בודד
     const appendLeadingZeros = (int) => {
@@ -84,16 +76,11 @@ export const BoardAd = () => {
         setArrDates(arr)
     }
 
-    // פונקצית מעבר לתשלום
-    const beyondPayment = (event) => {
-        event.preventDefault()
-        debugger
-        if (category !== '' && content !== '' && myData !== '') {
-            let obj = { wordCategoryId: category, adContent: content, placeId: 1 }
-            dispatch(setOrderDetailsOfAds([obj]))
-            dispatch(setDatesOfAd([myData]))
-            navigate('/payment')
-        }
+    const handleBeyondPayment = (values) => {
+        let obj = { wordCategoryId: values.category, adContent: values.content, placeId: 1, adDuration: values.duration }
+        dispatch(setOrderDetailsOfAds([obj]))
+        dispatch(setDatesOfAd([values.date]))
+        navigate('/payment')
     }
 
     return (
@@ -115,47 +102,84 @@ export const BoardAd = () => {
                         <Typography component="h1" variant="h5">
                             board ad
                         </Typography>
-                        <Box component="form" noValidate onSubmit={beyondPayment} sx={{ mt: 3 }}>
+                        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    <FormControl fullWidth error={!isValid1 && category === ''} onClick={() => changeIsValid1()}>
-                                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="category"
-                                            value={category}
-                                            label="Category"
-                                            onChange={handleChangeCategory}
-                                        >
-                                            {
-                                                boardAdTopics.map(b => (
-                                                    <MenuItem key={b.wordCategoryId} value={b.wordCategoryId}>{b.wordCategoryName}</MenuItem>
-                                                ))
-                                            }
-                                        </Select>
-                                    </FormControl>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        select
+                                        labelId="select-category"
+                                        id="category"
+                                        name="category"
+                                        label="Category"
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        helperText={formik.touched.category && formik.errors.category}
+                                        fullWidth
+                                        error={formik.touched.category && Boolean(formik.errors.category)}
+                                        value={formik.values.category}
+                                    >
+                                        {boardAdTopics.map((b) => (
+                                            <MenuItem key={b.wordCategoryId} value={b.wordCategoryId}>
+                                                {b.wordCategoryName}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <FormControl fullWidth error={!isValid2 && myData === ''} onClick={() => changeIsValid2()}>
-                                        <InputLabel id="demo-simple-select-label">Date</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="myData"
-                                            value={myData}
-                                            label="Date"
-                                            onChange={handleChangeDate}
-                                        >
-                                            {
-                                                arrDates.map((d, i) => (
-                                                    <MenuItem key={i} value={d}>{d}</MenuItem>
-                                                ))
-                                            }
-                                        </Select>
-                                    </FormControl>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        select
+                                        fullWidth
+                                        error={formik.touched.date && Boolean(formik.errors.date)}
+                                        value={formik.values.date}
+                                        helperText={formik.touched.date && formik.errors.date}
+                                        labelId="select-date"
+                                        id="date"
+                                        name="date"
+                                        label="Date"
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                    >
+                                        {arrDates.map((d, i) => (
+                                            <MenuItem key={i} value={d}>{d}</MenuItem>
+                                        ))}
+                                    </TextField>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        select
+                                        fullWidth
+                                        error={formik.touched.duration && Boolean(formik.errors.duration)}
+                                        value={formik.values.duration}
+                                        helperText={formik.touched.duration && formik.errors.duration}
+                                        labelId="select-duration"
+                                        id="duration"
+                                        name="duration"
+                                        label="Duration"
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                    >
+                                        {[1, 2, 3, 4, 5].map((d) => (
+                                            <MenuItem key={d} value={d}>{d}</MenuItem>
+                                        ))}
+                                    </TextField>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <h5 className="float-start my-3">Enter the content of the ad</h5>
-                                    <textarea className="form-control" rows="5" id="content" name="text" onChange={addContent}></textarea>
+                                    <TextField
+                                        fullWidth
+                                        error={formik.touched.content && Boolean(formik.errors.content)}
+                                        helperText={formik.touched.content && formik.errors.content}
+                                        value={formik.values.content}
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        id="content"
+                                        label="Content"
+                                        multiline
+                                        rows={4}
+                                        defaultValue="Default Value"
+                                        name="content"
+                                        aria-describedby='helper-content'
+                                    />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Alert severity="info" className="my-3">

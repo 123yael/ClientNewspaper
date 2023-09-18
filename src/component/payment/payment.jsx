@@ -10,11 +10,38 @@ import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { useNavigate } from 'react-router-dom';
 import { getFromCookies } from '../../cookiesUtils';
-
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 const defaultTheme = createTheme();
 
+const validationSchema = yup.object({
+    name: yup
+        .string('Enter your name')
+        .required('Name is required'),
+    card: yup
+        .string('Enter your card number')
+        .min(16, 'Number of card must 16 numbers')
+        .max(16, 'Number of card must 16 numbers')
+        .required('Card number is required'),
+    expireOn: yup
+        .date('Enter your expireOn')
+        .min(new Date(), 'The card has expired')
+        .required('ExpireOn is required'),
+    cvv: yup
+        .string('Enter your cvv')
+        .min(3, 'Cvv must 3 characters')
+        .max(3, 'Cvv must 3 characters')
+        .required('Cvv is required'),
+});
+
 export const Payment = () => {
+
+    const formik = useFormik({
+        initialValues: { name: '', card: '', expireOn: '', cvv: '' },
+        validationSchema: validationSchema,
+        onSubmit: (values) => { finishOrder(values) },
+    });
 
     let navigate = useNavigate()
 
@@ -34,8 +61,7 @@ export const Payment = () => {
     let customer = getFromCookies("currentUser")
 
     // פונקציה לסיום הזמנה
-    const finishOrder = (e) => {
-        e.preventDefault()
+    const finishOrder = (values) => {
 
         let listTempOD = []
 
@@ -63,19 +89,15 @@ export const Payment = () => {
 
         if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
             finishOrderAxios(finishOrder).then(res => {
-                debugger
-                console.log(res);
                 navigate('/')
             }).catch(err => {
-                console.log(err);
+                console.error(err);
             })
         else
             finishOrderAdWordsAxios(finishOrder).then(res => {
-                debugger
-                console.log(res);
                 navigate('/')
             }).catch(err => {
-                console.log(err);
+                console.error(err);
             })
 
         window.alert("The order was successfully placed")
@@ -101,23 +123,47 @@ export const Payment = () => {
                         <Typography component="h1" variant="h5">
                             Payment
                         </Typography>
-                        <Box component="form" noValidate onSubmit={finishOrder} sx={{ mt: 3 }}>
+                        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <h5 className="float-start my-3">Enter name on card</h5>
-                                    <TextField id="outlined-multiline-flexible" label="Name" fullWidth />
+                                    <TextField id="name" type={"text"} label="Name" fullWidth
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        helperText={formik.touched.name && formik.errors.name}
+                                        error={formik.touched.name && Boolean(formik.errors.name)}
+                                        value={formik.values.name}
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter num of card</h5>
-                                    <TextField id="outlined-multiline-flexible" label="1111-2222-3333-4444" fullWidth />
+                                    <h5 className="float-start my-3">Enter number of card</h5>
+                                    <TextField id="card" type={"text"} label="Number of card" fullWidth
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        helperText={formik.touched.card && formik.errors.card}
+                                        error={formik.touched.card && Boolean(formik.errors.card)}
+                                        value={formik.values.card}
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter exp date</h5>
-                                    <TextField id="outlined-multiline-flexible" type={"month"} views={['month', 'year']} fullWidth />
+                                    <h5 className="float-start my-3">Enter expireOn date</h5>
+                                    <TextField id="expireOn" type={"month"} fullWidth
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        helperText={formik.touched.expireOn && formik.errors.expireOn}
+                                        error={formik.touched.expireOn && Boolean(formik.errors.expireOn)}
+                                        value={formik.values.expireOn}
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <h5 className="float-start my-3">Enter CVV</h5>
-                                    <TextField id="outlined-multiline-flexible" type={"number"} label="CVV" fullWidth />
+                                    <TextField id="cvv" type={"number"} label="CVV" fullWidth
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        helperText={formik.touched.cvv && formik.errors.cvv}
+                                        error={formik.touched.cvv && Boolean(formik.errors.cvv)}
+                                        value={formik.values.cvv}
+                                    />
                                 </Grid>
                                 <Grid item xs={12} textAlign='left'>
                                     <Alert severity="info" className="my-3">
