@@ -12,7 +12,6 @@ import { LogIn } from "./logIn";
 import { SignIn } from "./signIn";
 import { MagazineClosing } from "./magazineClosing";
 import { SignUp } from "./signUp";
-import Flipbook from "./show/Flipbook";
 import { ManagerDetails } from "./managerDetails";
 
 export const Routings = () => {
@@ -30,7 +29,6 @@ export const Routings = () => {
                 <Route path="signUp" element={<SignUp />}></Route>
                 <Route path="signIn" element={<SignIn />}></Route>
                 <Route path="magazineClosing" element={<MagazineClosing />}></Route>
-                <Route path="flipbook" element={<Flipbook />}></Route>
                 <Route path="managerDetails" element={<ManagerDetails/>}></Route>
             </Route>
             <Route path="*" element={<NotFound />} />

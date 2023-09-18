@@ -10,9 +10,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Alert, AlertTitle, Grid } from "@mui/material";
+import { PALLETE, SERVER_NAME } from "../../config";
 
 
 export const Places = (props) => {
+
+    const [color, setColor] = React.useState()
+    const [place, setPlace] = React.useState()
 
     const dispatch = useDispatch()
 
@@ -28,16 +32,16 @@ export const Places = (props) => {
         <div>
             {
                 listPlaces.map((p, i) => (
-                    <Button key={i} sx={{ display: 'inline-block', margin: '1rem', width: '20rem' }} onClick={() => props.choosePlace(p.placeId)} className="text-dark bg-light">
-                        <Card key={p.placeId}>
+                    <Button key={i} sx={{ display: 'inline-block', margin: '1rem', width: '20rem' }} onClick={() => {setColor(PALLETE.LIGHT_GRAY); setPlace(p.placeId); props.choosePlace(p.placeId)}} className="text-dark bg-light">
+                        <Card key={p.placeId} sx={{backgroundColor: place === p.placeId ? color : PALLETE.WHITE}}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
                                     {p.placeName}
                                 </Typography>
                                 <CardMedia
                                     component="img"
-                                    sx={{ width: 151 }}
-                                    image="../pic/Research paper.gif"
+                                    sx={{ width: 151, borderRadius: "10px"}}
+                                    image={`${SERVER_NAME}/${p.img}`}
                                     alt="Research paper"
                                     className="mx-auto"
                                 />

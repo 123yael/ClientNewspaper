@@ -45,7 +45,7 @@ export const Contact = () => {
                     <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
                         <EmailIcon></EmailIcon>{' '}malkin.yaeli@gmail.com
                     </Typography>
-                    <Box paddingX={5} textAlign="start">Phone:</Box>
+                    <Box paddingX={5} marginTop={1} textAlign="start">Phone:</Box>
                     <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
                         <PhoneIcon></PhoneIcon>{' '}053-313-37-62
                     </Typography>

@@ -16,28 +16,54 @@ import { signUp } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { saveToCookies } from '../cookiesUtils';
-
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 const defaultTheme = createTheme();
 
+const validationSchema = yup.object({
+  firstName: yup
+    .string('Enter your firstName')
+    .max(20, 'You cannot enter more than 20 letters')
+    .required('Email is required'),
+  lastName: yup
+    .string('Enter your lastName')
+    .max(20, 'You cannot enter more than 20 letters')
+    .required('Email is required'),
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  phone: yup
+    .string('Enter your phone')
+    .min(7, 'Phone should be of minimum 7 characters length')
+    .max(10, 'You cannot enter more than 10 letters')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .max(20, 'You cannot enter more than 20 letters')
+    .required('Password is required'),
+});
+
 export const SignUp = () => {
+
+  const formik = useFormik({
+    initialValues: { firstName: '', lastName: '', email: '', phone: '', password: '', },
+    validationSchema: validationSchema,
+    onSubmit: (values) => { handleSubmit(values) },
+  });
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const handleSubmit = (values) => {
     let newCust = {
-      custFirstName: data.get('firstName'),
-      custLastName: data.get('lastName'),
-      custEmail: data.get('email'),
-      custPhone: data.get('phone'),
-      custPassword: data.get('password'),
+      custFirstName: values.firstName,
+      custLastName: values.lastName,
+      custEmail: values.email,
+      custPhone: values.phone,
+      custPassword: values.password,
     }
 
     signUp(newCust).then(res => {
@@ -45,7 +71,6 @@ export const SignUp = () => {
       saveToCookies("currentUser", res.data, 2)
       navigate('/')
     }).catch(err => {
-      debugger
       if (err.response.status === 409)
         alert("Email already exists")
       else if (err.response.status === 500)
@@ -71,13 +96,18 @@ export const SignUp = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
+                  value={formik.values.firstName}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+
                   autoComplete="given-name"
                   name="firstName"
-                  required
                   fullWidth
                   id="firstName"
                   label="First Name"
@@ -85,7 +115,11 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  value={formik.values.lastName}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
                   fullWidth
                   id="lastName"
                   label="Last Name"
@@ -95,7 +129,11 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  value={formik.values.email}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -105,7 +143,11 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  error={formik.touched.phone && Boolean(formik.errors.phone)}
+                  helperText={formik.touched.phone && formik.errors.phone}
+                  value={formik.values.phone}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
                   fullWidth
                   name="phone"
                   label="phone"
@@ -116,7 +158,11 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                  value={formik.values.password}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
                   fullWidth
                   name="password"
                   label="Password"
@@ -142,8 +188,9 @@ export const SignUp = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
+                Already have an account? {" "}
                 <Link to='/signIn'>
-                  Already have an account? Sign in
+                  Sign in
                 </Link>
               </Grid>
             </Grid>

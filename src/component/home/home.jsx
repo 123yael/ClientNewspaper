@@ -7,8 +7,6 @@ export const Home = () => {
     const navigate = useNavigate()
 
     const toMain = () => {
-        debugger
-        console.log("i rnter");
         navigate('/about')
     }
 

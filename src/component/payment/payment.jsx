@@ -1,5 +1,4 @@
 import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from '@mui/material'
-import './payment.css'
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -37,7 +36,6 @@ export const Payment = () => {
     // פונקציה לסיום הזמנה
     const finishOrder = (e) => {
         e.preventDefault()
-        debugger
 
         let listTempOD = []
 
@@ -79,6 +77,8 @@ export const Payment = () => {
             }).catch(err => {
                 console.log(err);
             })
+
+        window.alert("The order was successfully placed")
 
     }
 

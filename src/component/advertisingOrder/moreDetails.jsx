@@ -4,6 +4,8 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import { Alert, AlertTitle, Box, Button, Dialog } from '@mui/material';
+import { PALLETE } from '../../config';
 
 
 // הכותרת עם ה x
@@ -32,24 +34,44 @@ const BootstrapDialogTitle = (props) => {
 
 export const MoreDetails = (props) => {
     return (
-        <div>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={props.hc}>
+        <Dialog
+            open={props.open}
+            onClose={props.handleClose}
+            aria-labelledby="customized-dialog-title"
+            maxWidth={'sm'}
+            fullWidth
+        >
+            <Box display="flex"
+                marginBottom={1}
+                justifyContent="flex-end"
+            >
+                <Button
+                    aria-label="close"
+                    onClick={props.handleClose}
+                    sx={{ color: PALLETE.DARK_GRAY }}
+                >
+                    <CloseIcon />
+                </Button>
+            </Box>
+
+            <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
                 {props.size.sizeName}
-            </BootstrapDialogTitle>
+            </DialogTitle>
             <DialogContent dividers>
                 <Typography gutterBottom>
-                    פה צריך להציג נתונים נוספים של גודל הפרסומת
+                    Width: {props.size.sizeWidth * 25}cm
                 </Typography>
                 <Typography gutterBottom>
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                    Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                    Height: {props.size.sizeHeight * 50}cm
                 </Typography>
                 <Typography gutterBottom>
-                    Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                    magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor fringilla.
+                    Price: {props.size.sizePrice}$
                 </Typography>
+                <Alert severity="info" className="my-3">
+                    <AlertTitle>Info</AlertTitle>
+                    The accuracy in the measurements is important, an ad with inappropriate sizes will automatically become the desired size without responsibility for the result!
+                </Alert>
             </DialogContent>
-        </div>
+        </Dialog>
     )
 }

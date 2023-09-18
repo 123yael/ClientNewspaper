@@ -16,36 +16,52 @@ import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { saveToCookies } from '../cookiesUtils';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 const defaultTheme = createTheme();
 
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .max(20, 'You cannot enter more than 20 letters')
+    .required('Password is required'),
+});
+
 export const SignIn = () => {
+
+  const formik = useFormik({
+    initialValues: { email: '', password: '', },
+    validationSchema: validationSchema,
+    onSubmit: (values) => { handleSignIn(values) },
+  });
 
   let dispatch = useDispatch()
 
-  // משתמש למעבר בין הקומפוננטות
   const navigate = useNavigate()
   const location = useLocation()
 
-  // פונקציה להתחברות למערכת
-  const connect = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget);
-    let email = data.get('email') !== "" ? data.get('email') : "null"
-    let password = data.get('password') !== "" ? data.get('password') : "null"
-    getCustomerByEmailAndPass(email, password).then(res => {
+  const handleSignIn = (values) => {
+
+    getCustomerByEmailAndPass(values.email, values.password).then(res => {
       if (res.data !== "") {
         dispatch(setIsExistsCustomer(true))
         saveToCookies("currentUser", res.data, 2)
         navigate('/')
       }
       else {
-        let res = window.confirm('אינך קיים במערכת, אשר עבור מעבר להרשמה')
+        let res = window.confirm('You do not exist in the system, please proceed to registration')
         if (res)
           navigate('/signUp')
       }
     })
   }
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -65,10 +81,14 @@ export const SignIn = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={connect} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
             <TextField
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               margin="normal"
-              required
               fullWidth
               id="email"
               label="Email Address"
@@ -76,8 +96,12 @@ export const SignIn = () => {
               autoComplete="email"
             />
             <TextField
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              value={formik.values.password}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"
@@ -99,8 +123,9 @@ export const SignIn = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
+                Don't have an account? {" "}
                 <Link to="/signUp">
-                  Don't have an account? Sign Up
+                  Sign Up
                 </Link>
               </Grid>
             </Grid>

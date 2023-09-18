@@ -10,7 +10,8 @@ import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { Dialog, DialogTitle, IconButton, Toolbar, styled } from '@mui/material';
 import { MoreDetails } from './moreDetails';
 import CloseIcon from '@mui/icons-material/Close';
-import { SERVER_NAME } from '../../config';
+import { PALLETE, SERVER_NAME } from '../../config';
+import { Loading } from '../loading/loading';
 
 
 function BootstrapDialogTitle(props) {
@@ -53,6 +54,8 @@ export const Sizes = (props) => {
 
     const [open, setOpen] = React.useState(false);
     const [size, setSize] = React.useState();
+    const [sizeId, setSizeId] = React.useState();
+    const [color, setColor] = React.useState(PALLETE.WHITE);
 
 
     const handleClickOpen = (s) => {
@@ -86,21 +89,19 @@ export const Sizes = (props) => {
                                 <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
                             </CardContent>
                             <div className='pb-3 px-3 m-0 row'>
-                                <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => props.chooseSize(s.sizeId)}>choose size</Button>
+                                <Button className='col-5' variant="outlined" sx={{backgroundColor: index === sizeId? color : "#fff"}} color="inherit" size="medium" onClick={() => {setColor(PALLETE.PINK); setSizeId(index); props.chooseSize(s.sizeId)}}>choose size</Button>
                                 <div className='col-2'></div>
-                                <Button className='col-5 bg-light' variant="outlined" color="inherit" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
+                                <Button className='col-5' variant="outlined" color="inherit" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
                             </div>
                         </Card>
                     ))
                 ) : (
-                    <Typography variant="h5">Loading...</Typography>
+                    <Typography variant="h5"><Loading></Loading></Typography>
                 )
             }
 
-            {/* המודל שהולך להיפתח */}
-            <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} >
-                <MoreDetails size={size} hc={handleClose}></MoreDetails>
-            </BootstrapDialog>
+            {open && <MoreDetails open={open} size={size} handleClose={handleClose}></MoreDetails>}
+
         </div >
 
     );
