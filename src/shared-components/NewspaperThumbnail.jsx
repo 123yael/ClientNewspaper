@@ -3,9 +3,10 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
-import { SERVER_NAME } from '../config';
+import { PALLETE, SERVER_NAME } from '../config';
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import PageFlip from "./pageFlip";
+import { Loading } from "../component/loading/loading";
 
 const NewspaperThumbnail = (props) => {
     const [listNewspapersPublished, setListNewspapersPublished] = useState([]);
@@ -14,9 +15,9 @@ const NewspaperThumbnail = (props) => {
         setListNewspapersPublished(props.listNewspapersPublished);
     }, [props]);
 
-    const selectProduct = (i) => {
+    const selectNewspaper = (i) => {
         setProductdetail(listNewspapersPublished[i]);
-        readPdf()
+        showNewspaper()
     }
 
     const [productDetail, setProductdetail] = useState({});
@@ -27,7 +28,7 @@ const NewspaperThumbnail = (props) => {
         setProductdetail(props.selectedProduct);
     }, [props]);
 
-    const readPdf = () => {
+    const showNewspaper = () => {
         handleShow();
     }
 
@@ -39,7 +40,7 @@ const NewspaperThumbnail = (props) => {
                         listNewspapersPublished.map((newspaper, index) => (
                             <Grid item xs={12} md={3} key={index} >
                                 <CardActionArea component="a"
-                                    onClick={() => selectProduct(index)}
+                                    onClick={() => selectNewspaper(index)}
                                     className='shadow shadow-3'>
                                     <CardMedia
                                         component="img"
@@ -58,7 +59,9 @@ const NewspaperThumbnail = (props) => {
                     }
                 </Grid>
             ) : (
-                <Typography variant="h5" marginTop={5}><div className="spinner-border text-dark"></div> Loading...</Typography>
+                <Typography variant="h5" marginTop={5}>
+                    <Loading></Loading>
+                </Typography>
             )}
 
 
@@ -70,7 +73,6 @@ const NewspaperThumbnail = (props) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 className="prdt-modal"
             >
-                <DialogTitle></DialogTitle>
                 <DialogContent className="prdt-mbody">
                     <PageFlip productDetail={productDetail} />
                 </DialogContent>

@@ -146,10 +146,8 @@ const NewspaperList = () => {
 
 
             {
-                productData && productData.length ? <div className="product-over-view">
-                    {selectedProduct && selectedProduct.newspaperId ? <ProductDetails selectedProduct={selectedProduct} /> :
-                        <NewspaperThumbnail listNewspapersPublished={productData} selectedData={selectedData} />}
-                </div> : <Typography variant="h5" marginTop={5}>
+                productData && productData.length ? <NewspaperThumbnail listNewspapersPublished={productData} selectedData={selectedData} />
+                : <Typography variant="h5" marginTop={5}>
                     <Loading></Loading>
                 </Typography>
             }
