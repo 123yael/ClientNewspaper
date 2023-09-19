@@ -19,7 +19,6 @@ const NewspaperList = () => {
 
     useEffect(() => {
         getAllNewspapersPublished().then(res => {
-            console.log(res.data)
             dispatch(setNewspapersPublished(res.data))
             setProductData(res.data)
         })
