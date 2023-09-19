@@ -9,7 +9,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import { signUp } from '../Axios/customerAxios';
@@ -18,8 +17,7 @@ import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { saveToCookies } from '../cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-
-const defaultTheme = createTheme();
+import { PALLETE } from '../config';
 
 const validationSchema = yup.object({
   firstName: yup
@@ -79,7 +77,7 @@ export const SignUp = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <div className='py-5 container'>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Box
@@ -90,7 +88,7 @@ export const SignUp = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar className='bg-primary p-4'>
+          <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
             <SensorOccupiedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -150,7 +148,7 @@ export const SignUp = () => {
                   onChange={formik.handleChange}
                   fullWidth
                   name="phone"
-                  label="phone"
+                  label="Phone"
                   type="tel"
                   id="phone"
                   autoComplete="phone"
@@ -189,7 +187,7 @@ export const SignUp = () => {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 Already have an account? {" "}
-                <Link to='/signIn'>
+                <Link to='/signIn' style={{ color: PALLETE.PURPLE }}>
                   Sign in
                 </Link>
               </Grid>
@@ -197,6 +195,6 @@ export const SignUp = () => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </div>
   );
 }

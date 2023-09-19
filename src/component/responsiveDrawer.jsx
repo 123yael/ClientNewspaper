@@ -37,8 +37,6 @@ export const ResponsiveDrawer = (props) => {
     setMobileOpen(!mobileOpen);
   };
 
-
-
   // מערך שמכיל את שמות האיכונים של ה nav הצדדי
   const icons = [<HomeRoundedIcon />, <RoundaboutLeftRoundedIcon />, <NewspaperRoundedIcon />, <ViewListRoundedIcon />, <SellRoundedIcon />, <ContactPageRoundedIcon />, <MarkUnreadChatAltRoundedIcon />]
   const labels = ['Home', 'About', 'Newspaper archive', 'Advertising Order', 'Prices', 'Contact Us', 'Board Ad']

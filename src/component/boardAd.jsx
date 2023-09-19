@@ -7,13 +7,11 @@ import { getAllWordAdSubCategories } from "../Axios/wordAdSubCategoriesAxios";
 import { setWordAdSubCategories } from "../redux/actions/WordAdSubCategoryActions";
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import { useNavigate } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { setDatesOfAd, setOrderDetailsOfAds } from "../redux/actions/OrderDetailsActions";
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-
-const defaultTheme = createTheme();
+import { PALLETE } from '../config';
 
 const validationSchema = yup.object({
     category: yup
@@ -60,19 +58,19 @@ export const BoardAd = () => {
         return (int < 10) ? '0' + int : int
     }
 
-    // פונקציה להצגת קלטים של תאריכים
-    const setInputs = () => {
-        let today = new Date()
-        let currentDay = today.getDay()
-        let daysUntilNextDay = (2 + 7 - currentDay) % 7
-        let dt = new Date(today.getTime() + daysUntilNextDay * 24 * 60 * 60 * 1000)
-        let formatedTime
-        let arr = []
-        for (let i = 0; i < 5; i++) {
-            formatedTime = dt.getFullYear() + '-' + appendLeadingZeros((dt.getMonth() + 1)) + '-' + appendLeadingZeros(dt.getDate())
-            arr.push(formatedTime)
-            dt = new Date(dt.getTime() + 7 * 24 * 60 * 60 * 1000)
+    const getNextTuesdays = (num) => {
+        var nextTuesdays = [];
+        var currentDate = new Date();
+        while (nextTuesdays.length < num) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            if (currentDate.getDay() === 2)
+                nextTuesdays.push(new Date(currentDate).toLocaleDateString('en-CA'));
         }
+        return nextTuesdays;
+    }
+
+    const setInputs = () => {
+        let arr = getNextTuesdays(5)
         setArrDates(arr)
     }
 
@@ -84,8 +82,8 @@ export const BoardAd = () => {
     }
 
     return (
-        <div className="mt-5">
-            <ThemeProvider theme={defaultTheme}>
+        <div className='py-5 container'>
+            <div className="mt-5">
                 <Container component="main" maxWidth="sm">
                     <CssBaseline />
                     <Box
@@ -96,7 +94,7 @@ export const BoardAd = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar className='bg-primary p-4'>
+                        <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
                             <DashboardCustomizeIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
@@ -200,7 +198,7 @@ export const BoardAd = () => {
                         </Box>
                     </Box>
                 </Container>
-            </ThemeProvider>
+            </div>
         </div>
     )
 }

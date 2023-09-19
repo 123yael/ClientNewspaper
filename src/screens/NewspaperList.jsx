@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import NewspaperThumbnail from "../shared-components/NewspaperThumbnail";
-import ProductDetails from "../shared-components/ProductDetails";
 import './NewspaperList.css';
 import { Box, Button, Grid, InputLabel, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNewspapersPublished } from "../Axios/newspapersPublishedAxios";
 import { setNewspapersPublished } from "../redux/actions/NewspapersPublishedActions";
-import { Loading } from "../component/loading/loading";
 
 const NewspaperList = () => {
 
-    const [productData, setProductData] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState();
+    const [newspapersData, setNewspapersData] = useState([]);
     const [date, setDate] = useState("");
     const [sheet, setSheet] = useState("");
 
@@ -20,14 +17,14 @@ const NewspaperList = () => {
     useEffect(() => {
         getAllNewspapersPublished().then(res => {
             dispatch(setNewspapersPublished(res.data))
-            setProductData(res.data)
+            setNewspapersData(res.data)
         })
     }, []);
 
     let listNewspapersPublished = useSelector(s => s.NewspapersPublishedReducer.list)
 
     const selectedData = (data) => {
-        setSelectedProduct(data);
+        setNewspapersData(data);
     }
 
     const onHandelInputChangeDate = (e) => {
@@ -41,11 +38,9 @@ const NewspaperList = () => {
         })
 
         if (tempData[0]) {
-            setProductData(tempData);
-            setSelectedProduct([]);
+            setNewspapersData(tempData);
         } else {
-            setProductData([]);
-            setSelectedProduct([]);
+            setNewspapersData([]);
         }
 
     }
@@ -61,11 +56,9 @@ const NewspaperList = () => {
         })
 
         if (tempData[0]) {
-            setProductData(tempData);
-            setSelectedProduct([]);
+            setNewspapersData(tempData);
         } else {
-            setProductData([]);
-            setSelectedProduct([]);
+            setNewspapersData([]);
         }
 
     }
@@ -83,11 +76,9 @@ const NewspaperList = () => {
         })
 
         if (tempData[0]) {
-            setProductData(tempData);
-            setSelectedProduct([]);
+            setNewspapersData(tempData);
         } else {
-            setProductData([]);
-            setSelectedProduct([]);
+            setNewspapersData([]);
         }
     }
 
@@ -143,13 +134,7 @@ const NewspaperList = () => {
                 </Grid>
             </form>
 
-
-            {
-                productData && productData.length ? <NewspaperThumbnail listNewspapersPublished={productData} selectedData={selectedData} />
-                : <Typography variant="h5" marginTop={5}>
-                    <Loading></Loading>
-                </Typography>
-            }
+            <NewspaperThumbnail listNewspapersPublished={newspapersData} selectedData={selectedData} />
 
         </div>
 

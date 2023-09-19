@@ -16,25 +16,23 @@ export const Dates = (props) => {
         return (int < 10) ? '0' + int : int
     }
 
-    // פונקציה להצגת קלטים של תאריכים
+    const getNextTuesdays = (num) => {
+        var nextTuesdays = [];
+        var currentDate = new Date();
+        while (nextTuesdays.length < num) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            if (currentDate.getDay() === 2)
+                nextTuesdays.push(new Date(currentDate).toLocaleDateString('en-CA'));
+        }
+        return nextTuesdays;
+    }
+
     const setInputs = (event) => {
         let num = event.target.value
         setCount(num)
-        let today = new Date()
-        let currentDay = today.getDay()
-        let daysUntilNextDay = (2 + 7 - currentDay) % 7
-        let dt = new Date(today.getTime() + daysUntilNextDay * 24 * 60 * 60 * 1000)
-        let formatedTime
-        let arr = []
-        for (let i = 0; i < num; i++) {
-            formatedTime = dt.getFullYear() + '-' + appendLeadingZeros((dt.getMonth() + 1)) + '-' + appendLeadingZeros(dt.getDate())
-            arr.push(formatedTime)
-            dt = new Date(dt.getTime() + 7 * 24 * 60 * 60 * 1000)
-        }
+        let arr = getNextTuesdays(num)
         setArrDates(arr)
-        dt = new Date(today.getTime() + daysUntilNextDay * 24 * 60 * 60 * 1000)
-        formatedTime = dt.getFullYear() + '-' + appendLeadingZeros((dt.getMonth() + 1)) + '-' + appendLeadingZeros(dt.getDate())
-        props.chooseFirstDateAndDuration(formatedTime, num)
+        props.chooseFirstDateAndDuration(arr[0], num)
     }
 
     return (

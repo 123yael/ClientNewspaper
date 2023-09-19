@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { getFromCookies } from '../../cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE } from '../../config';
 
 const defaultTheme = createTheme();
 
@@ -40,7 +41,7 @@ export const Payment = () => {
     const formik = useFormik({
         initialValues: { name: '', card: '', expireOn: '', cvv: '' },
         validationSchema: validationSchema,
-        onSubmit: (values) => { finishOrder(values) },
+        onSubmit: (values) => { finishOrder() },
     });
 
     let navigate = useNavigate()
@@ -50,6 +51,10 @@ export const Payment = () => {
     // מיד בעת טעינת הקומפוננטה תשוגר רשימת גדלי הפרסומות לרדוסר
     useEffect(() => {
         getAllAdSizes().then(s => dispatch(setAllAdSizes(s.data)))
+        // const custFromCookies = getFromCookies("currentUser")
+        // if (custFromCookies !== null)
+        //     if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR)
+        //         finishOrder()
     }, [])
 
     // חילוץ רשימת פרטי הזמנות מהרדוסר
@@ -61,7 +66,7 @@ export const Payment = () => {
     let customer = getFromCookies("currentUser")
 
     // פונקציה לסיום הזמנה
-    const finishOrder = (values) => {
+    const finishOrder = () => {
 
         let listTempOD = []
 
@@ -89,23 +94,25 @@ export const Payment = () => {
 
         if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
             finishOrderAxios(finishOrder).then(res => {
+                window.alert("The order was successfully placed")
                 navigate('/')
             }).catch(err => {
                 console.error(err);
             })
         else
             finishOrderAdWordsAxios(finishOrder).then(res => {
+                window.alert("The order was successfully placed")
                 navigate('/')
             }).catch(err => {
                 console.error(err);
             })
 
-        window.alert("The order was successfully placed")
+
 
     }
 
     return (
-        <div>
+        <div className='py-5 container'>
             <ThemeProvider theme={defaultTheme}>
                 <Container component="main" maxWidth="sm">
                     <CssBaseline />
@@ -117,7 +124,7 @@ export const Payment = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar className='bg-primary p-4'>
+                        <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
                             <CreditScoreIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">

@@ -8,7 +8,7 @@ import DatesForOrdersReducer from "./reducers/DateForOrdersReducer"
 import CustomersReducer from "./reducers/CustomersReducer"
 import AdSizeReducer from "./reducers/AdSizeReducer"
 import AdPlacementsReducer from "./reducers/AdPlacementsReducer"
-
+import LoadingReducer from "./reducers/LoadingReducer"
 
 export const centralReducer = combineReducers({
     WordAdSubCategoryReducer,
@@ -19,6 +19,7 @@ export const centralReducer = combineReducers({
     CustomersReducer,
     AdSizeReducer,
     AdPlacementsReducer,
+    LoadingReducer
 })
 
 export const localStore = createStore(centralReducer)

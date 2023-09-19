@@ -1,6 +1,6 @@
 export const SERVER_NAME = 'https://localhost:44305'
 export const MANAGER_EMAIL = "malkin.yaeli@gmail.com"
-export const MANAGER_PASSWODR = "2222"
+export const MANAGER_PASSWODR = "123456789"
 
 export const PALLETE = {
     BLUE: '#7509D9',
@@ -12,5 +12,6 @@ export const PALLETE = {
     DARK_GRAY: '#8F8F8F',
     LIGHT_GRAY: '#CCC',
     PURPLE: '#C435FF',
-    PINK: '#F72FD8'
+    PINK: '#F72FD8',
+    BLACK: '#000'
 }

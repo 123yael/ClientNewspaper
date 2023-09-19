@@ -52,11 +52,11 @@ const PageFlip = (props) => {
     justifyContent="center"
     alignItems="center"
   >
-    <Button variant="outlined" onClick={flipPrev} color="secondary" sx={{ marginRight: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowBackIosRoundedIcon /></Button>
+    <Button variant="outlined" onClick={flipPrev} sx={{ marginRight: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowBackIosRoundedIcon /></Button>
     <HTMLFlipBook width={width} height={height} ref={book}>
       {bookImgs && bookImgs.map((element, i) => {
         return (
-          <div className="demoPage">
+          <div className="demoPage" key={i}>
             {
               i === 0 ? <img src={element} alt="person" width={width} height={height} /> :
                 <img src={element} alt="person" width={width} height={height} style={{ border: `0.5px solid ${PALLETE.LIGHT_GRAY}` }} />
@@ -65,7 +65,7 @@ const PageFlip = (props) => {
         )
       })}
     </HTMLFlipBook>
-    <Button variant="outlined" onClick={flipNext} color="secondary" sx={{ marginLeft: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowForwardIosRoundedIcon /></Button>
+    <Button variant="outlined" onClick={flipNext} sx={{ marginLeft: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowForwardIosRoundedIcon /></Button>
   </Box>);
 }
 

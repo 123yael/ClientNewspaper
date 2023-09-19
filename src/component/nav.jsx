@@ -21,8 +21,7 @@ import { useEffect } from 'react';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { MANAGER_EMAIL, MANAGER_PASSWODR } from '../config';
 import { getFromCookies, removeFromCookies } from '../cookiesUtils';
-
-
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 export const Nav = () => {
 
@@ -54,7 +53,7 @@ export const Nav = () => {
         if (custFromCookies !== null) {
             if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR) {
                 setLinks([...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails'])
-                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'All Advertisments Details'])
+                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
             }
             else {
                 setLinks([...BASELINKS, 'advertisingOrder', 'boardAd'])
@@ -123,7 +122,7 @@ export const Nav = () => {
                             }
                         </Box>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {links.length > BASELINKS.length && <Button sx={{ mr: 2 }} variant="outlined" color="secondary" onClick={() => signOut()}>Sign out</Button>}
+                        {links.length > BASELINKS.length && <Button sx={{ mr: 2 }} variant="outlined" onClick={() => signOut()} endIcon={<AccountCircleOutlinedIcon />}>Sign out</Button>}
                     </Toolbar>
                 </AppBar>
                 <Box component="nav">
@@ -138,9 +137,7 @@ export const Nav = () => {
                     </Drawer>
                 </Box>
             </Box>
-            <div className='py-5 container'>
-                <Outlet></Outlet>
-            </div>
+            <Outlet></Outlet>
             <Footer></Footer>
         </div>
     );

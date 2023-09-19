@@ -1,8 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StepConnector, stepConnectorClasses, styled } from '@mui/material';
@@ -140,20 +137,6 @@ export default function HorizontalLinearStepper() {
 
     return (
         <Box sx={{ width: '100%' }} className='pb-5'>
-            {/* <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                {steps.map((s, index) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    if (isStepSkipped(index)) {
-                        stepProps.completed = false;
-                    }
-                    return (
-                        <Step key={index} {...stepProps}>
-                            <StepLabel {...labelProps} StepIconComponent={ColorlibStepIcon}>{s.label}</StepLabel>
-                        </Step>
-                    );
-                })}
-            </Stepper> */}
             {activeStep === steps.length ? (
                 <Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>

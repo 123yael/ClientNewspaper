@@ -175,12 +175,6 @@ export const AdvertisingOrder = () => {
         setOrderDetail({ ...orderdetail, placeId: id })
     }
 
-    // // פונקציה לבחירת תאריכי פרסומת
-    // const chooseDates = (arr) => {
-    //     setActiveNext(true)
-    //     setDates(arr)
-    // }
-
     // פונקציה לבחירת תאריכי פרסומת
     const chooseFirstDateAndDuration = (date, duration) => {
         setActiveNext(true)
@@ -237,53 +231,55 @@ export const AdvertisingOrder = () => {
     ];
 
     return (
-        <Box sx={{ width: '100%' }} className='pb-5 mt-5'>
-            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                {steps.map((s, index) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    if (isStepSkipped(index)) {
-                        stepProps.completed = false;
-                    }
-                    return (
-                        <Step key={index} {...stepProps}>
-                            <StepLabel {...labelProps} StepIconComponent={ColorlibStepIcon}>{s.label}</StepLabel>
-                        </Step>
-                    );
-                })}
-            </Stepper>
-            {activeStep === steps.length ? (
-                <Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you're finished
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reset</Button>
-                    </Box>
-                </Fragment>
-            ) : (
-                <Fragment>
-                    <Box sx={{ mt: 2, mb: 1 }}>
-                        {steps[activeStep].description}
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                            className='border'
-                        >
-                            Back
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleNext} disabled={activeNext === false} className='border'>
-                            {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
-                        </Button>
-                    </Box>
-                </Fragment>
-            )}
-        </Box>
-    );
+        <div className='py-5 container'>
+            <Box sx={{ width: '100%' }} className='pb-5 mt-5'>
+                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                    {steps.map((s, index) => {
+                        const stepProps = {};
+                        const labelProps = {};
+                        if (isStepSkipped(index)) {
+                            stepProps.completed = false;
+                        }
+                        return (
+                            <Step key={index} {...stepProps}>
+                                <StepLabel {...labelProps} StepIconComponent={ColorlibStepIcon}>{s.label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                {activeStep === steps.length ? (
+                    <Fragment>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            All steps completed - you're finished
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleReset}>Reset</Button>
+                        </Box>
+                    </Fragment>
+                ) : (
+                    <Fragment>
+                        <Box sx={{ mt: 2, mb: 1 }}>
+                            {steps[activeStep].description}
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Button
+                                color="inherit"
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                sx={{ mr: 1 }}
+                                className='border'
+                            >
+                                Back
+                            </Button>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleNext} disabled={activeNext === false} className='border'>
+                                {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
+                            </Button>
+                        </Box>
+                    </Fragment>
+                )}
+            </Box>
+        </div>
+    )
 }

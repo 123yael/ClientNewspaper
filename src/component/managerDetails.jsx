@@ -28,31 +28,30 @@ export const ManagerDetails = () => {
     };
 
     return (
-        // <div className="mt-5">
-        //     <TableOfOrderDetails></TableOfOrderDetails>
-        // </div>
-        <div className="mt-5">
-            {
-                listNewspapersPublished.map((newspaper, index) => (
-                    <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                        >
-                            <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                                Date: {newspaper.publicationDate}
-                            </Typography>
-                            <Typography sx={{ color: 'text.secondary' }}>
-                                Sheet: {newspaper.newspaperId}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <TableOfOrderDetails></TableOfOrderDetails>
-                        </AccordionDetails>
-                    </Accordion>
-                ))
-            }
+        <div className='py-5 container'>
+            <div className="mt-5">
+                {
+                    listNewspapersPublished.map((newspaper, index) => (
+                        <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1bh-content"
+                                id="panel1bh-header"
+                            >
+                                <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                    Date: {newspaper.publicationDate}
+                                </Typography>
+                                <Typography sx={{ color: 'text.secondary' }}>
+                                    Sheet: {newspaper.newspaperId}
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <TableOfOrderDetails></TableOfOrderDetails>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))
+                }
+            </div>
         </div>
     );
 }

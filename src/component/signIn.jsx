@@ -9,7 +9,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
@@ -18,8 +17,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { saveToCookies } from '../cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-
-const defaultTheme = createTheme();
+import { PALLETE } from '../config';
 
 const validationSchema = yup.object({
   email: yup
@@ -64,7 +62,7 @@ export const SignIn = () => {
 
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <div className='py-5 container'>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -75,7 +73,7 @@ export const SignIn = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar className='bg-primary p-4'>
+          <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
             <LockOpenIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -124,7 +122,7 @@ export const SignIn = () => {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 Don't have an account? {" "}
-                <Link to="/signUp">
+                <Link to="/signUp" style={{ color: PALLETE.PURPLE }}>
                   Sign Up
                 </Link>
               </Grid>
@@ -132,6 +130,6 @@ export const SignIn = () => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </div>
   );
 }

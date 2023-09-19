@@ -53,7 +53,6 @@ export const Contact = () => {
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
                                     value={formik.values.name}
-                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
@@ -62,7 +61,6 @@ export const Contact = () => {
                                     error={formik.touched.email && Boolean(formik.errors.email)}
                                     helperText={formik.touched.email && formik.errors.email}
                                     value={formik.values.email}
-                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
@@ -71,7 +69,6 @@ export const Contact = () => {
                                     error={formik.touched.subject && Boolean(formik.errors.subject)}
                                     helperText={formik.touched.subject && formik.errors.subject}
                                     value={formik.values.subject}
-                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
@@ -83,11 +80,9 @@ export const Contact = () => {
                                     label="Your Message"
                                     multiline
                                     rows={3}
-
                                     error={formik.touched.message && Boolean(formik.errors.message)}
                                     helperText={formik.touched.message && formik.errors.message}
                                     value={formik.values.message}
-                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>

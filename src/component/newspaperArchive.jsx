@@ -6,7 +6,7 @@ import NewspaperList from '../screens/NewspaperList';
 export const NewspaperArchive = () => {
 
     return (
-        <div>
+        <div className='py-5 container'>
             <NewspaperList></NewspaperList>
         </div>
     )

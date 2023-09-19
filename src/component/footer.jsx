@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { Contact } from './contact';
+import { PALLETE } from '../config';
 
 function Copyright() {
   return (
@@ -26,10 +27,8 @@ export const Footer = () => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '70vh',
-        borderTop: (theme) => `1px solid ${theme.palette.grey[600]}`,
         boxShadow: "unset",
-        backgroundColor: (theme) => theme.palette.grey[300]
-            
+        backgroundColor: PALLETE.LIGHT_GRAY
       }}
 
       boxShadow={true}
@@ -43,9 +42,9 @@ export const Footer = () => {
         sx={{
           py: 3,
           px: 2,
-          mt: 'auto'
+          mt: 'auto',
+          backgroundColor: PALLETE.DARK_GRAY
         }}
-        className="bg-secondary"
       >
         <Container maxWidth="sm">
           <Copyright />

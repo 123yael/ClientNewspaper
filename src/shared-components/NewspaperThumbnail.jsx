@@ -4,9 +4,8 @@ import Grid from '@mui/material/Grid';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import { PALLETE, SERVER_NAME } from '../config';
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import PageFlip from "./pageFlip";
-import { Loading } from "../component/loading/loading";
 
 const NewspaperThumbnail = (props) => {
     const [listNewspapersPublished, setListNewspapersPublished] = useState([]);
@@ -34,36 +33,29 @@ const NewspaperThumbnail = (props) => {
 
     return (
         <div className="product-thum-conatiner">
-            {listNewspapersPublished.length > 0 ? (
-                <Grid item xs={12} md={12} marginTop={5} container spacing={3}>
-                    {
-                        listNewspapersPublished.map((newspaper, index) => (
-                            <Grid item xs={12} md={3} key={index} >
-                                <CardActionArea component="a"
-                                    onClick={() => selectNewspaper(index)}
-                                    className='shadow shadow-3'>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                                        image={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
-                                        alt={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
-                                        className='border'
-                                    />
-                                    <Typography variant="h6" color="text.secondary" className='bg-secondary text-light rounded-bottom'>
-                                        {newspaper.publicationDate}{' '}
-                                        <span style={{ fontWeight: "bold" }}>sheet {newspaper.newspaperId}</span>
-                                    </Typography>
-                                </CardActionArea>
-                            </Grid>
-                        ))
-                    }
-                </Grid>
-            ) : (
-                <Typography variant="h5" marginTop={5}>
-                    <Loading></Loading>
-                </Typography>
-            )}
-
+            <Grid item xs={12} md={12} marginTop={5} container spacing={3}>
+                {
+                    listNewspapersPublished.map((newspaper, index) => (
+                        <Grid item xs={12} md={3} key={index} >
+                            <CardActionArea component="a"
+                                onClick={() => selectNewspaper(index)}
+                                className='shadow shadow-3'>
+                                <CardMedia
+                                    component="img"
+                                    sx={{ display: { xs: 'none', sm: 'block' } }}
+                                    image={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
+                                    alt={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
+                                    className='border'
+                                />
+                                <Typography variant="h6" sx={{ backgroundColor: PALLETE.DARK_GRAY }} className='text-light rounded-bottom'>
+                                    {newspaper.publicationDate}{' '}
+                                    <span style={{ fontWeight: "bold" }}>sheet {newspaper.newspaperId}</span>
+                                </Typography>
+                            </CardActionArea>
+                        </Grid>
+                    ))
+                }
+            </Grid>
 
             <Dialog
                 fullWidth

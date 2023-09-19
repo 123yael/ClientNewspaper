@@ -121,3 +121,13 @@
         stroke-dashoffset: 0;
     }
 }
+
+.place {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    box-shadow: 0px 0px 0px 700px rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
+}

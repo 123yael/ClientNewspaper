@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { PALLETE } from './config';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      light: PALLETE.PINK,
+      main: PALLETE.PURPLE,
+      dark: PALLETE.BLUE,
+      contrastText: PALLETE.WHITE,
+    }
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ThemeProvider theme={defaultTheme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
 
