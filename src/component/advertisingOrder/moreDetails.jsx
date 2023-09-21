@@ -33,6 +33,21 @@ const BootstrapDialogTitle = (props) => {
 }
 
 export const MoreDetails = (props) => {
+
+    const WIDTH = 3.42
+    const HEIGHT = 2.29
+    const SPACE = 0.57
+
+    const getWidthSize = (count) => {     
+        let num = SPACE * (count - 1) + count * WIDTH
+        return num.toFixed(2)
+    }
+
+    const getHeightSize = (count) => {       
+        let num = SPACE * (count - 1) + count * HEIGHT
+        return num.toFixed(2)
+    }
+
     return (
         <Dialog
             open={props.open}
@@ -59,10 +74,10 @@ export const MoreDetails = (props) => {
             </DialogTitle>
             <DialogContent dividers>
                 <Typography gutterBottom>
-                    Width: {props.size.sizeWidth * 25}cm
+                    Width: {getWidthSize(props.size.sizeWidth)}cm
                 </Typography>
                 <Typography gutterBottom>
-                    Height: {props.size.sizeHeight * 50}cm
+                    Height: {getHeightSize(props.size.sizeHeight)}cm
                 </Typography>
                 <Typography gutterBottom>
                     Price: {props.size.sizePrice}$

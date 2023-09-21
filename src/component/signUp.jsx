@@ -46,16 +46,17 @@ const validationSchema = yup.object({
 
 export const SignUp = () => {
 
-  const formik = useFormik({
-    initialValues: { firstName: '', lastName: '', email: '', phone: '', password: '', },
-    validationSchema: validationSchema,
-    onSubmit: (values) => { handleSubmit(values) },
-  });
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleSubmit = (values) => {
+  const formik = useFormik({
+    initialValues: { firstName: '', lastName: '', email: '', phone: '', password: '', },
+    validationSchema: validationSchema,
+    onSubmit: (values) => { handleSignUp(values) },
+  });
+
+  const handleSignUp = (values) => {
+
     let newCust = {
       custFirstName: values.firstName,
       custLastName: values.lastName,
@@ -86,6 +87,7 @@ export const SignUp = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            textAlign: 'start',
           }}
         >
           <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
@@ -103,12 +105,11 @@ export const SignUp = () => {
                   value={formik.values.firstName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-
-                  autoComplete="given-name"
                   name="firstName"
-                  fullWidth
                   id="firstName"
                   label="First Name"
+                  type="text"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -118,11 +119,11 @@ export const SignUp = () => {
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  fullWidth
+                  name="lastName"
                   id="lastName"
                   label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  type="text"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -132,11 +133,11 @@ export const SignUp = () => {
                   value={formik.values.email}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  fullWidth
+                  name="email"
                   id="email"
                   label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  type="email"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -146,12 +147,11 @@ export const SignUp = () => {
                   value={formik.values.phone}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  fullWidth
                   name="phone"
+                  id="phone"
                   label="Phone"
                   type="tel"
-                  id="phone"
-                  autoComplete="phone"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
@@ -160,19 +160,18 @@ export const SignUp = () => {
                   helperText={formik.touched.password && formik.errors.password}
                   value={formik.values.password}
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  fullWidth
+                  onChange={formik.handleChange}                  
                   name="password"
+                  id="password"
                   label="Password"
                   type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="I want to receive newsletters by email."
                 />
               </Grid>
             </Grid>
@@ -180,15 +179,15 @@ export const SignUp = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 2, mb: 5 }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 Already have an account? {" "}
-                <Link to='/signIn' style={{ color: PALLETE.PURPLE }}>
-                  Sign in
+                <Link to='/logIn' style={{ color: PALLETE.PURPLE }}>
+                  Log in
                 </Link>
               </Grid>
             </Grid>

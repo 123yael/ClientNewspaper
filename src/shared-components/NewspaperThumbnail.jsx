@@ -16,10 +16,15 @@ const NewspaperThumbnail = (props) => {
     const selectNewspaper = (i) => {
         setProductdetail(listNewspapersPublished[i]);
         showNewspaper()
+        if (i === 0)
+            setIsFromCache(false)
+        else
+            setIsFromCache(true)
     }
 
     const [productDetail, setProductdetail] = useState({});
     const [show, setShow] = useState(false);
+    const [isFromCache, setIsFromCache] = useState(true)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     useEffect(() => {
@@ -31,7 +36,7 @@ const NewspaperThumbnail = (props) => {
     }
 
     return (
-        <div className="product-thum-conatiner">
+        <div>
             <Grid item xs={12} md={12} marginTop={5} container spacing={3}>
                 {
                     listNewspapersPublished.map((newspaper, index) => (
@@ -42,7 +47,9 @@ const NewspaperThumbnail = (props) => {
                                 <CardMedia
                                     component="img"
                                     sx={{ display: { xs: 'none', sm: 'block' } }}
-                                    image={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
+                                    image={index === 0 ?
+                                        `${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png?id=${newspaper.newspaperId}` :
+                                        `${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
                                     alt={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
                                     className='border'
                                 />
@@ -56,7 +63,7 @@ const NewspaperThumbnail = (props) => {
                 }
             </Grid>
 
-            <MagazineModel show={show} handleClose={handleClose} productDetail={productDetail}></MagazineModel>
+            <MagazineModel show={show} handleClose={handleClose} productDetail={productDetail} isFromCache={isFromCache}></MagazineModel>
 
         </div>
     )

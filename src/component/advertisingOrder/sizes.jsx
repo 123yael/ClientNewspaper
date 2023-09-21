@@ -79,25 +79,21 @@ export const Sizes = (props) => {
     return (
         <div>
             {
-                listSizes.length > 0 ? (
-                    listSizes.map((s, index) => (
-                        <Card key={index} style={{ display: 'inline-block' }} className='m-2 shadow border border-secondary border-3'>
-                            <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
-                                <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
-                            </Toolbar>
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
-                            </CardContent>
-                            <div className='pb-3 px-3 m-0 row'>
-                                <Button className='col-5' variant="outlined" sx={{backgroundColor: index === sizeId? color : "#fff"}} color="inherit" size="medium" onClick={() => {setColor(PALLETE.PINK); setSizeId(index); props.chooseSize(s.sizeId)}}>choose size</Button>
-                                <div className='col-2'></div>
-                                <Button className='col-5' variant="outlined" color="inherit" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
-                            </div>
-                        </Card>
-                    ))
-                ) : (
-                    <Typography variant="h5"><Loading></Loading></Typography>
-                )
+                listSizes.map((s, index) => (
+                    <Card key={index} sx={{display: "inline-block"}} className='m-2 shadow border border-secondary border-3'>
+                        <Toolbar sx={{ my: 2 }} className='p-1 m-0'>
+                            <img src={`${SERVER_NAME}/${s.sizeImg}`} alt="logo" width={340} className='mx-auto' />
+                        </Toolbar>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">{s.sizeName}</Typography>
+                        </CardContent>
+                        <div className='pb-3 px-3 m-0 row'>
+                            <Button className='col-5' variant={index === sizeId ? "contained" : "outlined"} size="medium" onClick={() => { setSizeId(index); props.chooseSize(s.sizeId) }}>choose size</Button>
+                            <div className='col-2'></div>
+                            <Button className='col-5' variant="outlined" size="medium" onClick={() => handleClickOpen(s)}>more details</Button>
+                        </div>
+                    </Card>
+                ))
             }
 
             {open && <MoreDetails open={open} size={size} handleClose={handleClose}></MoreDetails>}

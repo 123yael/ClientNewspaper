@@ -7,15 +7,13 @@ import Link from '@mui/material/Link';
 import { Contact } from './contact';
 import { PALLETE } from '../config';
 
-function Copyright() {
+const Copyright = () => {
   return (
-    <Typography variant="body2" color="text.secondary">
-      {'yael © '}
+    <Typography variant="body2" sx={{color: PALLETE.WHITE}}>
+      {'Yael © '}
       <Link color="inherit" href="https://github.com/123yael">
         github
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      </Link>{' '}{new Date().getFullYear()}
     </Typography>
   );
 }

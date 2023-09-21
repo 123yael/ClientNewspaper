@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,10 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Footer } from './footer';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
@@ -25,26 +22,16 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 export const Nav = () => {
 
-    const BASELINKS = ['./', 'about', 'newspaperArchive', 'signIn', 'signUp']
-    const BASENAVITEMS = ['Home', 'About', 'Newspaper archive', 'Sign In', 'Sign Up']
-
-    // משתמש למעבר בין הקומפוננטות
     const navigate = useNavigate()
-    // מערך שמכיל את קישורי הקומפוננטות שאליהם נעבור דרת ה nav
-    const [links, setLinks] = useState(BASELINKS)
-    // מערך שמכיל את השמות שיוצגו בתפריט הראשי nav
-    const [navItems, setNavItems] = useState(BASENAVITEMS)
-    // קבוע שמציין אתה גודל הרוחב של התפריט הצדדי שיפתח במצב של מסך קטן
-    const DRAWERWIDTH = 240;
-    // משתנה שמכיל את התשובה האם לפתוח תפריט צדדי
-    const [mobileOpen, setMobileOpen] = useState(false)
-
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        if (Cookies.get("currentUser") !== undefined)
-            dispatch(setIsExistsCustomer(true))
-    }, [])
+    const BASELINKS = ['./', 'about', 'newspaperArchive']
+    const BASENAVITEMS = ['Home', 'About', 'Newspaper archive']
+    const DRAWERWIDTH = 240;
+
+    const [links, setLinks] = useState([...BASELINKS, 'logIn', 'signUp'])
+    const [nameLinks, setNameLinks] = useState([...BASENAVITEMS, 'Log In', 'Sign Up'])
+    const [isMobileOpen, setIsMobileOpen] = useState(false)
 
     let isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
 
@@ -53,26 +40,29 @@ export const Nav = () => {
         if (custFromCookies !== null) {
             if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR) {
                 setLinks([...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails'])
-                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
+                setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
             }
             else {
                 setLinks([...BASELINKS, 'advertisingOrder', 'boardAd'])
-                setNavItems([...BASENAVITEMS, 'Advertising Order', 'board ad'])
+                setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad'])
             }
         }
         else {
-            setLinks([...BASELINKS])
-            setNavItems([...BASENAVITEMS])
+            setLinks([...BASELINKS, 'logIn', 'signUp'])
+            setNameLinks([...BASENAVITEMS, 'Log In', 'Sign Up'])
         }
 
     }, [isChangeCustomer])
 
-    // פונקציה שמשנה את מצב המשתנה שאומר האם לפתוח תפריט צדדי
-    const handleDrawerToggle = () => {
-        setMobileOpen((prevState) => !prevState);
-    };
+    useEffect(() => {
+        if (getFromCookies("currentUser") !== undefined)
+            dispatch(setIsExistsCustomer(true))
+    }, [])
 
-    // פונקציה שמעבירה לקומפוננטה אחרת
+    const handleDrawerToggle = () => {
+        setIsMobileOpen((prevState) => !prevState);
+    }
+
     const anotherSubject = (index) => {
         navigate(`/${links[index]}`)
     }
@@ -80,75 +70,64 @@ export const Nav = () => {
     const signOut = () => {
         removeFromCookies("currentUser")
         dispatch(setIsExistsCustomer(false))
+        navigate('/')
     }
 
-    // זהו משתנה שמכיל את התפריט שנפתח כאשר המסך קטן
-    const drawer = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Toolbar sx={{ my: 2 }} style={{ backgroundColor: '#21262A' }} className='p-0 m-0'>
-                <img src='../pic/logo.png' alt="logo" width={140} />
-            </Toolbar>
-            <List>
-                {navItems.map((item, i) => (
-                    <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }} onClick={() => anotherSubject(i)}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
-    );
-
     return (
-        <div>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <AppBar component="nav" className='bg-light text-dark'>
-                    <Toolbar className='p-0'>
-                        <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle}
-                            sx={{ mr: 2, display: { md: 'none' }, ml: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Toolbar sx={{ display: { xs: 'none', md: 'block' } }} style={{ backgroundColor: '#21262A' }} className='p-0'>
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar component="nav" className='bg-light text-dark'>
+                <Toolbar className='p-0'>
+                    <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { md: 'none' }, ml: 2 }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Toolbar sx={{ display: { xs: 'none', md: 'block' } }} style={{ backgroundColor: '#21262A' }} className='p-0'>
+                        <img src='../pic/logo.png' alt="logo" width={140} />
+                    </Toolbar>
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }} className='ms-3'>
+                        {
+                            nameLinks.map((item, i) => (
+                                <Button key={item} className='bg-light text-dark' onClick={() => anotherSubject(i)}>{item}</Button>
+                            ))
+                        }
+                    </Box>
+                    <Box sx={{ flex: '1 1 auto' }} />
+                    {
+                        getFromCookies("currentUser") !== null &&
+                        <Button sx={{ mr: 2 }} variant="outlined" onClick={() => signOut()} endIcon={<AccountCircleOutlinedIcon />}>
+                            Sign out
+                        </Button>
+                    }
+                </Toolbar>
+            </AppBar>
+            <Box component="nav">
+                <Drawer variant="temporary" open={isMobileOpen} onClose={handleDrawerToggle}
+                    ModalProps={{ keepMounted: true }}
+                    sx={{
+                        display: { md: 'block', lg: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWERWIDTH },
+                    }}
+                >
+                    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+                        <Toolbar sx={{ my: 2 }} style={{ backgroundColor: '#21262A' }} className='p-0 m-0'>
                             <img src='../pic/logo.png' alt="logo" width={140} />
                         </Toolbar>
-                        <Box sx={{ display: { xs: 'none', md: 'block' } }} className='ms-3'>
-                            {
-                                navItems.map((item, i) => (
-                                    <Button key={item} className='bg-light text-dark' onClick={() => anotherSubject(i)}>{item}</Button>
-                                ))
-                            }
-                        </Box>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        {links.length > BASELINKS.length && <Button sx={{ mr: 2 }} variant="outlined" onClick={() => signOut()} endIcon={<AccountCircleOutlinedIcon />}>Sign out</Button>}
-                    </Toolbar>
-                </AppBar>
-                <Box component="nav">
-                    <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle}
-                        ModalProps={{ keepMounted: true }}
-                        sx={{
-                            display: { md: 'block', lg: 'none' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWERWIDTH },
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Box>
+                        <List>
+                            {nameLinks.map((item, i) => (
+                                <ListItem key={item} disablePadding>
+                                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => anotherSubject(i)}>
+                                        <ListItemText primary={item} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </Drawer>
             </Box>
-            <Outlet></Outlet>
-            <Footer></Footer>
-        </div>
+        </Box>
     );
 }
-
-Nav.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
-};
 
 export default Nav

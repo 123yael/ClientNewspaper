@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from "react";
 import NewspaperThumbnail from "../shared-components/NewspaperThumbnail";
 import './NewspaperList.css';
-import { Box, Button, Grid, InputLabel, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, InputLabel, Pagination, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNewspapersPublished } from "../Axios/newspapersPublishedAxios";
 import { setNewspapersPublished } from "../redux/actions/NewspapersPublishedActions";
 
 const NewspaperList = () => {
 
+    const itemsPerPage = 8
+
     const [newspapersData, setNewspapersData] = useState([]);
     const [date, setDate] = useState("");
     const [sheet, setSheet] = useState("");
+    const [totalPages, setTotalPages] = useState()
+    const [page, setPage] = useState(1);
+    let requestTimeout = null
 
     const dispatch = useDispatch()
 
+    const getAllNewspaper = (page) => {
+        let num = 2000
+        if (sheet === "" && date === "")
+            num = 0
+        if (requestTimeout) {
+            clearTimeout(requestTimeout);
+        }
+        requestTimeout = setTimeout(() => {
+            getAllNewspapersPublished(page, itemsPerPage, sheet, date).then(res => {
+                dispatch(setNewspapersPublished(res.data.list))
+                setNewspapersData(res.data.list)
+                setTotalPages(res.data.paginationMetadata.totalPages)
+                setPage(res.data.paginationMetadata.curentPage)
+            })
+        }, num)
+    }
+
+    const hendleChangePage = (event, page) => {
+        getAllNewspaper(page)
+    }
+
     useEffect(() => {
-        getAllNewspapersPublished().then(res => {
-            dispatch(setNewspapersPublished(res.data))
-            setNewspapersData(res.data)
-        })
-    }, []);
+        getAllNewspaper(1)
+    }, [sheet, date]);
 
     let listNewspapersPublished = useSelector(s => s.NewspapersPublishedReducer.list)
 
@@ -28,39 +51,11 @@ const NewspaperList = () => {
     }
 
     const onHandelInputChangeDate = (e) => {
-        let tempData = [];
         setDate(e.target.value.toLowerCase())
-        listNewspapersPublished.map((element) => {
-            if (element.publicationDate.toLowerCase().includes(e.target.value.toLowerCase()) &&
-                element.newspaperId.toString().includes(sheet)) {
-                tempData.push(element);
-            }
-        })
-
-        if (tempData[0]) {
-            setNewspapersData(tempData);
-        } else {
-            setNewspapersData([]);
-        }
-
     }
 
     const onHandelInputChangeSheet = (e) => {
-        let tempData = [];
         setSheet(e.target.value)
-        listNewspapersPublished.map((element) => {
-            if (element.newspaperId.toString().includes(e.target.value) &&
-                element.publicationDate.toLowerCase().includes(date)) {
-                tempData.push(element);
-            }
-        })
-
-        if (tempData[0]) {
-            setNewspapersData(tempData);
-        } else {
-            setNewspapersData([]);
-        }
-
     }
 
     const getAll = (e) => {
@@ -136,6 +131,15 @@ const NewspaperList = () => {
 
             <NewspaperThumbnail listNewspapersPublished={newspapersData} selectedData={selectedData} />
 
+            <Box display={"inline-block"} mt={5}>
+                <Pagination
+                    count={totalPages}
+                    color="primary"
+                    size="large"
+                    sx={{ mt: 2 }}
+                    onChange={hendleChangePage}
+                />
+            </Box>
         </div>
 
     )

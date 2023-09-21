@@ -1,8 +1,7 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, FormControlLabel, MenuItem, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControlLabel, MenuItem, TextField, Typography } from "@mui/material"
 import { useState } from "react"
 import { closingNewspaper, shabetz } from "../Axios/closingNewspaperAxios"
 import { useEffect } from "react"
-import PageFlip from "../shared-components/pageFlip"
 import { MagazineModel } from "../shared-components/magazineModel"
 
 export const MagazineClosing = () => {
@@ -55,9 +54,9 @@ export const MagazineClosing = () => {
         closingNewspaper(date, numPages).then(res => {
             alert("The newspaper has been successfully added!")
         }).catch(err => {
-            if (err.response?.status == 409)
+            if (err.response?.status === 409)
                 alert("Date of newspaper already exists in the system!")
-            if (err.response?.status == 408)
+            if (err.response?.status === 408)
                 alert("Newspaper not generated in the files!")
         })
     }
@@ -134,7 +133,7 @@ export const MagazineClosing = () => {
                 </Typography>
             </Box>
 
-            <MagazineModel show={show} handleClose={handleClose} productDetail={productDetail}></MagazineModel>
+            <MagazineModel show={show} handleClose={handleClose} productDetail={productDetail} isFromCache={false}></MagazineModel>
         </div>
     )
 }

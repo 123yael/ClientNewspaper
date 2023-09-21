@@ -9,8 +9,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getCustomerByEmailAndPass } from '../Axios/customerAxios';
+import { Link, useNavigate } from 'react-router-dom';
+import { logIn } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -31,35 +31,32 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-export const SignIn = () => {
+export const LogIn = () => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: { email: '', password: '', },
     validationSchema: validationSchema,
-    onSubmit: (values) => { handleSignIn(values) },
+    onSubmit: (values) => { handleLogIn(values) },
   });
 
-  let dispatch = useDispatch()
-
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const handleSignIn = (values) => {
-
-    getCustomerByEmailAndPass(values.email, values.password).then(res => {
-      if (res.data !== "") {
-        dispatch(setIsExistsCustomer(true))
-        saveToCookies("currentUser", res.data, 2)
-        navigate('/')
-      }
-      else {
-        let res = window.confirm('You do not exist in the system, please proceed to registration')
+  const handleLogIn = (values) => {
+    logIn(values.email, values.password).then(res => {
+      dispatch(setIsExistsCustomer(true))
+      saveToCookies("currentUser", res.data, 2)
+      navigate('/')
+    }).catch(err => {
+      if (err.response.status === 404) {
+        let res = window.confirm('User not found!, please proceed to registration')
         if (res)
           navigate('/signUp')
       }
+      else if (err.response.status === 500)
+        alert("Server error");
     })
   }
-
 
   return (
     <div className='py-5 container'>
@@ -71,13 +68,14 @@ export const SignIn = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            textAlign: 'start',
           }}
         >
           <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
             <LockOpenIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log in
           </Typography>
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
             <TextField
@@ -108,18 +106,18 @@ export const SignIn = () => {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" />}
               label="Remember me"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 1, mb: 5 }}
             >
-              Sign In
+              Log In
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 Don't have an account? {" "}
                 <Link to="/signUp" style={{ color: PALLETE.PURPLE }}>

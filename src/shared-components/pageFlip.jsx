@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
-import { PALLETE, SERVER_NAME } from "../config";
+import { SERVER_NAME } from "../config";
 import { Box, Button } from "@mui/material";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
@@ -15,10 +15,16 @@ const PageFlip = (props) => {
 
     let bookImg = [];
 
-    for (let i = 0; i < props.productDetail.countPages; i++) {
-      let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png`
-      bookImg.push(name)
-    }
+    if (props.productDetail.isFromCache)
+      for (let i = 0; i < props.productDetail.countPages; i++) {
+        let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png`
+        bookImg.push(name)
+      }
+    else
+      for (let i = 0; i < props.productDetail.countPages; i++) {
+        let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png?id=${props.productDetail.newspaperId}`
+        bookImg.push(name)
+      }
 
     setBookImages(bookImg);
   }, [props]);
