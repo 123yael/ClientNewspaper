@@ -25,13 +25,14 @@ export const Contact = () => {
     const formik = useFormik({
         initialValues: { name: '', email: '', subject: '', message: '' },
         validationSchema: validationSchema,
-        onSubmit: (values) => { sentMessage(values) },
+        onSubmit: (values, { resetForm }) => { sentMessage(values, { resetForm }) },
     });
 
-    const sentMessage = (values) => {
+    const sentMessage = (values, { resetForm }) => {
         sentEmail(values.name, values.email, values.message, values.subject)
             .then(res => {
                 alert("Your message has been sent successfully")
+                resetForm()
             })
             .catch(err => {
                 alert("Something went wrong while sending the message")

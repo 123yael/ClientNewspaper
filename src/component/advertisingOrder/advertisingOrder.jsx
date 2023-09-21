@@ -259,9 +259,6 @@ export const AdvertisingOrder = () => {
                     </Fragment>
                 ) : (
                     <Fragment>
-                        <Box sx={{ mt: 2, mb: 1 }}>
-                            {steps[activeStep].description}
-                        </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button
                                 color="inherit"
@@ -276,6 +273,9 @@ export const AdvertisingOrder = () => {
                             <Button onClick={handleNext} disabled={activeNext === false} className='border'>
                                 {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
                             </Button>
+                        </Box>
+                        <Box sx={{ mt: 2, mb: 1 }}>
+                            {steps[activeStep].description}
                         </Box>
                     </Fragment>
                 )}

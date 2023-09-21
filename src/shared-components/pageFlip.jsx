@@ -15,11 +15,8 @@ const PageFlip = (props) => {
 
     let bookImg = [];
 
-    bookImg.push(`first.png`)
-
     for (let i = 0; i < props.productDetail.countPages; i++) {
       let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png`
-      console.log(name);
       bookImg.push(name)
     }
 
@@ -52,21 +49,19 @@ const PageFlip = (props) => {
     justifyContent="center"
     alignItems="center"
   >
-    <Button variant="outlined" onClick={flipPrev} sx={{ marginRight: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowBackIosRoundedIcon /></Button>
-    <HTMLFlipBook width={width} height={height} ref={book}>
+    <Button variant="outlined" onClick={flipPrev} sx={{ marginRight: 5, paddingY: 10, paddingX: 4 }}><ArrowBackIosRoundedIcon /></Button>
+    <HTMLFlipBook width={width} height={height} ref={book} showCover={true}>
       {bookImgs && bookImgs.map((element, i) => {
         return (
           <div className="demoPage" key={i}>
-            {
-              i === 0 ? <img src={element} alt="person" width={width} height={height} /> :
-                <img src={element} alt="person" width={width} height={height} style={{ border: `0.5px solid ${PALLETE.LIGHT_GRAY}` }} />
-            }
+            <img src={element} alt={element} width={width} height={height} style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)' }} />
           </div>
         )
       })}
     </HTMLFlipBook>
-    <Button variant="outlined" onClick={flipNext} sx={{ marginLeft: 5, paddingY: 10, paddingX: 4, backgroundColor: PALLETE.LIGHT_GRAY }}><ArrowForwardIosRoundedIcon /></Button>
-  </Box>);
+    <Button variant="outlined" onClick={flipNext} sx={{ marginLeft: 5, paddingY: 10, paddingX: 4 }}><ArrowForwardIosRoundedIcon /></Button>
+  </Box>
+  )
 }
 
 

@@ -17,6 +17,7 @@ const LoadingReducer = produce((state, action) => {
             if (state.isExistLoading == 0) {
                 state.loading = false;
             }
+            state.loading = false;
         }
             break;
         default:

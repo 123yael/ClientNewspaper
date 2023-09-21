@@ -53,11 +53,6 @@ export const BoardAd = () => {
 
     const [arrDates, setArrDates] = useState([])
 
-    // פונקציה להוספת אפס עבור מספר בודד
-    const appendLeadingZeros = (int) => {
-        return (int < 10) ? '0' + int : int
-    }
-
     const getNextTuesdays = (num) => {
         var nextTuesdays = [];
         var currentDate = new Date();

@@ -29,6 +29,7 @@ export const GlobalAxios = () => {
             return response;
         },
         (error) => {
+            dispatch(stopLoading());
             if (error.response?.status == 500)
                 setShowError(true);
             return Promise.reject(error);

@@ -15,6 +15,12 @@ const defaultTheme = createTheme({
       main: PALLETE.PURPLE,
       dark: PALLETE.BLUE,
       contrastText: PALLETE.WHITE,
+    },
+    white: {
+      light: PALLETE.WHITE,
+      main: PALLETE.WHITE,
+      dark: PALLETE.WHITE,
+      contrastText: PALLETE.WHITE,
     }
   },
 });

@@ -4,8 +4,7 @@ import Grid from '@mui/material/Grid';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import { PALLETE, SERVER_NAME } from '../config';
-import { Dialog, DialogContent } from "@mui/material";
-import PageFlip from "./pageFlip";
+import { MagazineModel } from "./magazineModel";
 
 const NewspaperThumbnail = (props) => {
     const [listNewspapersPublished, setListNewspapersPublished] = useState([]);
@@ -57,18 +56,7 @@ const NewspaperThumbnail = (props) => {
                 }
             </Grid>
 
-            <Dialog
-                fullWidth
-                maxWidth={'lg'}
-                open={show}
-                onClose={handleClose}
-                aria-labelledby="contained-modal-title-vcenter"
-                className="prdt-modal"
-            >
-                <DialogContent className="prdt-mbody">
-                    <PageFlip productDetail={productDetail} />
-                </DialogContent>
-            </Dialog>
+            <MagazineModel show={show} handleClose={handleClose} productDetail={productDetail}></MagazineModel>
 
         </div>
     )
