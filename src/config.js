@@ -15,8 +15,8 @@ export const PALLETE = {
     PINK: '#F72FD8',
     BLACK: '#000',
 
-    PINKA: 'rgba(247, 47, 216, 0.5)',
-    BLUEA: 'rgba(117, 9, 217, 0.5)',
-    PURPLEA: 'rgba(196, 53, 255, 0.5)',
+    PINKA: 'rgba(247, 47, 216, 0.1)',
+    BLUEA: 'rgba(117, 9, 217, 0.1)',
+    PURPLEA: 'rgba(196, 53, 255, 0.1)',
     BLACKA: 'rgba(0, 0, 0, 0.5)',
 }

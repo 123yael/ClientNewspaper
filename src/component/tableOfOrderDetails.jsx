@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllOrderDetails } from '../Axios/orderDetailsAxios';
+// import { getAllOrderDetails } from '../Axios/orderDetailsAxios';
 import { setAllDetails } from '../redux/actions/OrderDetailsActions';
 import { getAllAdSizes } from '../Axios/adSizesAxios';
 import { setAllAdSizes } from '../redux/actions/AdSizeActions';
@@ -146,7 +146,7 @@ export const TableOfOrderDetails = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getAllOrderDetails().then(x => dispatch(setAllDetails(x.data)))
+    // getAllOrderDetails().then(x => dispatch(setAllDetails(x.data)))
     getAllAdSizes().then(x => dispatch(setAllAdSizes(x.data)))
   }, [])
   let sizes = useSelector(d => d.AdSizeReducer.list)

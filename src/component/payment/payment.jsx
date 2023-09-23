@@ -25,10 +25,10 @@ const validationSchema = yup.object({
         .min(16, 'Number of card must 16 numbers')
         .max(16, 'Number of card must 16 numbers')
         .required('Card number is required'),
-    expireOn: yup
-        .date('Enter your expireOn')
+    expiry: yup
+        .date('Enter your expiry date')
         .min(new Date(), 'The card has expired')
-        .required('ExpireOn is required'),
+        .required('Expiry date is required'),
     cvv: yup
         .string('Enter your cvv')
         .min(3, 'Cvv must 3 characters')
@@ -39,7 +39,7 @@ const validationSchema = yup.object({
 export const Payment = () => {
 
     const formik = useFormik({
-        initialValues: { name: '', card: '', expireOn: '', cvv: '' },
+        initialValues: { name: '', card: '', expiry: '', cvv: '' },
         validationSchema: validationSchema,
         onSubmit: (values) => { finishOrder() },
     });
@@ -106,9 +106,6 @@ export const Payment = () => {
             }).catch(err => {
                 console.error(err);
             })
-
-
-
     }
 
     return (
@@ -153,13 +150,13 @@ export const Payment = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter expireOn date</h5>
-                                    <TextField id="expireOn" type={"month"} fullWidth
+                                    <h5 className="float-start my-3">Enter expiry date</h5>
+                                    <TextField id="expiry" type={"month"} fullWidth
                                         onBlur={formik.handleBlur}
                                         onChange={formik.handleChange}
-                                        helperText={formik.touched.expireOn && formik.errors.expireOn}
-                                        error={formik.touched.expireOn && Boolean(formik.errors.expireOn)}
-                                        value={formik.values.expireOn}
+                                        helperText={formik.touched.expiry && formik.errors.expiry}
+                                        error={formik.touched.expiry && Boolean(formik.errors.expiry)}
+                                        value={formik.values.expiry}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>

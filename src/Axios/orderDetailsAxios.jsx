@@ -4,6 +4,6 @@ import { SERVER_NAME } from '../config';
 
 let path = `${SERVER_NAME}/api`
 
-export const getAllOrderDetails = () => {
-    return axios.get(`${path}/OrderDetails/getAllOrderDetails`)
+export const getOrderDetailsByDate = (date, page, itemsPerPage) => {
+    return axios.get(`${path}/OrderDetails/GetOrderDetailsByDate/${date}?Page=${page}&ItemsPerPage=${itemsPerPage}`)
 }

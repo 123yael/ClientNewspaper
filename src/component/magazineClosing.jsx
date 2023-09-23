@@ -1,10 +1,14 @@
-import { Box, Button, Checkbox, FormControlLabel, MenuItem, TextField, Typography } from "@mui/material"
+import { Alert, Avatar, Box, Button, Checkbox, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import { useState } from "react"
 import { closingNewspaper, shabetz } from "../Axios/closingNewspaperAxios"
 import { useEffect } from "react"
 import { MagazineModel } from "../shared-components/magazineModel"
 
+
+
 export const MagazineClosing = () => {
+
+    const [isYes, setIsYes] = useState(false);
 
     const [numPages, setNumPages] = useState(0)
     const [arrDates, setArrDates] = useState([])
@@ -14,11 +18,6 @@ export const MagazineClosing = () => {
     const [productDetail, setProductdetail] = useState({})
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-    const [isChecked, setIsChecked] = useState(false)
-
-    const handleChangeChecked = (event) => {
-        setIsChecked(event.target.checked)
-    }
 
     const getNextTuesdays = (num) => {
         var nextTuesdays = [];
@@ -59,6 +58,9 @@ export const MagazineClosing = () => {
             if (err.response?.status === 408)
                 alert("Newspaper not generated in the files!")
         })
+        setNumPages(0)
+        setIsYes(false)
+        setShow(false)
     }
 
     const viewingMagazine = () => {
@@ -71,7 +73,7 @@ export const MagazineClosing = () => {
 
     return (
         <div className='py-5 container'>
-            <Box sx={{ mt: 5, textAlign: "left" }}>
+            <Box sx={{ mt: 5, textAlign: "left"}}>
                 <Typography variant={"h4"}>
                     Hello manager!
                 </Typography>
@@ -112,18 +114,35 @@ export const MagazineClosing = () => {
                     >
                         Viewing the magazine  before publication
                     </Button>
-                    <FormControlLabel
-                        onChange={handleChangeChecked}
-                        sx={{ ml: 1, mt: 3 }}
-                        control={<Checkbox />}
-                        label="The magazine is ready for publication"
-                        disabled={numPages === 0}
-                    />
                 </Typography>
+
+                <Typography sx={{ mt: 2 }}>
+                    The magazine is ready for publication?
+                    <Button
+                        color="primary"
+                        size="lg"
+                        variant={isYes ? "contained" : "outlined"}
+                        sx={{ ml: 2 }}
+                        onClick={() => setIsYes(true)}
+                        disabled={numPages === 0}
+                    >Yes</Button>
+                    <Button
+                        color="primary"
+                        size="lg"
+                        variant={isYes ? "outlined" : "contained"}
+                        sx={{ ml: 2 }}
+                        onClick={() => setIsYes(false)}
+                        disabled={numPages === 0}
+                    >No</Button>
+                </Typography>
+
+                <Alert severity="warning" sx={{mt: 2, width: 400}} >Beware! Once clicked you won't be able to regret!</Alert>
+
+
                 <Typography>
                     <Button
                         onClick={publishMagazine}
-                        disabled={!isChecked}
+                        disabled={!isYes}
                         type="button"
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}

@@ -4,6 +4,7 @@ import { SERVER_NAME } from "../config";
 import { Box, Button } from "@mui/material";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import { date } from "yup";
 
 const PageFlip = (props) => {
   const book = useRef();
@@ -13,6 +14,8 @@ const PageFlip = (props) => {
 
   useEffect(() => {
 
+    let date = new Date()
+    
     let bookImg = [];
 
     if (props.productDetail.isFromCache)
@@ -22,7 +25,7 @@ const PageFlip = (props) => {
       }
     else
       for (let i = 0; i < props.productDetail.countPages; i++) {
-        let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png?id=${props.productDetail.newspaperId}`
+        let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png?id=${date.getTime()}`
         bookImg.push(name)
       }
 
