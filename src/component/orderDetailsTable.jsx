@@ -172,7 +172,6 @@ export const OrderDetailsTable = (props) => {
                 rows={rows}
                 columns={columns}
                 rowCount={totalCount}
-                autoPageSize
                 paginationModel={paginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setPaginationModel}

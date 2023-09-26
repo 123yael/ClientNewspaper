@@ -3,6 +3,7 @@ import { useState } from "react"
 import { closingNewspaper, shabetz } from "../Axios/closingNewspaperAxios"
 import { useEffect } from "react"
 import { MagazineModel } from "../shared-components/magazineModel"
+import { getNextTuesdays } from "../shared-functions/shared-functions"
 
 
 
@@ -18,17 +19,6 @@ export const MagazineClosing = () => {
     const [productDetail, setProductdetail] = useState({})
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-
-    const getNextTuesdays = (num) => {
-        var nextTuesdays = [];
-        var currentDate = new Date();
-        while (nextTuesdays.length < num) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            if (currentDate.getDay() === 2)
-                nextTuesdays.push(new Date(currentDate).toLocaleDateString('en-CA'));
-        }
-        return nextTuesdays;
-    }
 
     const setInputs = () => {
         let arr = getNextTuesdays(5)

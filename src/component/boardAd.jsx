@@ -12,6 +12,7 @@ import { setDatesOfAd, setOrderDetailsOfAds } from "../redux/actions/OrderDetail
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
+import { getNextTuesdays } from '../shared-functions/shared-functions';
 
 const validationSchema = yup.object({
     category: yup
@@ -52,17 +53,6 @@ export const BoardAd = () => {
     const boardAdTopics = useSelector(w => w.WordAdSubCategoryReducer.list)
 
     const [arrDates, setArrDates] = useState([])
-
-    const getNextTuesdays = (num) => {
-        var nextTuesdays = [];
-        var currentDate = new Date();
-        while (nextTuesdays.length < num) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            if (currentDate.getDay() === 2)
-                nextTuesdays.push(new Date(currentDate).toLocaleDateString('en-CA'));
-        }
-        return nextTuesdays;
-    }
 
     const setInputs = () => {
         let arr = getNextTuesdays(5)

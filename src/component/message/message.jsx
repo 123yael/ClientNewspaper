@@ -1,30 +1,43 @@
-import { Card, CardContent, Typography } from "@mui/material";
-import { PALLETE } from "../../config";
+import * as React from 'react';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
+import { Alert, AlertTitle, Box, Button, Dialog } from '@mui/material';
+import { PALLETE } from '../../config';
 
 export const Message = (props) => {
 
     return (
-        <Card sx={{backgroundImage: `linear-gradient(100deg, ${PALLETE.PINK} 25%, ${PALLETE.WHITE} 50%, ${PALLETE.BLUE} 100%)`}}>
-            <CardContent>
-                <Typography variant="h5">
-                    Hi {props.name},
+        <Dialog
+            open={props.open}
+            onClose={props.handleClose}
+            aria-labelledby="customized-dialog-title"
+            maxWidth={'sm'}
+            fullWidth
+        >
+            <Box display="flex"
+                marginBottom={1}
+                justifyContent="flex-end"
+            >
+                <Button
+                    aria-label="close"
+                    onClick={props.handleClose}
+                    sx={{ color: PALLETE.DARK_GRAY }}
+                >
+                    <CloseIcon />
+                </Button>
+            </Box>
+            <DialogContent dividers>
+                <Typography gutterBottom>
+                    
                 </Typography>
-                <Typography sx={{ fontSize: 18 }} color="text.secondary">
-                    Thanks for contacting us
-                </Typography>
-                <Typography sx={{ fontSize: 18 }} color="text.secondary">
-                    We will be happy to be in touch with you regarding your application
-                </Typography>
-                <Typography sx={{ fontSize: 18 }} color="text.secondary">
-                    Thank you very much for your cooperation,
-                </Typography>
-                <Typography sx={{ fontSize: 18 }} color="text.secondary">
-                    Company managers
-                </Typography>
-                <Typography sx={{ mt: 2 }} color="text.secondary" gutterBottom>
-                    <img src='../pic/logo.png' alt="logo" width={140} />
-                </Typography>
-            </CardContent>
-        </Card>
+                <Alert severity="info" className="my-3">
+                    <AlertTitle>Info</AlertTitle>
+                    The accuracy in the measurements is important, an ad with inappropriate sizes will automatically become the desired size without responsibility for the result!
+                </Alert>
+            </DialogContent>
+        </Dialog>
     )
 }

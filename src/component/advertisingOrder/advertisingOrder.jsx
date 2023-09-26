@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 import { PALLETE } from '../../config';
+import { Message } from '../message/message';
 
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
@@ -89,33 +90,12 @@ const ColorlibStepIcon = (props) => {
     );
 }
 
-ColorlibStepIcon.propTypes = {
-    /**
-     * Whether this step is active.
-     * @default false
-     */
-    active: PropTypes.bool,
-    className: PropTypes.string,
-    /**
-     * Mark the step as completed. Is passed to child components.
-     * @default false
-     */
-    completed: PropTypes.bool,
-    /**
-     * The label displayed in the step icon.
-     */
-    icon: PropTypes.node,
-};
-
 
 export const AdvertisingOrder = () => {
 
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
-
-    // let customer = {}
-    // customer = useSelector(c => c.CustomersReducer.customer)
 
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
@@ -261,7 +241,6 @@ export const AdvertisingOrder = () => {
                     <Fragment>
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button
-                                color="inherit"
                                 disabled={activeStep === 0}
                                 onClick={handleBack}
                                 sx={{ mr: 1 }}
@@ -270,6 +249,9 @@ export const AdvertisingOrder = () => {
                                 Back
                             </Button>
                             <Box sx={{ flex: '1 1 auto' }} />
+                            {/* {(activeStep === steps.length - 1 && activeNext) && <Button onClick={anotherAd} sx={{ mr: 1 }}>
+                                Another ad
+                            </Button>} */}
                             <Button onClick={handleNext} disabled={activeNext === false} className='border'>
                                 {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
                             </Button>

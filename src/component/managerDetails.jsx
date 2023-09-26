@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TableOfOrderDetails } from "./tableOfOrderDetails";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllNewspapersPublished } from '../Axios/newspapersPublishedAxios';
@@ -13,19 +12,25 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import { PALLETE } from '../config';
 import NewspaperFilter from './newspaperFilter';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { PaginationNewspaper } from './paginationNewspaper';
 import { OrderDetailsTable } from './orderDetailsTable';
+import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import { getNextTuesdays } from '../shared-functions/shared-functions';
 
 export const ManagerDetails = () => {
 
-    const itemsPerPage = 16
+    const itemsPerPage = 10
 
     const [listNewspapersPublished, setListNewspapersPublished] = useState([]);
     const [date, setDate] = useState("");
     const [sheet, setSheet] = useState("");
     const [totalPages, setTotalPages] = useState()
     const [page, setPage] = useState(1);
+    // for diraction of buttens: newspapers pablished and Future newspapers.
+    const [dirNP, setDirNP] = useState(false)
+    const [dirFN, setDirFN] = useState(true)
 
     const getAllNewspaper = (page) => {
         let num = 2000
@@ -46,6 +51,7 @@ export const ManagerDetails = () => {
 
     useEffect(() => {
         getAllNewspaper(1)
+        setInputs()
     }, [sheet, date]);
 
     const [expanded, setExpanded] = useState(false);
@@ -76,43 +82,96 @@ export const ManagerDetails = () => {
         setDate("")
     }
 
+
+    //---------------------------------//
+    const [arrDates, setArrDates] = useState([])
+
+
+    const setInputs = () => {
+        let arr = getNextTuesdays(5)
+        setArrDates(arr)
+    }
+
     return (
         <div className='py-5 container'>
             <div className="mt-5">
-                <NewspaperFilter getAll={getAll} onHandelInputChangeDate={onHandelInputChangeDate} onHandelInputChangeSheet={onHandelInputChangeSheet}></NewspaperFilter>
 
-                <Box marginTop={5}>
+                <Box marginTop={5} sx={{ textAlign: "left" }}>
+                    <Button sx={{ mb: 1 }} startIcon={dirFN ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />} onClick={() => setDirFN(!dirFN)}>
+                        Future newspapers
+                    </Button>
                     {
-                        listNewspapersPublished.map((newspaper, index) => (
-                            <Accordion
-                                // expanded={expanded === index}
-                                onChange={() => handleChange(newspaper.publicationDate)}
-                                key={index}
-                                sx={{ border: `1px solid ${PALLETE.PURPLE}`, backgroundColor: PALLETE.PURPLEA }}
-                            >
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1bh-content"
-                                    id="panel1bh-header"
+                        dirFN ?
+                            arrDates.map((date, index) => (
+                                <Accordion
+                                    // expanded={expanded === index}
+                                    onChange={() => handleChange(date)}
+                                    key={index}
+                                    sx={{ border: `1px solid ${PALLETE.PURPLE}`, backgroundColor: PALLETE.PURPLEA }}
                                 >
-                                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                                        Date: {newspaper.publicationDate}
-                                    </Typography>
-                                    <Typography sx={{ color: 'text.secondary' }}>
-                                        Sheet: {newspaper.newspaperId}
-                                    </Typography>
-                                </AccordionSummary>
-                                {
-                                    dateNewspaper === newspaper.publicationDate &&
-                                    <AccordionDetails>
-                                        <OrderDetailsTable date={newspaper.publicationDate}></OrderDetailsTable>
-                                    </AccordionDetails>
-                                }
-                            </Accordion>
-                        ))
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1bh-content"
+                                        id="panel1bh-header"
+                                    >
+                                        <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                            Date: {date}
+                                        </Typography>
+                                    </AccordionSummary>
+                                    {
+                                        dateNewspaper === date &&
+                                        <AccordionDetails>
+                                            <OrderDetailsTable date={date}></OrderDetailsTable>
+                                        </AccordionDetails>
+                                    }
+                                </Accordion>
+                            )) : <></>
                     }
                 </Box>
-                <PaginationNewspaper totalPages={totalPages} hendleChangePage={hendleChangePage} page={page}></PaginationNewspaper>
+
+                <Box marginTop={5} sx={{ textAlign: "left" }}>
+                    <Button sx={{ mb: 1 }} startIcon={dirNP ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />} onClick={() => setDirNP(!dirNP)}>
+                        Newspapers published
+                    </Button>
+                    {dirNP ?
+                        <div>
+                            <Box sx={{ mb: 5 }}>
+                                <NewspaperFilter getAll={getAll} onHandelInputChangeDate={onHandelInputChangeDate} onHandelInputChangeSheet={onHandelInputChangeSheet}></NewspaperFilter>
+                            </Box>
+                            {
+                                listNewspapersPublished.map((newspaper, index) => (
+                                    <Accordion
+                                        // expanded={expanded === index}
+                                        onChange={() => handleChange(newspaper.publicationDate)}
+                                        key={index}
+                                        sx={{ border: `1px solid ${PALLETE.PURPLE}`, backgroundColor: PALLETE.PURPLEA }}
+                                    >
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1bh-content"
+                                            id="panel1bh-header"
+                                        >
+                                            <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                                Date: {newspaper.publicationDate}
+                                            </Typography>
+                                            <Typography sx={{ color: 'text.secondary' }}>
+                                                Sheet: {newspaper.newspaperId}
+                                            </Typography>
+                                        </AccordionSummary>
+                                        {
+                                            dateNewspaper === newspaper.publicationDate &&
+                                            <AccordionDetails>
+                                                <OrderDetailsTable date={newspaper.publicationDate}></OrderDetailsTable>
+                                            </AccordionDetails>
+                                        }
+                                    </Accordion>
+                                ))
+                            }
+                            <Box sx={{ textAlign: "center" }}>
+                                <PaginationNewspaper totalPages={totalPages} hendleChangePage={hendleChangePage} page={page}></PaginationNewspaper>
+                            </Box>
+                        </div> : <></>}
+                </Box>
             </div>
         </div>
     );

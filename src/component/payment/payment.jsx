@@ -51,10 +51,6 @@ export const Payment = () => {
     // מיד בעת טעינת הקומפוננטה תשוגר רשימת גדלי הפרסומות לרדוסר
     useEffect(() => {
         getAllAdSizes().then(s => dispatch(setAllAdSizes(s.data)))
-        // const custFromCookies = getFromCookies("currentUser")
-        // if (custFromCookies !== null)
-        //     if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR)
-        //         finishOrder()
     }, [])
 
     // חילוץ רשימת פרטי הזמנות מהרדוסר
