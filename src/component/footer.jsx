@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { Contact } from './contact';
 import { PALLETE } from '../config';
+import { getDateNow } from '../shared-functions/shared-functions';
 
 const Copyright = () => {
   return (
@@ -13,7 +14,7 @@ const Copyright = () => {
       {'Yael © '}
       <Link color="inherit" href="https://github.com/123yael">
         github
-      </Link>{' '}{new Date().getFullYear()}
+      </Link>{' '}{getDateNow().getFullYear()}
     </Typography>
   );
 }

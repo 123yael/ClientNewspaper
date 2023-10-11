@@ -12,7 +12,7 @@ export const MagazineClosing = () => {
     const [isYes, setIsYes] = useState(false);
 
     const [numPages, setNumPages] = useState(0)
-    const [arrDates, setArrDates] = useState([])
+    // const [arrDates, setArrDates] = useState([])
     const [date, setDate] = useState("")
 
     const [show, setShow] = useState(false);
@@ -22,12 +22,7 @@ export const MagazineClosing = () => {
 
     const setInputs = () => {
         let arr = getNextTuesdays(5)
-        setArrDates(arr)
         setDate(arr[0])
-    }
-
-    const changeDate = (event) => {
-        setDate(event.target.value)
     }
 
     const createMagazine = () => {
@@ -63,29 +58,13 @@ export const MagazineClosing = () => {
 
     return (
         <div className='py-5 container'>
-            <Box sx={{ mt: 5, textAlign: "left"}}>
+            <Box sx={{ mt: 5, textAlign: "left" }}>
                 <Typography variant={"h4"}>
                     Hello manager!
                 </Typography>
                 <Typography variant={"h6"} sx={{ mt: 3 }}>
                     Please note that the publication day of the newspaper is Tuesday, please check the correctness of the magazine before publication.
                 </Typography>
-                <Typography variant={"h6"} sx={{ mt: 1 }}>
-                    Select a date for posting the newspaper
-                </Typography>
-                <TextField
-                    sx={{ mt: 3, width: 150 }}
-                    select
-                    id="date"
-                    name="date"
-                    label="Date"
-                    onChange={changeDate}
-                    value={date}
-                >
-                    {arrDates.map((d, i) => (
-                        <MenuItem key={i} value={d}>{d}</MenuItem>
-                    ))}
-                </TextField>
                 <Typography>
                     <Button
                         onClick={createMagazine}
@@ -126,7 +105,7 @@ export const MagazineClosing = () => {
                     >No</Button>
                 </Typography>
 
-                <Alert severity="warning" sx={{mt: 2, width: 400}} >Beware! Once clicked you won't be able to regret!</Alert>
+                <Alert severity="warning" sx={{ mt: 2, width: 400 }} >Beware! Once clicked you won't be able to regret!</Alert>
 
 
                 <Typography>

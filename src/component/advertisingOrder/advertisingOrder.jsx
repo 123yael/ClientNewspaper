@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 import { PALLETE } from '../../config';
 import { Message } from '../message/message';
+import { Payment } from '../payment/payment';
 
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
@@ -112,6 +113,8 @@ export const AdvertisingOrder = () => {
     // משתנה שאומר האם להציג את ההודאת לפני התשלום
     const [beforePay, setBeforePay] = useState(true)
 
+    const [toPay, setToPay] = useState(false)
+
 
     const isStepSkipped = (step) => {
         return skipped.has(step)
@@ -199,7 +202,8 @@ export const AdvertisingOrder = () => {
 
         dispatch(setOrderDetailsOfAds([...arr1]))
         dispatch(setDatesOfAd([...arr2]))
-        navigate('/payment')
+        setToPay(true)
+        // navigate('/advertisingOrder/payment')
     }
 
     // מערך שמכיל קומפוננטות של צעדים ושמות שלהם להצגה
@@ -211,57 +215,60 @@ export const AdvertisingOrder = () => {
     ];
 
     return (
-        <div className='py-5 container'>
-            <Box sx={{ width: '100%' }} className='pb-5 mt-5'>
-                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                    {steps.map((s, index) => {
-                        const stepProps = {};
-                        const labelProps = {};
-                        if (isStepSkipped(index)) {
-                            stepProps.completed = false;
-                        }
-                        return (
-                            <Step key={index} {...stepProps}>
-                                <StepLabel {...labelProps} StepIconComponent={ColorlibStepIcon}>{s.label}</StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                {activeStep === steps.length ? (
-                    <Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            All steps completed - you're finished
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            <Button onClick={handleReset}>Reset</Button>
-                        </Box>
-                    </Fragment>
-                ) : (
-                    <Fragment>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Button
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                sx={{ mr: 1 }}
-                                className='border'
-                            >
-                                Back
-                            </Button>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            {/* {(activeStep === steps.length - 1 && activeNext) && <Button onClick={anotherAd} sx={{ mr: 1 }}>
+        <>
+            {!toPay ?
+                <div className='py-5 container'>
+                    <Box sx={{ width: '100%' }} className='pb-5 mt-5'>
+                        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                            {steps.map((s, index) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                if (isStepSkipped(index)) {
+                                    stepProps.completed = false;
+                                }
+                                return (
+                                    <Step key={index} {...stepProps}>
+                                        <StepLabel {...labelProps} StepIconComponent={ColorlibStepIcon}>{s.label}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    All steps completed - you're finished
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                        className='border'
+                                    >
+                                        Back
+                                    </Button>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    {/* {(activeStep === steps.length - 1 && activeNext) && <Button onClick={anotherAd} sx={{ mr: 1 }}>
                                 Another ad
                             </Button>} */}
-                            <Button onClick={handleNext} disabled={activeNext === false} className='border'>
-                                {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
-                            </Button>
-                        </Box>
-                        <Box sx={{ mt: 2, mb: 1 }}>
-                            {steps[activeStep].description}
-                        </Box>
-                    </Fragment>
-                )}
-            </Box>
-        </div>
+                                    <Button onClick={handleNext} disabled={activeNext === false} className='border'>
+                                        {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
+                                    </Button>
+                                </Box>
+                                <Box sx={{ mt: 2, mb: 1 }}>
+                                    {steps[activeStep].description}
+                                </Box>
+                            </Fragment>
+                        )}
+                    </Box>
+                </div> : <Payment />}
+        </>
     )
 }

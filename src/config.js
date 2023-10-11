@@ -19,4 +19,5 @@ export const PALLETE = {
     BLUEA: 'rgba(117, 9, 217, 0.1)',
     PURPLEA: 'rgba(196, 53, 255, 0.1)',
     BLACKA: 'rgba(0, 0, 0, 0.5)',
+    REDA: 'rgba(238, 105, 106, 0.5)',
 }

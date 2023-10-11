@@ -14,10 +14,11 @@ import { PALLETE } from '../config';
 import NewspaperFilter from './newspaperFilter';
 import { Box, Button } from '@mui/material';
 import { PaginationNewspaper } from './paginationNewspaper';
-import { OrderDetailsTable } from './orderDetailsTable';
+import { OrderDetailsTable } from './detailsTable/orderDetailsTable';
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import { getNextTuesdays } from '../shared-functions/shared-functions';
+import { WordAndFilesTabs } from './wordAndFilesTabs';
 
 export const ManagerDetails = () => {
 
@@ -28,7 +29,7 @@ export const ManagerDetails = () => {
     const [sheet, setSheet] = useState("");
     const [totalPages, setTotalPages] = useState()
     const [page, setPage] = useState(1);
-    // for diraction of buttens: newspapers pablished and Future newspapers.
+    // fo diractionr of buttens: newspapers pablished and Future newspapers.
     const [dirNP, setDirNP] = useState(false)
     const [dirFN, setDirFN] = useState(true)
 
@@ -56,15 +57,12 @@ export const ManagerDetails = () => {
 
     const [expanded, setExpanded] = useState(false);
 
-    // const handleChange = (panel) => (event, isExpanded) => {
-    //     setExpanded(isExpanded ? panel : false);
-    // };
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+        setDateNewspaper(isExpanded ? panel : "");
+    };
 
     const [dateNewspaper, setDateNewspaper] = useState("");
-
-    const handleChange = (date) => {
-        setDateNewspaper(date);
-    };
 
     const onHandelInputChangeDate = (e) => {
         setDate(e.target.value.toLowerCase())
@@ -82,10 +80,7 @@ export const ManagerDetails = () => {
         setDate("")
     }
 
-
-    //---------------------------------//
     const [arrDates, setArrDates] = useState([])
-
 
     const setInputs = () => {
         let arr = getNextTuesdays(5)
@@ -95,7 +90,6 @@ export const ManagerDetails = () => {
     return (
         <div className='py-5 container'>
             <div className="mt-5">
-
                 <Box marginTop={5} sx={{ textAlign: "left" }}>
                     <Button sx={{ mb: 1 }} startIcon={dirFN ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />} onClick={() => setDirFN(!dirFN)}>
                         Future newspapers
@@ -104,8 +98,9 @@ export const ManagerDetails = () => {
                         dirFN ?
                             arrDates.map((date, index) => (
                                 <Accordion
-                                    // expanded={expanded === index}
-                                    onChange={() => handleChange(date)}
+                                    expanded={expanded === date}
+                                    onChange={handleChange(date)}
+                                    // onChange={() => handleChange(date)}
                                     key={index}
                                     sx={{ border: `1px solid ${PALLETE.PURPLE}`, backgroundColor: PALLETE.PURPLEA }}
                                 >
@@ -114,16 +109,17 @@ export const ManagerDetails = () => {
                                         aria-controls="panel1bh-content"
                                         id="panel1bh-header"
                                     >
-                                        <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                        <Typography>
                                             Date: {date}
                                         </Typography>
                                     </AccordionSummary>
-                                    {
-                                        dateNewspaper === date &&
-                                        <AccordionDetails>
-                                            <OrderDetailsTable date={date}></OrderDetailsTable>
-                                        </AccordionDetails>
-                                    }
+                                    <AccordionDetails>
+                                        {
+                                            dateNewspaper === date ?
+                                                <WordAndFilesTabs publicationDate={date}></WordAndFilesTabs>
+                                                : <></>
+                                        }
+                                    </AccordionDetails>
                                 </Accordion>
                             )) : <></>
                     }
@@ -141,8 +137,8 @@ export const ManagerDetails = () => {
                             {
                                 listNewspapersPublished.map((newspaper, index) => (
                                     <Accordion
-                                        // expanded={expanded === index}
-                                        onChange={() => handleChange(newspaper.publicationDate)}
+                                        expanded={expanded === newspaper.publicationDate}
+                                        onChange={handleChange(newspaper.publicationDate)}
                                         key={index}
                                         sx={{ border: `1px solid ${PALLETE.PURPLE}`, backgroundColor: PALLETE.PURPLEA }}
                                     >
@@ -161,7 +157,7 @@ export const ManagerDetails = () => {
                                         {
                                             dateNewspaper === newspaper.publicationDate &&
                                             <AccordionDetails>
-                                                <OrderDetailsTable date={newspaper.publicationDate}></OrderDetailsTable>
+                                                <WordAndFilesTabs publicationDate={newspaper.publicationDate}></WordAndFilesTabs>
                                             </AccordionDetails>
                                         }
                                     </Accordion>

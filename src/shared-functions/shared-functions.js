@@ -1,7 +1,7 @@
 
 export const getNextTuesdays = (num) => {
     var nextTuesdays = [];
-    var currentDate = new Date();
+    var currentDate = getDateNow();
     while (nextTuesdays.length < num) {
         currentDate.setDate(currentDate.getDate() + 1);
         if (currentDate.getDay() === 2)
@@ -12,4 +12,9 @@ export const getNextTuesdays = (num) => {
             }));
     }
     return nextTuesdays;
+}
+
+export const getDateNow = () => {
+    let date = new Date(2023, 7, 13)
+    return date;
 }

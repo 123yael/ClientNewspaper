@@ -17,17 +17,6 @@ export const Dates = (props) => {
         return (int < 10) ? '0' + int : int
     }
 
-    // const getNextTuesdays = (num) => {
-    //     var nextTuesdays = [];
-    //     var currentDate = new Date();
-    //     while (nextTuesdays.length < num) {
-    //         currentDate.setDate(currentDate.getDate() + 1);
-    //         if (currentDate.getDay() === 2)
-    //             nextTuesdays.push(new Date(currentDate).toLocaleDateString('en-CA'));
-    //     }
-    //     return nextTuesdays;
-    // }
-
     const setInputs = (event) => {
         let num = event.target.value
         setCount(num)

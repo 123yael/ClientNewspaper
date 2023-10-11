@@ -11,19 +11,22 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
-import { MANAGER_EMAIL, MANAGER_PASSWODR } from '../config';
+import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE } from '../config';
 import { getFromCookies, removeFromCookies } from '../cookiesUtils';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Tab } from '@mui/material';
 
 export const Nav = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
     const BASELINKS = ['./', 'about', 'newspaperArchive']
     const BASENAVITEMS = ['Home', 'About', 'Newspaper archive']
@@ -32,32 +35,44 @@ export const Nav = () => {
     const [links, setLinks] = useState([...BASELINKS, 'logIn', 'signUp'])
     const [nameLinks, setNameLinks] = useState([...BASENAVITEMS, 'Log In', 'Sign Up'])
     const [isMobileOpen, setIsMobileOpen] = useState(false)
+    const [value, setValue] = useState(0);
+
 
     let isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
 
     useEffect(() => {
         const custFromCookies = getFromCookies("currentUser")
+        let arr = []
         if (custFromCookies !== null) {
             if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR) {
-                setLinks([...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails'])
+                arr = [...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails']
+                setLinks(arr)
                 setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
             }
             else {
-                setLinks([...BASELINKS, 'advertisingOrder', 'boardAd'])
+                arr = [...BASELINKS, 'advertisingOrder', 'boardAd']
+                setLinks(arr)
                 setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad'])
             }
         }
         else {
-            setLinks([...BASELINKS, 'logIn', 'signUp'])
+            arr = [...BASELINKS, 'logIn', 'signUp']
+            setLinks(arr)
             setNameLinks([...BASENAVITEMS, 'Log In', 'Sign Up'])
         }
-
+        let l = location.pathname.slice(1)
+        setValue(arr.indexOf(l === "" ? "./" : l))
     }, [isChangeCustomer])
 
     useEffect(() => {
         if (getFromCookies("currentUser") !== undefined)
             dispatch(setIsExistsCustomer(true))
     }, [])
+
+    useEffect(() => {
+        let l = location.pathname.slice(1)
+        setValue(links.indexOf(l === "" ? "./" : l))
+    }, [location.pathname])
 
     const handleDrawerToggle = () => {
         setIsMobileOpen((prevState) => !prevState);
@@ -73,6 +88,11 @@ export const Nav = () => {
         navigate('/')
     }
 
+    const handleChange = (event, index) => {
+        setValue(index);
+        navigate(`/${links[index]}`)
+    };
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -83,16 +103,21 @@ export const Nav = () => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Toolbar sx={{ display: { xs: 'none', md: 'block' } }} style={{ backgroundColor: '#21262A' }} className='p-0'>
+                    <Toolbar sx={{ display: { xs: 'none', md: 'block', m: 0 }, backgroundColor: '#21262A' }} className='p-0'>
                         <img src='../pic/logo.png' alt="logo" width={140} />
                     </Toolbar>
-                    <Box sx={{ display: { xs: 'none', md: 'block' } }} className='ms-3'>
-                        {
-                            nameLinks.map((item, i) => (
-                                <Button key={item} className='bg-light text-dark' onClick={() => anotherSubject(i)}>{item}</Button>
-                            ))
-                        }
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }} className='ms-3 p-0'>
+                        <TabContext value={value}>
+                            <TabList onChange={handleChange} >
+                                {
+                                    nameLinks.map((item, i) => (
+                                        <Tab variant="contained" key={item} label={item} value={i} />
+                                    ))
+                                }
+                            </TabList>
+                        </TabContext>
                     </Box>
+
                     <Box sx={{ flex: '1 1 auto' }} />
                     {
                         getFromCookies("currentUser") !== null &&
@@ -115,13 +140,15 @@ export const Nav = () => {
                             <img src='../pic/logo.png' alt="logo" width={140} />
                         </Toolbar>
                         <List>
-                            {nameLinks.map((item, i) => (
-                                <ListItem key={item} disablePadding>
-                                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => anotherSubject(i)}>
-                                        <ListItemText primary={item} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
+                            <TabContext value={value}>
+                                <TabList onChange={handleChange} orientation="vertical">
+                                    {
+                                        nameLinks.map((item, i) => (
+                                            <Tab key={item} label={item} value={i} />
+                                        ))
+                                    }
+                                </TabList>
+                            </TabContext>
                         </List>
                     </Box>
                 </Drawer>

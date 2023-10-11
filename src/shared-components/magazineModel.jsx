@@ -15,7 +15,7 @@ export const MagazineModel = (props) => {
         >
             <DialogTitle></DialogTitle>
             <DialogContent className="prdt-mbody">
-                <PageFlip productDetail={props.productDetail} />
+                <PageFlip productDetail={props.productDetail} isFromCache={props.isFromCache} />
             </DialogContent>
         </Dialog>
     )

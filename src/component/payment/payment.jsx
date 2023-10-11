@@ -1,7 +1,7 @@
 import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from '@mui/material'
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
 import { finishOrderAdWordsAxios, finishOrderAxios, finishOrderAxiosBoardAd } from '../../Axios/orderAxios';
@@ -12,7 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import { getFromCookies } from '../../cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE } from '../../config';
+import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE, SERVER_NAME } from '../../config';
+import { getDateNow } from '../../shared-functions/shared-functions';
+import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { sendMessage } from '../../shared-functions/signalR';
 
 const defaultTheme = createTheme();
 
@@ -27,7 +30,7 @@ const validationSchema = yup.object({
         .required('Card number is required'),
     expiry: yup
         .date('Enter your expiry date')
-        .min(new Date(), 'The card has expired')
+        .min(getDateNow(), 'The card has expired')
         .required('Expiry date is required'),
     cvv: yup
         .string('Enter your cvv')
@@ -36,7 +39,7 @@ const validationSchema = yup.object({
         .required('Cvv is required'),
 });
 
-export const Payment = () => {
+export const Payment = (props) => {
 
     const formik = useFormik({
         initialValues: { name: '', card: '', expiry: '', cvv: '' },
@@ -61,6 +64,16 @@ export const Payment = () => {
 
     let customer = getFromCookies("currentUser")
 
+    let connection = useSelector(y => y.MessagesReducer.connection)
+
+    const sendMessage = async (message) => {
+        try {
+            await connection.invoke("SendMessage", message)
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     // פונקציה לסיום הזמנה
     const finishOrder = () => {
 
@@ -73,10 +86,10 @@ export const Payment = () => {
                 let temp = listOrderDetailsFromRedux[i].adFile
                 handleImageUpload(temp)
                     .then((response) => {
-                        console.log(response);
+                        console.log("success");
                     })
                     .catch((error) => {
-                        console.log(error);
+                        console.log("not success");
                     });
                 listTempOD.push({ ...listOrderDetailsFromRedux[i], adFile: temp.name })
             }
@@ -102,6 +115,8 @@ export const Payment = () => {
             }).catch(err => {
                 console.error(err);
             })
+
+        sendMessage("new message")
     }
 
     return (
