@@ -14,7 +14,7 @@ import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import { signUp } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
-import { saveToCookies } from '../cookiesUtils';
+import { saveToCookies } from '../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
@@ -160,7 +160,7 @@ export const SignUp = () => {
                   helperText={formik.touched.password && formik.errors.password}
                   value={formik.values.password}
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}                  
+                  onChange={formik.handleChange}
                   name="password"
                   id="password"
                   label="Password"

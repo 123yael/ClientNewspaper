@@ -9,13 +9,14 @@ import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { useNavigate } from 'react-router-dom';
-import { getFromCookies } from '../../cookiesUtils';
+import { getFromCookies } from '../../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE, SERVER_NAME } from '../../config';
 import { getDateNow } from '../../shared-functions/shared-functions';
 import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { sendMessage } from '../../shared-functions/signalR';
+import { Message } from '../message/message';
 
 const defaultTheme = createTheme();
 
@@ -40,6 +41,12 @@ const validationSchema = yup.object({
 });
 
 export const Payment = (props) => {
+
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false)
+        navigate('/')
+    }
 
     const formik = useFormik({
         initialValues: { name: '', card: '', expiry: '', cvv: '' },
@@ -103,15 +110,17 @@ export const Payment = (props) => {
 
         if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
             finishOrderAxios(finishOrder).then(res => {
-                window.alert("The order was successfully placed")
-                navigate('/')
+                // window.alert("The order was successfully placed")
+                setOpen(true)
+                // navigate('/')
             }).catch(err => {
                 console.error(err);
             })
         else
             finishOrderAdWordsAxios(finishOrder).then(res => {
-                window.alert("The order was successfully placed")
-                navigate('/')
+                setOpen(true)
+                // window.alert("The order was successfully placed")
+                // navigate('/')
             }).catch(err => {
                 console.error(err);
             })
@@ -200,6 +209,9 @@ export const Payment = (props) => {
                     </Box>
                 </Container>
             </ThemeProvider>
+
+            <Message open={open} handleClose={handleClose}></Message>
+
         </div >
     )
 }

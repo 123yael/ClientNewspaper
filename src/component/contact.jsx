@@ -1,35 +1,38 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material"
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import * as yup from 'yup';
 import { sentEmail } from "../Axios/emailAxios";
 import { useFormik } from "formik";
 import { Message } from "./message/message";
+import { PALLETE } from "../config";
 
 const validationSchema = yup.object({
     name: yup
         .string('Enter your name'),
+    subject: yup
+        .string('Enter your subject'),
     email: yup
         .string('Enter your date')
         .email('Enter a valid email')
-        .required('Email is required'),
-    subject: yup
-        .string('Enter your subject'),
+        .required(),
+    phone: yup
+        .number('Enter your phone'),
     message: yup
         .string('Enter your message')
-        .required('Message is required'),
+        .required(),
 });
 
 export const Contact = () => {
 
     const formik = useFormik({
-        initialValues: { name: '', email: '', subject: '', message: '' },
+        initialValues: { name: '', subject: '', email: '', phone: '', message: '' },
         validationSchema: validationSchema,
         onSubmit: (values, { resetForm }) => { sentMessage(values, { resetForm }) },
     });
 
     const sentMessage = (values, { resetForm }) => {
-        sentEmail(values.name, values.email, values.message, values.subject)
+        sentEmail(values.name, values.email, values.message, values.subject, values.phone)
             .then(res => {
                 alert("Your message has been sent successfully")
                 resetForm()
@@ -41,15 +44,19 @@ export const Contact = () => {
 
 
     return (
-        <div>
+        <div className="mb-5">
             <Typography variant="h2" component="h1" gutterBottom>
-                Contact Us
+                Talk to us
+                <Typography variant="h6" component="h6" gutterBottom>
+                    Leave details and we will get back to you soon
+                </Typography>
             </Typography>
+
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={7.5}>
+                <Grid item xs={12} sm={7}>
                     <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField fullWidth id="name" label="Your Name" name="name"
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
@@ -57,19 +64,27 @@ export const Contact = () => {
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField fullWidth id="email" label="Your Email" name="email"
+                            <Grid item xs={12} sm={6}>
+                                <TextField fullWidth id="subject" label="Your Subject Message" name="subject"
+                                    error={formik.touched.subject && Boolean(formik.errors.subject)}
+                                    helperText={formik.touched.subject && formik.errors.subject}
+                                    value={formik.values.subject}
+                                    onChange={formik.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField fullWidth id="email" label="Your Email *" name="email"
                                     error={formik.touched.email && Boolean(formik.errors.email)}
                                     helperText={formik.touched.email && formik.errors.email}
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField fullWidth id="subject" label="Your Subject Message" name="subject"
-                                    error={formik.touched.subject && Boolean(formik.errors.subject)}
-                                    helperText={formik.touched.subject && formik.errors.subject}
-                                    value={formik.values.subject}
+                            <Grid item xs={12} sm={6}>
+                                <TextField fullWidth id="phone" label="Your Phone" name="phone"
+                                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                    helperText={formik.touched.phone && formik.errors.phone}
+                                    value={formik.values.phone}
                                     onChange={formik.handleChange}
                                 />
                             </Grid>
@@ -78,7 +93,7 @@ export const Contact = () => {
                                     fullWidth
                                     id="message"
                                     name="message"
-                                    label="Your Message"
+                                    label="Your Message *"
                                     multiline
                                     rows={3}
                                     error={formik.touched.message && Boolean(formik.errors.message)}
@@ -93,27 +108,44 @@ export const Contact = () => {
                         </Button>
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={4.5}>
+                <Grid item xs={12} sm={5}>
                     <Typography variant="h5" component="h5" >
-                        We are also available at:
+                        And of course it's also possible:
                     </Typography>
-                    <Box paddingX={5} textAlign="start">Email:</Box>
-                    <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
-                        <EmailIcon></EmailIcon>{' '}yaelshli762@gmail.com
-                    </Typography>
-                    <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
-                        <EmailIcon></EmailIcon>{' '}malkin.yaeli@gmail.com
-                    </Typography>
-                    <Box paddingX={5} marginTop={2} textAlign="start">Phone:</Box>
-                    <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
-                        <PhoneIcon></PhoneIcon>{' '}053-313-3762
-                    </Typography>
-                    <Typography variant="h6" component="h6" textAlign="start" paddingX={7}>
-                        <PhoneIcon></PhoneIcon>{' '}058-322-0353
-                    </Typography>
-                </Grid>
-            </Grid>
+                    <Box paddingX={5} sx={{
+                        mt: 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        // textAlign: 'start',
+                    }}>
+                        <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
+                            <EmailIcon />
+                        </Avatar>
+                        <Typography variant="h5" component="h5" mt={2}>
+                            <Typography>yaelshli762@gmail.com</Typography>
+                            <Typography>malkin.yaeli@gmail.com</Typography>
+                        </Typography>
+                    </Box>
+                    <Box paddingX={5} sx={{
+                        mt: 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'start',
+                    }}>
+                        <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
+                            <PhoneIcon />
+                        </Avatar>
+                        <Typography variant="h5" component="h5" mt={2}>
+                            <Typography>053-313-3762</Typography>
+                            <Typography>058-322-0353</Typography>
+                        </Typography>
+                    </Box>
 
+                </Grid>
+
+            </Grid>
         </div>
     )
 }

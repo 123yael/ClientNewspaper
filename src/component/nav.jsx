@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE } from '../config';
-import { getFromCookies, removeFromCookies } from '../cookiesUtils';
+import { getFromCookies, removeFromCookies } from '../shared-functions/cookiesUtils';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab } from '@mui/material';

@@ -30,12 +30,11 @@ export const Message = (props) => {
                 </Button>
             </Box>
             <DialogContent dividers>
-                <Typography gutterBottom>
-                    
-                </Typography>
-                <Alert severity="info" className="my-3">
-                    <AlertTitle>Info</AlertTitle>
-                    The accuracy in the measurements is important, an ad with inappropriate sizes will automatically become the desired size without responsibility for the result!
+                <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    Dear client!
+                    <br></br>
+                    The order was successfully placed — <strong>Check out the next issue!</strong>
                 </Alert>
             </DialogContent>
         </Dialog>

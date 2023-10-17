@@ -42,7 +42,7 @@ function App() {
     }
   }
 
-  joinRoom("yaeel", "malkin")
+  // joinRoom("yaeel", "malkin")
 
   return (
     <div className="App">

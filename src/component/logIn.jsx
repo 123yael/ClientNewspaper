@@ -14,10 +14,13 @@ import { logIn } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { saveToCookies } from '../cookiesUtils';
+import { saveToCookies } from '../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
+import { getFromLocalStorage, saveToLocalStorage } from '../shared-functions/localStorage';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const validationSchema = yup.object({
   email: yup
@@ -29,6 +32,8 @@ const validationSchema = yup.object({
     .min(8, 'Password should be of minimum 8 characters length')
     .max(20, 'You cannot enter more than 20 letters')
     .required('Password is required'),
+  checked: yup
+    .boolean(),
 });
 
 export const LogIn = () => {
@@ -37,15 +42,20 @@ export const LogIn = () => {
   const navigate = useNavigate()
 
   const formik = useFormik({
-    initialValues: { email: '', password: '', },
+    initialValues: { email: '', password: '', checked: true },
     validationSchema: validationSchema,
     onSubmit: (values) => { handleLogIn(values) },
   });
 
   const handleLogIn = (values) => {
+    debugger
     logIn(values.email, values.password).then(res => {
       dispatch(setIsExistsCustomer(true))
       saveToCookies("currentUser", res.data, 2)
+      if (values.checked === true)
+        saveToLocalStorage("userName", values.email)
+      else
+        saveToLocalStorage("userName", "")
       navigate('/')
     }).catch(err => {
       if (err.response.status === 404) {
@@ -57,6 +67,12 @@ export const LogIn = () => {
         alert("Server error");
     })
   }
+
+  useEffect(() => {
+    let userName = getFromLocalStorage("userName")
+    if (userName !== null)
+      formik.setFieldValue('email', userName)
+  }, [])
 
   return (
     <div className='py-5 container'>
@@ -106,8 +122,13 @@ export const LogIn = () => {
               autoComplete="current-password"
             />
             <FormControlLabel
+              checked={formik.values.checked}
+              onChange={formik.handleChange}
               control={<Checkbox value="remember" />}
               label="Remember me"
+              id="checked"
+              type="checked"
+              name="checked"
             />
             <Button
               type="submit"
