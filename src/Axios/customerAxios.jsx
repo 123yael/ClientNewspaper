@@ -11,6 +11,6 @@ export const logIn = (email, pass) => {
     return axios.get(`${path}/Customer/LogIn/${email}/${pass}`)
 }
 
-export const signUp = (cust) => {
-    return axios.post(`${path}/Customer/SignUp`, cust)
+export const signUp = (cust, isRegistered) => {
+    return axios.post(`${path}/Customer/SignUp/${isRegistered}`, cust)
 }

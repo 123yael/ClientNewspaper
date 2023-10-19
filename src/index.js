@@ -21,6 +21,12 @@ const defaultTheme = createTheme({
       main: PALLETE.WHITE,
       dark: PALLETE.WHITE,
       contrastText: PALLETE.WHITE,
+    },
+    success: {
+      light: "#2e7d32",
+      main: "#4caf50",
+      dark: "#1b5e20",
+      contrastText: PALLETE.WHITE,
     }
   },
 });

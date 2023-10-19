@@ -18,6 +18,7 @@ import { saveToCookies } from '../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
+import { registerForTheNewsletter } from '../Axios/redisAxios';
 
 const validationSchema = yup.object({
   firstName: yup
@@ -42,6 +43,8 @@ const validationSchema = yup.object({
     .min(8, 'Password should be of minimum 8 characters length')
     .max(20, 'You cannot enter more than 20 letters')
     .required('Password is required'),
+  checked: yup
+    .boolean(),
 });
 
 export const SignUp = () => {
@@ -50,7 +53,7 @@ export const SignUp = () => {
   const dispatch = useDispatch()
 
   const formik = useFormik({
-    initialValues: { firstName: '', lastName: '', email: '', phone: '', password: '', },
+    initialValues: { firstName: '', lastName: '', email: '', phone: '', password: '', checked: false },
     validationSchema: validationSchema,
     onSubmit: (values) => { handleSignUp(values) },
   });
@@ -65,7 +68,7 @@ export const SignUp = () => {
       custPassword: values.password,
     }
 
-    signUp(newCust).then(res => {
+    signUp(newCust, values.checked).then(res => {
       dispatch(setIsExistsCustomer(true))
       saveToCookies("currentUser", res.data, 2)
       navigate('/')
@@ -169,9 +172,18 @@ export const SignUp = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive newsletters by email."
+                /> */}
+                <FormControlLabel
+                  checked={formik.values.checked}
+                  onChange={formik.handleChange}
+                  control={<Checkbox value="allowExtraEmails" />}
+                  label="I want to receive newsletters by email."
+                  id="checked"
+                  type="checked"
+                  name="checked"
                 />
               </Grid>
             </Grid>
