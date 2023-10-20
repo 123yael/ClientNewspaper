@@ -45,11 +45,11 @@ export const Contact = () => {
 
     return (
         <div className="mb-5">
-            <Typography variant="h2" component="h1" gutterBottom>
+            <Typography variant="h2" gutterBottom mb={0}>
                 Talk to us
-                <Typography variant="h6" component="h6" gutterBottom>
-                    Leave details and we will get back to you soon
-                </Typography>
+            </Typography>
+            <Typography variant="h6" mb={3} gutterBottom>
+                Leave details and we will get back to you soon
             </Typography>
 
             <Grid container spacing={3}>

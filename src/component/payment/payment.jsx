@@ -84,43 +84,45 @@ export const Payment = (props) => {
     // פונקציה לסיום הזמנה
     const finishOrder = () => {
 
+        debugger
+        let finishOrder = {
+            customer: customer,
+            listDates: listDatesFromRedux,
+        }
+
         let listTempOD = []
+        let formDataList = []
 
         if (listOrderDetailsFromRedux[0].wordCategoryId !== undefined)
             listTempOD.push({ ...listOrderDetailsFromRedux[0] })
-        else
+        else {
+            let name = ""
+            let formData = []
             for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
                 let temp = listOrderDetailsFromRedux[i].adFile
-                handleImageUpload(temp)
+                let name = new Date().getTime() + temp.name
+                handleImageUpload(temp, name)
                     .then((response) => {
                         console.log("success");
                     })
                     .catch((error) => {
                         console.log("not success");
-                    });
-                listTempOD.push({ ...listOrderDetailsFromRedux[i], adFile: temp.name })
+                    })
+                listTempOD.push({ ...listOrderDetailsFromRedux[i], adFile: name })
             }
-
-
-        let finishOrder = {
-            customer: customer,
-            listDates: listDatesFromRedux,
-            listOrderDetails: listTempOD
         }
+
+        finishOrder['listOrderDetails'] = listTempOD;
 
         if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
             finishOrderAxios(finishOrder).then(res => {
-                // window.alert("The order was successfully placed")
                 setOpen(true)
-                // navigate('/')
             }).catch(err => {
                 console.error(err);
             })
         else
             finishOrderAdWordsAxios(finishOrder).then(res => {
                 setOpen(true)
-                // window.alert("The order was successfully placed")
-                // navigate('/')
             }).catch(err => {
                 console.error(err);
             })

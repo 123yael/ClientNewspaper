@@ -6,7 +6,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StepConnector, stepConnectorClasses, styled } from '@mui/material';
-import PropTypes from 'prop-types';
 import AspectRatioRoundedIcon from '@mui/icons-material/AspectRatioRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';

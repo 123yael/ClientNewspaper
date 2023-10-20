@@ -3,7 +3,7 @@ import { SERVER_NAME } from '../config';
 
 let path = `${SERVER_NAME}/api`
 
-export const finishOrderAxios = (order) => {
+export const finishOrderAxios = (order, formDataList) => {
     return axios.post(`${path}/Order/FinishOrder`, order)
 }
 
