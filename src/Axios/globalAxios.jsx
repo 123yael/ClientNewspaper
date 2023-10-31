@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from '../redux/actions/LoadingActions';
+import { GlobalError } from "../component/globalError";
 
 export const GlobalAxios = () => {
 
@@ -30,6 +31,7 @@ export const GlobalAxios = () => {
         },
         (error) => {
             dispatch(stopLoading());
+            debugger
             if (error.response?.status == 500)
                 setShowError(true);
             return Promise.reject(error);
@@ -37,12 +39,6 @@ export const GlobalAxios = () => {
     );
 
     return (
-        <>
-            {/* {showError ? (
-                <GlobalErrModal
-                    onClose={() => setShowError(false)}
-                />
-            ) : null} */}
-        </>
+        <>{showError ? <GlobalError></GlobalError> : <></>}</>
     );
 };

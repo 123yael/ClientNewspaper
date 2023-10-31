@@ -8,6 +8,9 @@ export const finishOrderAxios = (order, formDataList) => {
 }
 
 export const finishOrderAdWordsAxios = (order) => {
-    debugger
     return axios.post(`${path}/Order/FinishOrderAdWords`, order)
+}
+
+export const calculationOfOrderPrice = (listOrderDetails) => {
+    return axios.post(`${path}/Order/CalculationOfOrderPrice`, listOrderDetails)
 }

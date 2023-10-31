@@ -48,7 +48,7 @@ const NewspaperThumbnail = (props) => {
                                     component="img"
                                     sx={{ display: { xs: 'none', sm: 'block' } }}
                                     image={index === 0 ?
-                                        `${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png?id=${newspaper.newspaperId}` :
+                                        `${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png?id=${new Date().getDate()}` :
                                         `${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
                                     alt={`${SERVER_NAME}/Newspapers/${newspaper.publicationDate}/0.png`}
                                     className='border'

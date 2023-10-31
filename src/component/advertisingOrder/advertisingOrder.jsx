@@ -18,11 +18,12 @@ import { UpLoad } from './upload';
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 import { PALLETE } from '../../config';
 import { Message } from '../message/message';
 import { Payment } from '../payment/payment';
+import { calculationOfOrderPrice } from '../../Axios/orderAxios';
 
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
@@ -113,6 +114,7 @@ export const AdvertisingOrder = () => {
     const [beforePay, setBeforePay] = useState(true)
 
     const [toPay, setToPay] = useState(false)
+    const [price, setPrice] = useState(0)
 
 
     const isStepSkipped = (step) => {
@@ -201,8 +203,24 @@ export const AdvertisingOrder = () => {
 
         dispatch(setOrderDetailsOfAds([...arr1]))
         dispatch(setDatesOfAd([...arr2]))
-        setToPay(true)
-        // navigate('/advertisingOrder/payment')
+
+        debugger
+        console.log(arr1);
+
+        let list = []
+        arr1.forEach(y => {
+            list.push({ adDuration: y.adDuration, sizeId: y.sizeId, placeId: y.placeId })
+        })
+        console.log(list);
+        calculationOfOrderPrice(list)
+            .then(res => {
+                debugger
+                setPrice(res.data)
+                setToPay(true)
+            })
+            .catch(err => {
+                console.log('error')
+            })
     }
 
     // מערך שמכיל קומפוננטות של צעדים ושמות שלהם להצגה
@@ -254,9 +272,6 @@ export const AdvertisingOrder = () => {
                                         Back
                                     </Button>
                                     <Box sx={{ flex: '1 1 auto' }} />
-                                    {/* {(activeStep === steps.length - 1 && activeNext) && <Button onClick={anotherAd} sx={{ mr: 1 }}>
-                                Another ad
-                            </Button>} */}
                                     <Button onClick={handleNext} disabled={activeNext === false} className='border'>
                                         {activeStep === steps.length - 1 ? 'beyond payment' : 'Next'}
                                     </Button>
@@ -267,7 +282,7 @@ export const AdvertisingOrder = () => {
                             </Fragment>
                         )}
                     </Box>
-                </div> : <Payment />}
+                </div> : <Payment price={price}></Payment>}
         </>
     )
 }

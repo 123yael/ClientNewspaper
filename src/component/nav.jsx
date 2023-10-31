@@ -107,11 +107,11 @@ export const Nav = () => {
                         <img src='../pic/logo.png' alt="logo" width={140} />
                     </Toolbar>
                     <Box sx={{ display: { xs: 'none', md: 'block' } }} className='ms-3 p-0'>
-                        <TabContext value={value}>
+                        <TabContext value={value.toString()}>
                             <TabList onChange={handleChange} >
                                 {
                                     nameLinks.map((item, i) => (
-                                        <Tab variant="contained" key={item} label={item} value={i} />
+                                        <Tab variant="contained" key={item} label={item} value={i.toString()} />
                                     ))
                                 }
                             </TabList>
@@ -140,11 +140,11 @@ export const Nav = () => {
                             <img src='../pic/logo.png' alt="logo" width={140} />
                         </Toolbar>
                         <List>
-                            <TabContext value={value}>
+                            <TabContext value={value.toString()}>
                                 <TabList onChange={handleChange} orientation="vertical">
                                     {
                                         nameLinks.map((item, i) => (
-                                            <Tab key={item} label={item} value={i} />
+                                            <Tab key={item} label={item} value={i.toString()} />
                                         ))
                                     }
                                 </TabList>

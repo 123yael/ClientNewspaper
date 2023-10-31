@@ -10,6 +10,9 @@ import { GlobalAxios } from './Axios/globalAxios';
 import { Loading } from './component/loading/loading';
 import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { addMessage, createConnection } from './redux/actions/MessageActions';
+import { useEffect } from 'react';
+import ReactGA from 'react-ga';
+
 
 function App() {
 
@@ -43,6 +46,12 @@ function App() {
   }
 
   // joinRoom("yaeel", "malkin")
+
+  useEffect(() => {
+    ReactGA.initialize('G-6058P6GHTC-1')
+    //to report page view
+    ReactGA.pageview('/');
+  }, [])
 
   return (
     <div className="App">

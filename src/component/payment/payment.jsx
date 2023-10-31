@@ -198,6 +198,9 @@ export const Payment = (props) => {
                                     </Alert>
                                 </Grid>
                             </Grid>
+                            <Typography className="float-center" variant="h5">
+                                Total price: {props.price} ₪
+                            </Typography>
                             <Button
                                 endIcon={<DoneAllRoundedIcon />}
                                 type="submit"
@@ -208,6 +211,7 @@ export const Payment = (props) => {
                                 Ending an order
                             </Button>
                         </Box>
+
                     </Box>
                 </Container>
             </ThemeProvider>

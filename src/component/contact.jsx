@@ -4,7 +4,6 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import * as yup from 'yup';
 import { sentEmail } from "../Axios/emailAxios";
 import { useFormik } from "formik";
-import { Message } from "./message/message";
 import { PALLETE } from "../config";
 
 const validationSchema = yup.object({
@@ -44,7 +43,7 @@ export const Contact = () => {
 
 
     return (
-        <div className="mb-5">
+        <div className="mb-4">
             <Typography variant="h2" gutterBottom mb={0}>
                 Talk to us
             </Typography>
@@ -142,9 +141,7 @@ export const Contact = () => {
                             <Typography>058-322-0353</Typography>
                         </Typography>
                     </Box>
-
                 </Grid>
-
             </Grid>
         </div>
     )

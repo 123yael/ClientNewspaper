@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from "@mui/material"
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, FormHelperText, FormLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from "@mui/material"
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,8 @@ import { useFormik } from 'formik';
 import { PALLETE } from '../config';
 import { getNextTuesdays } from '../shared-functions/shared-functions';
 import { Payment } from './payment/payment';
+import { Label } from '@mui/icons-material';
+import { calculationOfOrderPrice } from '../Axios/orderAxios';
 
 const validationSchema = yup.object({
     category: yup
@@ -56,18 +58,27 @@ export const BoardAd = () => {
     const boardAdTopics = useSelector(w => w.WordAdSubCategoryReducer.list)
 
     const [arrDates, setArrDates] = useState([])
+    const [price, setPrice] = useState(0)
 
     const setInputs = () => {
         let arr = getNextTuesdays(5)
         setArrDates(arr)
     }
 
+    let listOrderDetails = useSelector(y => y.OrderDetailsReducer.allOrderDetails)
+
     const handleBeyondPayment = (values) => {
         let obj = { wordCategoryId: values.category, adContent: values.content, placeId: 1, adDuration: values.duration }
         dispatch(setOrderDetailsOfAds([obj]))
         dispatch(setDatesOfAd([values.date]))
-        setToPay(true)
-        // navigate('/boardAd/payment')
+        calculationOfOrderPrice(listOrderDetails)
+            .then(res => {
+                setPrice(res.data)
+                setToPay(true)
+            })
+            .catch(err => {
+                console.log('error')
+            })
     }
 
     return (
@@ -96,7 +107,7 @@ export const BoardAd = () => {
                                         <Grid item xs={4}>
                                             <TextField
                                                 select
-                                                labelId="select-category"
+                                                labelid="select-category"
                                                 id="category"
                                                 name="category"
                                                 label="Category"
@@ -121,7 +132,7 @@ export const BoardAd = () => {
                                                 error={formik.touched.date && Boolean(formik.errors.date)}
                                                 value={formik.values.date}
                                                 helperText={formik.touched.date && formik.errors.date}
-                                                labelId="select-date"
+                                                labelid="select-date"
                                                 id="date"
                                                 name="date"
                                                 label="Date"
@@ -140,7 +151,7 @@ export const BoardAd = () => {
                                                 error={formik.touched.duration && Boolean(formik.errors.duration)}
                                                 value={formik.values.duration}
                                                 helperText={formik.touched.duration && formik.errors.duration}
-                                                labelId="select-duration"
+                                                labelid="select-duration"
                                                 id="duration"
                                                 name="duration"
                                                 label="Duration"
@@ -165,7 +176,6 @@ export const BoardAd = () => {
                                                 label="Content"
                                                 multiline
                                                 rows={4}
-                                                defaultValue="Default Value"
                                                 name="content"
                                                 aria-describedby='helper-content'
                                             />
@@ -190,7 +200,7 @@ export const BoardAd = () => {
                             </Box>
                         </Container>
                     </div>
-                </div> : <Payment />}
+                </div> : <Payment price={price}></Payment>}
         </>
     )
 }
