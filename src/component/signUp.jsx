@@ -14,11 +14,10 @@ import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import { signUp } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
-import { saveToCookies } from '../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
-import { registerForTheNewsletter } from '../Axios/redisAxios';
+import { saveToLocalStorage } from '../shared-functions/localStorage';
 
 const validationSchema = yup.object({
   firstName: yup
@@ -70,7 +69,7 @@ export const SignUp = () => {
 
     signUp(newCust, values.checked).then(res => {
       dispatch(setIsExistsCustomer(true))
-      saveToCookies("currentUser", res.data, 2)
+      saveToLocalStorage("token", res.data)
       navigate('/')
     }).catch(err => {
       if (err.response.status === 409)

@@ -69,7 +69,7 @@ export const RegisterForTheNewsletter = () => {
                 <Box component="form" onSubmit={formik.handleSubmit} sx={{ width: "500px" }}>
                     <Grid container item xs={12} spacing={2}>
                         <Grid item xs={12} sm={8}>
-                            <TextField fullWidth id="email" label="Email" name="email"
+                            <TextField fullWidth id="emailRegister" label="Email" name="email"
                                 error={formik.touched.email && Boolean(formik.errors.email)}
                                 helperText={formik.touched.email && formik.errors.email}
                                 value={formik.values.email}

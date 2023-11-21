@@ -130,6 +130,7 @@ export const WordsDetailsTable = (props) => {
             paginationModel={paginationModel}
             setPaginationModel={setPaginationModel}
             page={page}
+            getRowId={(row) => row.sizeId + '-' + row.placeId} 
         ></GlobalTable>
     );
 }

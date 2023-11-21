@@ -14,13 +14,11 @@ import { logIn } from '../Axios/customerAxios';
 import { useDispatch } from 'react-redux';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { saveToCookies } from '../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { PALLETE } from '../config';
 import { getFromLocalStorage, saveToLocalStorage } from '../shared-functions/localStorage';
 import { useEffect } from 'react';
-import { useState } from 'react';
 
 const validationSchema = yup.object({
   email: yup
@@ -51,7 +49,7 @@ export const LogIn = () => {
     debugger
     logIn(values.email, values.password).then(res => {
       dispatch(setIsExistsCustomer(true))
-      saveToCookies("currentUser", res.data, 2)
+      saveToLocalStorage("token", res.data)
       if (values.checked === true)
         saveToLocalStorage("userName", values.email)
       else

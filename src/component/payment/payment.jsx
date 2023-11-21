@@ -4,19 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
-import { finishOrderAdWordsAxios, finishOrderAxios, finishOrderAxiosBoardAd } from '../../Axios/orderAxios';
+import { finishOrderAdWordsAxios, finishOrderAxios } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
 import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { useNavigate } from 'react-router-dom';
-import { getFromCookies } from '../../shared-functions/cookiesUtils';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE, SERVER_NAME } from '../../config';
+import { PALLETE } from '../../config';
 import { getDateNow } from '../../shared-functions/shared-functions';
-import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { sendMessage } from '../../shared-functions/signalR';
 import { Message } from '../message/message';
+import { getFromLocalStorage } from '../../shared-functions/localStorage';
 
 const defaultTheme = createTheme();
 
@@ -69,7 +67,7 @@ export const Payment = (props) => {
     // חילוץ רשימת תאריכים הזמנות מהרדוסר
     let listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
 
-    let customer = getFromCookies("currentUser")
+    let token = getFromLocalStorage("token")
 
     let connection = useSelector(y => y.MessagesReducer.connection)
 
@@ -86,18 +84,14 @@ export const Payment = (props) => {
 
         debugger
         let finishOrder = {
-            customer: customer,
             listDates: listDatesFromRedux,
         }
 
         let listTempOD = []
-        let formDataList = []
 
         if (listOrderDetailsFromRedux[0].wordCategoryId !== undefined)
             listTempOD.push({ ...listOrderDetailsFromRedux[0] })
         else {
-            let name = ""
-            let formData = []
             for (let i = 0; i < listOrderDetailsFromRedux.length; i++) {
                 let temp = listOrderDetailsFromRedux[i].adFile
                 let name = new Date().getTime() + temp.name
@@ -115,13 +109,13 @@ export const Payment = (props) => {
         finishOrder['listOrderDetails'] = listTempOD;
 
         if (listOrderDetailsFromRedux[0].wordCategoryId === undefined)
-            finishOrderAxios(finishOrder).then(res => {
+            finishOrderAxios(finishOrder, token).then(res => {
                 setOpen(true)
             }).catch(err => {
                 console.error(err);
             })
         else
-            finishOrderAdWordsAxios(finishOrder).then(res => {
+            finishOrderAdWordsAxios(finishOrder, token).then(res => {
                 setOpen(true)
             }).catch(err => {
                 console.error(err);

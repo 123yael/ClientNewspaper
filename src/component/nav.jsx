@@ -21,6 +21,8 @@ import { getFromCookies, removeFromCookies } from '../shared-functions/cookiesUt
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab } from '@mui/material';
+import { getFromLocalStorage, removeFromLocalStorage } from '../shared-functions/localStorage';
+import { isAdimin } from '../Axios/customerAxios';
 
 export const Nav = () => {
 
@@ -41,38 +43,46 @@ export const Nav = () => {
     let isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
 
     useEffect(() => {
-        const custFromCookies = getFromCookies("currentUser")
+        const token = getFromLocalStorage("token")
         let arr = []
-        if (custFromCookies !== null) {
-            if (custFromCookies.custEmail === MANAGER_EMAIL && custFromCookies.custPassword === MANAGER_PASSWODR) {
-                arr = [...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails']
-                setLinks(arr)
-                setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
-            }
-            else {
-                arr = [...BASELINKS, 'advertisingOrder', 'boardAd']
-                setLinks(arr)
-                setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad'])
-            }
+        if (token !== null) {
+            isAdimin(token).then(res => {
+                if(res.data) {
+                    arr = [...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails']
+                    setLinks(arr)
+                    setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])
+                }
+                else {
+                    arr = [...BASELINKS, 'advertisingOrder', 'boardAd']
+                    setLinks(arr)
+                    setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad'])
+                }
+                let l = location.pathname.slice(1)
+                setValue(arr.indexOf(l === "" ? "./" : l.toString()))
+            })
         }
         else {
             arr = [...BASELINKS, 'logIn', 'signUp']
             setLinks(arr)
             setNameLinks([...BASENAVITEMS, 'Log In', 'Sign Up'])
+            let l = location.pathname.slice(1)
+            setValue(arr.indexOf(l === "" ? "./" : l.toString()))
         }
-        let l = location.pathname.slice(1)
-        setValue(arr.indexOf(l === "" ? "./" : l))
     }, [isChangeCustomer])
 
     useEffect(() => {
-        if (getFromCookies("currentUser") !== undefined)
+        if (getFromLocalStorage("token") !== undefined)
             dispatch(setIsExistsCustomer(true))
     }, [])
 
     useEffect(() => {
-        let l = location.pathname.slice(1)
-        setValue(links.indexOf(l === "" ? "./" : l))
-    }, [location.pathname])
+        let l = location.pathname.slice(1);
+        const index = links.indexOf(l === "" ? "./" : l.toString());
+        if (index !== -1) {
+            setValue(index);
+        }
+    }, [location.pathname, links]);
+
 
     const handleDrawerToggle = () => {
         setIsMobileOpen((prevState) => !prevState);
@@ -83,13 +93,13 @@ export const Nav = () => {
     }
 
     const signOut = () => {
-        removeFromCookies("currentUser")
+        removeFromLocalStorage("token")
         dispatch(setIsExistsCustomer(false))
         navigate('/')
     }
 
     const handleChange = (event, index) => {
-        setValue(index);
+        setValue(index.toString());
         navigate(`/${links[index]}`)
     };
 
@@ -111,7 +121,7 @@ export const Nav = () => {
                             <TabList onChange={handleChange} >
                                 {
                                     nameLinks.map((item, i) => (
-                                        <Tab variant="contained" key={item} label={item} value={i.toString()} />
+                                        <Tab variant="contained" key={i} label={item} value={i.toString()} />
                                     ))
                                 }
                             </TabList>
@@ -120,7 +130,7 @@ export const Nav = () => {
 
                     <Box sx={{ flex: '1 1 auto' }} />
                     {
-                        getFromCookies("currentUser") !== null &&
+                        getFromLocalStorage("token") !== null &&
                         <Button sx={{ mr: 2 }} variant="outlined" onClick={() => signOut()} endIcon={<AccountCircleOutlinedIcon />}>
                             Sign out
                         </Button>
@@ -144,7 +154,7 @@ export const Nav = () => {
                                 <TabList onChange={handleChange} orientation="vertical">
                                     {
                                         nameLinks.map((item, i) => (
-                                            <Tab key={item} label={item} value={i.toString()} />
+                                            <Tab key={i} label={item} value={i.toString()} />
                                         ))
                                     }
                                 </TabList>

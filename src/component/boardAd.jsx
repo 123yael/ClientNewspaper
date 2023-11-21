@@ -15,7 +15,7 @@ import { PALLETE } from '../config';
 import { getNextTuesdays } from '../shared-functions/shared-functions';
 import { Payment } from './payment/payment';
 import { Label } from '@mui/icons-material';
-import { calculationOfOrderPrice } from '../Axios/orderAxios';
+import { calculationOfOrderWordsPrice } from '../Axios/orderAxios';
 
 const validationSchema = yup.object({
     category: yup
@@ -71,7 +71,7 @@ export const BoardAd = () => {
         let obj = { wordCategoryId: values.category, adContent: values.content, placeId: 1, adDuration: values.duration }
         dispatch(setOrderDetailsOfAds([obj]))
         dispatch(setDatesOfAd([values.date]))
-        calculationOfOrderPrice(listOrderDetails)
+        calculationOfOrderWordsPrice([obj])
             .then(res => {
                 setPrice(res.data)
                 setToPay(true)

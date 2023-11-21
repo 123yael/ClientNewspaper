@@ -214,7 +214,6 @@ export const AdvertisingOrder = () => {
         console.log(list);
         calculationOfOrderPrice(list)
             .then(res => {
-                debugger
                 setPrice(res.data)
                 setToPay(true)
             })

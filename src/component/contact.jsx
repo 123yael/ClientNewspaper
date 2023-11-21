@@ -72,7 +72,7 @@ export const Contact = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField fullWidth id="email" label="Your Email *" name="email"
+                                <TextField fullWidth id="emailContact" label="Your Email *" name="email"
                                     error={formik.touched.email && Boolean(formik.errors.email)}
                                     helperText={formik.touched.email && formik.errors.email}
                                     value={formik.values.email}
