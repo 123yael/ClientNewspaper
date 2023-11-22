@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { PALLETE } from '../../config';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { GlobalTable } from '../globalTable';
