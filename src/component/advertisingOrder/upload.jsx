@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
-import { handleImageUpload } from '../../Axios/uploadImageAxios';
+
 export const UpLoad = (props) => {
     return (
         <>

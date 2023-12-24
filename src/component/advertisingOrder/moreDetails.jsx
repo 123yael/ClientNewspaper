@@ -80,7 +80,7 @@ export const MoreDetails = (props) => {
                     Height: {getHeightSize(props.size.sizeHeight)}cm
                 </Typography>
                 <Typography gutterBottom>
-                    Price: {props.size.sizePrice}$
+                    Price: {props.size.sizePrice} ₪
                 </Typography>
                 <Alert severity="info" className="my-3">
                     <AlertTitle>Info</AlertTitle>

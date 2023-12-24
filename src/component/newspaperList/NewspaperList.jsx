@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import NewspaperThumbnail from "../shared-components/NewspaperThumbnail";
+import NewspaperThumbnail from "../../shared-components/NewspaperThumbnail";
 import './NewspaperList.css';
-import { Box, Button, Grid, InputLabel, Pagination, TextField } from "@mui/material";
-import { getAllNewspapersPublished } from "../Axios/newspapersPublishedAxios";
-import NewspaperFilter from "../component/newspaperFilter"
-import { PaginationNewspaper } from "../component/paginationNewspaper";
+import { getAllNewspapersPublished } from "../../Axios/newspapersPublishedAxios";
+import NewspaperFilter from "../newspaperFilter"
+import { PaginationNewspaper } from "../paginationNewspaper";
 
 
 const NewspaperList = () => {
