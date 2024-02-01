@@ -7,7 +7,6 @@ export const SignalR = () => {
     const [messages, setMessages] = useState([])
 
     const joinRoom = async (user, room) => {
-
         try {
             const connection = new HubConnectionBuilder()
                 .withUrl(`https://localhost:44305/chat`, {

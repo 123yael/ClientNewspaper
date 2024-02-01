@@ -59,7 +59,7 @@ export const SignUp = () => {
 
   const handleSignUp = (values) => {
 
-    let newCust = {
+    const newCust = {
       custFirstName: values.firstName,
       custLastName: values.lastName,
       custEmail: values.email,

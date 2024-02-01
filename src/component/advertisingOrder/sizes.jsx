@@ -55,7 +55,6 @@ export const Sizes = (props) => {
     const [open, setOpen] = React.useState(false);
     const [size, setSize] = React.useState();
     const [sizeId, setSizeId] = React.useState();
-    const [color, setColor] = React.useState(PALLETE.WHITE);
 
 
     const handleClickOpen = (s) => {

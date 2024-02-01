@@ -204,7 +204,6 @@ export const AdvertisingOrder = () => {
         dispatch(setOrderDetailsOfAds([...arr1]))
         dispatch(setDatesOfAd([...arr2]))
 
-        debugger
         console.log(arr1);
 
         let list = []

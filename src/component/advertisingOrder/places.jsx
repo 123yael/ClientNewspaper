@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllAdPlacement } from "../../Axios/adPlacementAxios"
 import { setAdPlacement } from "../../redux/actions/AdPlacemenrsActions"
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -25,8 +24,6 @@ export const Places = (props) => {
     }, [])
 
     let listPlaces = useSelector(p => p.AdPlacementsReducer.list)
-
-    const theme = useTheme();
 
     return (
         <div>

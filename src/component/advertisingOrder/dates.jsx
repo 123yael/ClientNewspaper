@@ -12,11 +12,6 @@ export const Dates = (props) => {
     // כמות של תאריכים
     const [count, setCount] = useState('');
 
-    // פונקציה להוספת אפס עבור מספר בודד
-    const appendLeadingZeros = (int) => {
-        return (int < 10) ? '0' + int : int
-    }
-
     const setInputs = (event) => {
         let num = event.target.value
         setCount(num)

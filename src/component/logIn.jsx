@@ -46,7 +46,6 @@ export const LogIn = () => {
   });
 
   const handleLogIn = (values) => {
-    debugger
     logIn(values.email, values.password).then(res => {
       dispatch(setIsExistsCustomer(true))
       saveToLocalStorage("token", res.data)

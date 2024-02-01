@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router-dom"
 import './home.css'
-import { Box, Button } from "@mui/material"
 import { PALLETE } from "../../config"
-import { useSelector } from "react-redux"
 
 export const Home = () => {
     return (

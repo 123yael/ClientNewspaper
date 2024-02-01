@@ -1,5 +1,5 @@
 
-import { Box, Dialog } from '@mui/material'
+import { Box } from '@mui/material'
 import './loading.css'
 import { PALLETE } from '../../config'
 import { useSelector } from 'react-redux';

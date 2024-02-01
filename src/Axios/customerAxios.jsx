@@ -1,6 +1,5 @@
 import axios from "axios"
 import { SERVER_NAME } from '../config';
-import { getFromLocalStorage } from "../shared-functions/localStorage";
 
 let path = `${SERVER_NAME}/api`
 

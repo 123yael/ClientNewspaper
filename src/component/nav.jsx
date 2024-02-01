@@ -40,14 +40,14 @@ export const Nav = () => {
     const [value, setValue] = useState(0);
 
 
-    let isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
+    const isChangeCustomer = useSelector(i => i.CustomersReducer.isExistsCustomer)
 
     useEffect(() => {
         const token = getFromLocalStorage("token")
         let arr = []
         if (token !== null) {
             isAdimin(token).then(res => {
-                if(res.data) {
+                if (res.data) {
                     arr = [...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails']
                     setLinks(arr)
                     setNameLinks([...BASENAVITEMS, 'Advertising Order', 'board ad', 'Magazine Closing', 'Advertisments Details'])

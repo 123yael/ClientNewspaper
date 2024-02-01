@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { Alert, AlertTitle, Box, Button, Dialog } from '@mui/material';
 import { PALLETE } from '../../config';
 
-
 // הכותרת עם ה x
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;

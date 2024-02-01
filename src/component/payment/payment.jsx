@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material'
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,6 @@ import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { setAllAdSizes } from '../../redux/actions/AdSizeActions';
 import { finishOrderAdWordsAxios, finishOrderAxios } from '../../Axios/orderAxios';
 import { handleImageUpload } from '../../Axios/uploadImageAxios';
-import { ThemeProvider } from 'styled-components';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -15,8 +14,6 @@ import { PALLETE } from '../../config';
 import { getDateNow } from '../../shared-functions/shared-functions';
 import { Message } from '../message/message';
 import { getFromLocalStorage } from '../../shared-functions/localStorage';
-
-const defaultTheme = createTheme();
 
 const validationSchema = yup.object({
     name: yup
@@ -65,7 +62,7 @@ export const Payment = (props) => {
     let listOrderDetailsFromRedux = useSelector(o => o.OrderDetailsReducer.list)
 
     // חילוץ רשימת תאריכים הזמנות מהרדוסר
-    let listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
+    const listDatesFromRedux = useSelector(o => o.OrderDetailsReducer.listDates)
 
     let token = getFromLocalStorage("token")
 
@@ -126,90 +123,86 @@ export const Payment = (props) => {
 
     return (
         <div className='py-5 container'>
-            <ThemeProvider theme={defaultTheme}>
-                <Container component="main" maxWidth="sm">
-                    <CssBaseline />
-                    <Box
-                        sx={{
-                            marginTop: 8,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
-                            <CreditScoreIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Payment
-                        </Typography>
-                        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter name on card</h5>
-                                    <TextField id="name" type={"text"} label="Name" fullWidth
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        helperText={formik.touched.name && formik.errors.name}
-                                        error={formik.touched.name && Boolean(formik.errors.name)}
-                                        value={formik.values.name}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter number of card</h5>
-                                    <TextField id="card" type={"text"} label="Number of card" fullWidth
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        helperText={formik.touched.card && formik.errors.card}
-                                        error={formik.touched.card && Boolean(formik.errors.card)}
-                                        value={formik.values.card}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter expiry date</h5>
-                                    <TextField id="expiry" type={"month"} fullWidth
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        helperText={formik.touched.expiry && formik.errors.expiry}
-                                        error={formik.touched.expiry && Boolean(formik.errors.expiry)}
-                                        value={formik.values.expiry}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <h5 className="float-start my-3">Enter CVV</h5>
-                                    <TextField id="cvv" type={"number"} label="CVV" fullWidth
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        helperText={formik.touched.cvv && formik.errors.cvv}
-                                        error={formik.touched.cvv && Boolean(formik.errors.cvv)}
-                                        value={formik.values.cvv}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} textAlign='left'>
-                                    <Alert severity="info" className="my-3">
-                                        <AlertTitle>Info</AlertTitle>
-                                        If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
-                                    </Alert>
-                                </Grid>
+            <Container component="main" maxWidth="sm">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar className='p-4' sx={{ backgroundColor: PALLETE.PURPLE }}>
+                        <CreditScoreIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Payment
+                    </Typography>
+                    <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <h5 className="float-start my-3">Enter name on card</h5>
+                                <TextField id="name" type={"text"} label="Name" fullWidth
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    value={formik.values.name}
+                                />
                             </Grid>
-                            <Typography className="float-center" variant="h5">
-                                Total price: {props.price} ₪
-                            </Typography>
-                            <Button
-                                endIcon={<DoneAllRoundedIcon />}
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Ending an order
-                            </Button>
-                        </Box>
-
+                            <Grid item xs={12} sm={6}>
+                                <h5 className="float-start my-3">Enter number of card</h5>
+                                <TextField id="card" type={"text"} label="Number of card" fullWidth
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    helperText={formik.touched.card && formik.errors.card}
+                                    error={formik.touched.card && Boolean(formik.errors.card)}
+                                    value={formik.values.card}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <h5 className="float-start my-3">Enter expiry date</h5>
+                                <TextField id="expiry" type={"month"} fullWidth
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    helperText={formik.touched.expiry && formik.errors.expiry}
+                                    error={formik.touched.expiry && Boolean(formik.errors.expiry)}
+                                    value={formik.values.expiry}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <h5 className="float-start my-3">Enter CVV</h5>
+                                <TextField id="cvv" type={"number"} label="CVV" fullWidth
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    helperText={formik.touched.cvv && formik.errors.cvv}
+                                    error={formik.touched.cvv && Boolean(formik.errors.cvv)}
+                                    value={formik.values.cvv}
+                                />
+                            </Grid>
+                            <Grid item xs={12} textAlign='left'>
+                                <Alert severity="info" className="my-3">
+                                    <AlertTitle>Info</AlertTitle>
+                                    If the system does not accept your order, you will be sent an acknowledgment by email, you will be available!
+                                </Alert>
+                            </Grid>
+                        </Grid>
+                        <Typography className="float-center" variant="h5">
+                            Total price: {props.price} ₪
+                        </Typography>
+                        <Button
+                            endIcon={<DoneAllRoundedIcon />}
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Ending an order
+                        </Button>
                     </Box>
-                </Container>
-            </ThemeProvider>
-
+                </Box>
+            </Container>
             <Message open={open} handleClose={handleClose}></Message>
 
         </div >

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { GlobalTable } from '../globalTable';
-import { Boldheader, Embed, FullName, Image, S, Status } from './smallComponents';
+import { Boldheader, Embed, FullName, Image, Status } from './smallComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 import { getAllOrderDetailsTableByDate } from '../../Axios/tableAxios';

@@ -10,11 +10,8 @@ import { getNextTuesdays } from "../shared-functions/shared-functions"
 export const MagazineClosing = () => {
 
     const [isYes, setIsYes] = useState(false);
-
     const [numPages, setNumPages] = useState(0)
-    // const [arrDates, setArrDates] = useState([])
     const [date, setDate] = useState("")
-
     const [show, setShow] = useState(false);
     const [productDetail, setProductdetail] = useState({})
     const handleClose = () => setShow(false)

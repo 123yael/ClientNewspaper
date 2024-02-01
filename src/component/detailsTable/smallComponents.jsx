@@ -1,9 +1,8 @@
-import { Button, Dialog, DialogContent, Typography } from "@mui/material";
+import { Button, Dialog, DialogContent } from "@mui/material";
 import { useState } from "react";
-import { MANAGER_EMAIL, PALLETE, SERVER_NAME } from "../../config";
+import { MANAGER_EMAIL, SERVER_NAME } from "../../config";
 import { getDateNow } from "../../shared-functions/shared-functions";
 import { updateStatus, updateStatusWords } from "../../Axios/datesForOrderDetailsAxios";
-import { useEffect } from "react";
 import { setOrderDetailsOfAds } from "../../redux/actions/OrderDetailsActions";
 import { useDispatch } from "react-redux";
 

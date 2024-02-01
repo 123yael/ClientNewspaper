@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import { registerForTheNewsletter } from "../Axios/redisAxios";
 import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import { useState } from "react";
 
 const validationSchema = yup.object({
@@ -38,7 +37,6 @@ export const RegisterForTheNewsletter = () => {
         if (reason === 'clickaway') {
             return;
         }
-
         setOpen(false);
     };
 
@@ -66,8 +64,8 @@ export const RegisterForTheNewsletter = () => {
                 alignItems: 'center',
                 mt: 2,
             }}>
-                <Box component="form" onSubmit={formik.handleSubmit} sx={{ width: "500px" }}>
-                    <Grid container item xs={12} spacing={2}>
+                <Box component="form" onSubmit={formik.handleSubmit}>
+                    <Grid container item xs={12} spacing={1}>
                         <Grid item xs={12} sm={8}>
                             <TextField fullWidth id="emailRegister" label="Email" name="email"
                                 error={formik.touched.email && Boolean(formik.errors.email)}
