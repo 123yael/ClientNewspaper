@@ -11,6 +11,6 @@ export const signUp = (cust, isRegistered) => {
     return axios.post(`${path}/Customer/SignUp/${isRegistered}`, cust)
 }
 
-export const isAdimin = (token) => {
+export const isAdmin = (token) => {
     return axios.get(`${path}/Customer/IsAdmin/${token}`)
 }

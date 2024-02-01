@@ -22,7 +22,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab } from '@mui/material';
 import { getFromLocalStorage, removeFromLocalStorage } from '../shared-functions/localStorage';
-import { isAdimin } from '../Axios/customerAxios';
+import { isAdmin } from '../Axios/customerAxios';
 
 export const Nav = () => {
 
@@ -46,7 +46,7 @@ export const Nav = () => {
         const token = getFromLocalStorage("token")
         let arr = []
         if (token !== null) {
-            isAdimin(token).then(res => {
+            isAdmin(token).then(res => {
                 if (res.data) {
                     arr = [...BASELINKS, 'advertisingOrder', 'boardAd', 'magazineClosing', 'managerDetails']
                     setLinks(arr)
