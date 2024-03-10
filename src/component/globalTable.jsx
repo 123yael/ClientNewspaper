@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
-import { MANAGER_EMAIL, PALLETE } from "../config"
+import { PALLETE } from "../config"
 
 export const GlobalTable = (props) => {
 

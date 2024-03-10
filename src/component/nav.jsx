@@ -5,9 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -16,10 +13,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setIsExistsCustomer } from '../redux/actions/CustomersActions';
-import { MANAGER_EMAIL, MANAGER_PASSWODR, PALLETE } from '../config';
-import { getFromCookies, removeFromCookies } from '../shared-functions/cookiesUtils';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { TabContext, TabList } from '@mui/lab';
 import { Tab } from '@mui/material';
 import { getFromLocalStorage, removeFromLocalStorage } from '../shared-functions/localStorage';
 import { isAdmin } from '../Axios/customerAxios';
@@ -86,10 +81,6 @@ export const Nav = () => {
 
     const handleDrawerToggle = () => {
         setIsMobileOpen((prevState) => !prevState);
-    }
-
-    const anotherSubject = (index) => {
-        navigate(`/${links[index]}`)
     }
 
     const signOut = () => {

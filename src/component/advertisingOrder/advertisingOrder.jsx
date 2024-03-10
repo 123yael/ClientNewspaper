@@ -18,10 +18,9 @@ import { UpLoad } from './upload';
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setDatesOfAd, setOrderDetailsOfAds } from '../../redux/actions/OrderDetailsActions';
 import { PALLETE } from '../../config';
-import { Message } from '../message/message';
 import { Payment } from '../payment/payment';
 import { calculationOfOrderPrice } from '../../Axios/orderAxios';
 
@@ -93,8 +92,6 @@ const ColorlibStepIcon = (props) => {
 
 
 export const AdvertisingOrder = () => {
-
-    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 

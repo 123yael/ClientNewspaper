@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, FormControl, FormHelperText, FormLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography, createTheme } from "@mui/material"
+import { Alert, AlertTitle, Avatar, Box, Button, Container, CssBaseline, Grid, MenuItem, TextField, Typography } from "@mui/material"
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWordAdSubCategories } from "../Axios/wordAdSubCategoriesAxios";
 import { setWordAdSubCategories } from "../redux/actions/WordAdSubCategoryActions";
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
-import { useNavigate } from "react-router-dom";
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { setDatesOfAd, setOrderDetailsOfAds } from "../redux/actions/OrderDetailsActions";
 import * as yup from 'yup';
@@ -14,7 +13,6 @@ import { useFormik } from 'formik';
 import { PALLETE } from '../config';
 import { getNextTuesdays } from '../shared-functions/shared-functions';
 import { Payment } from './payment/payment';
-import { Label } from '@mui/icons-material';
 import { calculationOfOrderWordsPrice } from '../Axios/orderAxios';
 
 const validationSchema = yup.object({
@@ -43,8 +41,6 @@ export const BoardAd = () => {
         onSubmit: (values) => { handleBeyondPayment(values) },
     });
 
-    const navigate = useNavigate()
-
     // משתנה שדרכו ניתן לשגר לרדוסר
     const dispatch = useDispatch()
 
@@ -64,8 +60,6 @@ export const BoardAd = () => {
         let arr = getNextTuesdays(5)
         setArrDates(arr)
     }
-
-    let listOrderDetails = useSelector(y => y.OrderDetailsReducer.allOrderDetails)
 
     const handleBeyondPayment = (values) => {
         let obj = { wordCategoryId: values.category, adContent: values.content, placeId: 1, adDuration: values.duration }

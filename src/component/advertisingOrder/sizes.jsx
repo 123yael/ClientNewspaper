@@ -10,8 +10,7 @@ import { getAllAdSizes } from '../../Axios/adSizesAxios';
 import { Dialog, DialogTitle, IconButton, Toolbar, styled } from '@mui/material';
 import { MoreDetails } from './moreDetails';
 import CloseIcon from '@mui/icons-material/Close';
-import { PALLETE, SERVER_NAME } from '../../config';
-import { Loading } from '../loading/loading';
+import { SERVER_NAME } from '../../config';
 
 
 function BootstrapDialogTitle(props) {

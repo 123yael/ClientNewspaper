@@ -17,7 +17,6 @@ const PageFlip = (props) => {
     
     let bookImg = [];
 
-    debugger
     if (props.isFromCache)
       for (let i = 0; i < props.productDetail.countPages; i++) {
         let name = `${SERVER_NAME}/Newspapers/${props.productDetail.publicationDate}/${i}.png`

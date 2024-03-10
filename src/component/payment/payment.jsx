@@ -80,7 +80,6 @@ export const Payment = (props) => {
     // פונקציה לסיום הזמנה
     const finishOrder = () => {
 
-        debugger
         let finishOrder = {
             listDates: listDatesFromRedux,
         }

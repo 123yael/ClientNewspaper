@@ -12,6 +12,7 @@ import { ManagerDetails } from "./managerDetails";
 import { Wrapper } from "./wrapper";
 import { isAdmin } from "../Axios/customerAxios";
 import { getFromLocalStorage } from "../shared-functions/localStorage";
+import { useEffect, useState } from "react";
 
 const PrivateRoute = (props) => {
 
@@ -19,35 +20,41 @@ const PrivateRoute = (props) => {
         const token = getFromLocalStorage("token")
         if (token !== null && token !== undefined)
             isAdmin(token).then((res) => {
-                return res.data;
+                setIsGood(res.data)
+
             })
         else
-            return false
+            setIsGood(false)
+
     }
 
     const isUserConnect = () => {
-        debugger
         const token = getFromLocalStorage("token")
-        return token !== null && token !== undefined;
+        setIsGood(token !== null && token !== undefined)
     }
+
+    const [isGood, setIsGood] = useState(true)
+
+    useEffect(() => {
+        if (props.isLoggedIn === "user") {
+            isUserConnect()
+        } else {
+            isAdminRes()
+        }
+    }, [])
 
     return (
         <>
             {
-                props.isLoggedIn === "user" ?
-                    isUserConnect() ? <props.children />
-                        : <Navigate to="/" />
-                    : isAdminRes() ? <props.children />
-                        : <Navigate to="/" />
+                isGood
+                    ? <props.children />
+                    : <Navigate to="/" />
             }
         </>
     );
 }
 
 export const Routings = () => {
-
-
-
     return (
         <Routes>
             <Route path="/" element={<Wrapper />}>
@@ -55,18 +62,18 @@ export const Routings = () => {
                 <Route path="about" element={<About />}></Route>
                 <Route path="newspaperArchive" element={<NewspaperArchive />}></Route>
                 <Route path="advertisingOrder" element={
-                    <PrivateRoute isLoggedIn={"user"} children={AdvertisingOrder}></PrivateRoute>
+                    <PrivateRoute isLoggedIn="user" children={AdvertisingOrder}></PrivateRoute>
                 }></Route>
                 <Route path="boardAd" element={
-                    <PrivateRoute isLoggedIn={"user"} children={BoardAd}></PrivateRoute>
+                    <PrivateRoute isLoggedIn="user" children={BoardAd}></PrivateRoute>
                 }></Route>
                 <Route path="signUp" element={<SignUp />}></Route>
                 <Route path="logIn" element={<LogIn />}></Route>
                 <Route path="magazineClosing" element={
-                    <PrivateRoute isLoggedIn={"admin"} children={MagazineClosing}></PrivateRoute>
+                    <PrivateRoute isLoggedIn="admin" children={MagazineClosing}></PrivateRoute>
                 }></Route>
                 <Route path="managerDetails" element={
-                    <PrivateRoute isLoggedIn={"admin"} children={ManagerDetails}></PrivateRoute>
+                    <PrivateRoute isLoggedIn="admin" children={ManagerDetails}></PrivateRoute>
                 }></Route>
             </Route>
             <Route path="*" element={<NotFound />} />

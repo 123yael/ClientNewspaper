@@ -15,6 +15,6 @@ export const getNextTuesdays = (num) => {
 }
 
 export const getDateNow = () => {
-    let date = new Date(2023, 10, 22)
+    let date = new Date(2024, 1, 27) // new Date()
     return date;
 }

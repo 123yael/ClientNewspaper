@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllNewspapersPublished } from '../Axios/newspapersPublishedAxios';
-import { setNewspapersPublished } from '../redux/actions/NewspapersPublishedActions';
-
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -14,7 +11,6 @@ import { PALLETE } from '../config';
 import NewspaperFilter from './newspaperFilter';
 import { Box, Button } from '@mui/material';
 import { PaginationNewspaper } from './paginationNewspaper';
-import { OrderDetailsTable } from './detailsTable/orderDetailsTable';
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import { getNextTuesdays } from '../shared-functions/shared-functions';
@@ -78,6 +74,8 @@ export const ManagerDetails = () => {
         e.target.sheet.value = ""
         setSheet("")
         setDate("")
+        getAllNewspaper(1)
+        setInputs()
     }
 
     const [arrDates, setArrDates] = useState([])
